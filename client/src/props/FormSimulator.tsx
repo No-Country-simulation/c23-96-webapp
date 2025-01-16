@@ -8,6 +8,8 @@ type FormSimulatorProps = {
 
 export const FormSimulator = () => {
   return (
-    <div>FormSimulator.Prop</div>
+    <div>
+      
+    </div>
   )
 }
