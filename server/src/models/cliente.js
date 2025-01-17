@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const cuenta = require("./cuenta");
-const user = require("./user");
 const Schema = mongoose.Schema;
 
 const clienteSchema = new Schema({
@@ -22,13 +21,21 @@ const clienteSchema = new Schema({
     unique: true,
     //Colocar validacion de correo
   },
-  username: {
-    type: Schema.Types.ObjectId,
-    ref: user,
-  },
   numeroCuenta: {
     type: Schema.Types.ObjectId,
     ref: cuenta,
+  },
+  username: {
+    type: String,
+    required: [true, "El username es requerido"],
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: [true, "La password es requerida"],
+  },
+  rol: {
+    value: ["admin", "comun", "Empresa"],
   },
 });
 
