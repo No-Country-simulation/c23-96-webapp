@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const cuentaSchema = new mongoose.Schema({
-  numeroCuenta: {
+const AcountSchema = new mongoose.Schema({
+  Acount: {
     type: Number,
     required: [true, "El numero de cuenta es requerido"],
     unique: true,
@@ -11,15 +11,13 @@ const cuentaSchema = new mongoose.Schema({
     required: [true, "El numero de cvu es requerido"],
     unique: true,
   },
-  saldo: {
+  balancePeso: {
     type: Number,
   },
-  moneda: {
-    value: ["peso", "dolar"],
+  balanceDolar: {
+    type: Number,
   },
-  cuenta: {
-    value: ["cuenta corriente", "cuenta de ahorro", "Credito"],
-  },
+ 
 });
 
-module.exports = mongoose.model("cuenta", cuentaSchema);
+module.exports = mongoose.model("Acount", AcountSchema);

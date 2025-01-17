@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const cuenta = require("./cuenta");
+const Acount = require("./acount");
 const Schema = mongoose.Schema;
 
-const clienteSchema = new Schema({
+const userSchema = new Schema({
   nombre: {
     type: String,
     required: [true, "El nombre es requerido"],
@@ -21,9 +21,9 @@ const clienteSchema = new Schema({
     unique: true,
     //Colocar validacion de correo
   },
-  numeroCuenta: {
+  Acount: {
     type: Schema.Types.ObjectId,
-    ref: cuenta,
+    ref: Acount,
   },
   username: {
     type: String,
@@ -39,4 +39,4 @@ const clienteSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("cliente", clienteSchema);
+module.exports = mongoose.model("user", userSchema);
