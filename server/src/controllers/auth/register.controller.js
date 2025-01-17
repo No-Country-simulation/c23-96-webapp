@@ -1,28 +1,45 @@
-//TODO: Instalar Bcript
-const bcript = require('bcrypt')
+import { createNewAccount } from "../../utils/newAccount";
 
+const createHttpError = require("http-errors");
+const bcrypt = require('bcrypt')
+const userModel = require('../../models/user')
 export const register = async(req,res, next) => {
-    const {password} = req.body
+    const {name, lastname, email,phone, address , dni, username,password} = req.body
 
     const passwordRaw = req.body.password;
 
     try{
     if(!password) {
-        //TODO: instalar http-errors para retornar mejores errores
-        console.log('Todos los Parametros son Necesarios')
+        throw createHttpError(400, "Todos los Parametros Son Necesarios")
+        
     }
 
-    //TODO: Terminar esta consulta
-    const existingDNI = await "ola"
-
+    const existingDNI = await userModel.findOne({dni: dni});
     if(existingDNI){
         console.log('el Dni ya existe');
     }
 
-    const passwordHashed = await brcript.hash(passwordRaw, 10);
+    const existingEmail = await userModel.findOne({email: email});
+    if(existinexistingEmailgDNI){
+        console.log('el correo ya existe');
+    }
 
-    const newUser = await 'segir'
+    const passwordHashed = await bcrypt.hash(passwordRaw, 10);
 
+    const newUser = await userModel.create({
+        name,
+        lastname,
+        dni,
+        email,
+        username,
+        phone,
+        address,
+        password: passwordHashed
+    })
+
+   
+    createNewAccount();
+    
     res.status(201).json(newUser)
     }catch(error){
         next(error);

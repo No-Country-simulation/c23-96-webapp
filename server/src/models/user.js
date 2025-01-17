@@ -3,11 +3,11 @@ const Acount = require("./acount");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  nombre: {
+  name: {
     type: String,
     required: [true, "El nombre es requerido"],
   },
-  apellido: {
+  lastname: {
     type: String,
     required: [true, "El apellido es requerido"],
   },
@@ -15,11 +15,10 @@ const userSchema = new Schema({
     type: Number,
     required: [true, "El DNI es requerido"],
   },
-  correo: {
+  email: {
     type: String,
     required: [true, "El correo es requerido"],
     unique: true,
-    //Colocar validacion de correo
   },
   Acount: {
     type: Schema.Types.ObjectId,
@@ -30,12 +29,19 @@ const userSchema = new Schema({
     required: [true, "El username es requerido"],
     unique: true,
   },
+  phone: {
+    type: String,
+  },
+  address: {
+    type: String
+  },
   password: {
     type: String,
     required: [true, "La password es requerida"],
   },
   rol: {
-    value: ["admin", "comun", "Empresa"],
+    value: ["admin", "user", "company"],
+    default: 'user'
   },
 });
 
