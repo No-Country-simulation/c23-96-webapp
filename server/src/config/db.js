@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
+dotenv = require("dotenv");
+dotenv.config();
 
 module.exports = () => {
+  console.log("Conectando a la DB");
   const connect = () => {
     mongoose
-      .connect(env.MONGO_CONNECTION)
+      .connect(process.env.MONGO_CONNECTION)
       .then((db) => {
         console.log(
           `DB is conected on: 

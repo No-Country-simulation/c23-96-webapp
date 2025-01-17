@@ -5,7 +5,10 @@ const helmet = require("helmet");
 const indexRoute = require("./routes/index.route");
 const connect = require("./config/db");
 
+//Llamo a la variables de entorno
 dotenv.config();
+//Conexión a Basde de Datos
+connect();
 
 const server = express();
 
