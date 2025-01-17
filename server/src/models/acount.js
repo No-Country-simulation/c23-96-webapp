@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const AcountSchema = new mongoose.Schema({
-  Acount: {
-    type: Number,
-    required: [true, "El numero de cuenta es requerido"],
+  account: {
+    type: String,
+    required: true,
     unique: true,
+    default: function () {
+      return this._id.toString(); 
+    },
   },
   cvu: {
     type: String,
