@@ -1,7 +1,7 @@
-import { generateUniqueCVU } from './cvuGenerator';
+const {generateUniqueCVU} = require('./cvuGenerator');
 const accountModel = require('../models/account'); 
 
-export const createNewAccount = async () => {
+module.exports.createNewAccount = async () => {
   try {
     // Generate a unique CVU
     const newCVU = await generateUniqueCVU(accountModel);

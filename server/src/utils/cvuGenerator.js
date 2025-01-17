@@ -1,6 +1,6 @@
 const generatedCVUs = new Set(); 
 
-export const generateUniqueCVU = async (model) => {
+exports.generateUniqueCVU = async (model) => {
   let cvu;
   let isUnique = false;
 

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Acount = require("./acount");
+const Acount = require("./account");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -40,8 +40,9 @@ const userSchema = new Schema({
     required: [true, "La password es requerida"],
   },
   rol: {
-    value: ["admin", "user", "company"],
-    default: 'user'
+    type: String,
+    enum: ["admin", "user", "company"],
+    default: "user",
   },
 });
 
