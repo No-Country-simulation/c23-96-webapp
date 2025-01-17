@@ -12,6 +12,8 @@ connect();
 
 const server = express();
 
+server.use(express.json())
+
 const PORT = 4000;
 
 const corsOptions = {
