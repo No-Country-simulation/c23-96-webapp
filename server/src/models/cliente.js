@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const cuenta = require("./cuenta");
+const user = require("./user");
 const Schema = mongoose.Schema;
 
 const clienteSchema = new Schema({
@@ -9,7 +11,6 @@ const clienteSchema = new Schema({
   apellido: {
     type: String,
     required: [true, "El apellido es requerido"],
-    unique: true,
   },
   dni: {
     type: Number,
@@ -19,15 +20,15 @@ const clienteSchema = new Schema({
     type: String,
     required: [true, "El correo es requerido"],
     unique: true,
+    //Colocar validacion de correo
   },
   username: {
-    type: String,
-    required: [true, "El username es requerido"],
-    unique: true,
+    type: Schema.Types.ObjectId,
+    ref: user,
   },
   numeroCuenta: {
-    type: Number,
-    unique: true,
+    type: Schema.Types.ObjectId,
+    ref: cuenta,
   },
 });
 

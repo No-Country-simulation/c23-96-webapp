@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
-const cliente = require("./cliente");
 
 const userSchema = new mongoose.Schema({
   username: {
-    type: Schema.Types.ObjectId,
-    ref: cliente,
+    type: String,
+    required: [true, "El username es requerido"],
+    unique: true,
   },
   password: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: [true, "La password es requerida"],
   },
   rol: {

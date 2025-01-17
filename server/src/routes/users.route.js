@@ -1,13 +1,9 @@
-const express = require("express")
+const express = require("express");
 
-const userRouter = express.Router()
+const userRouter = express.Router();
 
-
-userRouter
-    .route("/")
-    .get((req, res) => {
-        res.response("Hola que tal desde users")
-    }) 
-
+userRouter.route("/").get((req, res) => {
+  res.json({ message: "Hola que tal desde users" });
+});
 
 module.exports = userRouter;
