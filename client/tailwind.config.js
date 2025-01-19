@@ -5,7 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#FAA96c',
+        secundary: 'FAD7BE',
+        greenaport: '#D7E2B6',
+        slateUtil: '#778983'
+
+      }
+    },
   },
   plugins: [],
 }
