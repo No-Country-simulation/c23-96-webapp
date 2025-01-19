@@ -1,18 +1,48 @@
 import { useForm } from "react-hook-form"
 import { Error } from "../utils/Error";
+import { TUser } from "../types/function";
+import { SignUp } from "../network/fetchApiAuth";
+import {toast} from "react-toastify"
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
 
+  const [showPassword, setShowPassword] = useState(false)
+
+  const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         formState:{errors},
         reset
     } = useForm();
+
+
+    const onSubmit = async (user: TUser) => {
+      try{
+       const data = await SignUp(user);
+
+       toast.success("Registro existoso");
+        reset();
+        navigate("/auth/ingreso");
+
+        console.log(data);
+
+      }catch(error){
+        toast.error("Ocurrio un error al Registrarte");
+        console.log("error Registro", error)
+      }
+    }
+
   return ( 
-    <div >
+   
+      <form 
+      className="bg-white mx-5 p-6 rounded-md shadow-md"
+      onSubmit={handleSubmit(onSubmit)}
       
-      <form className="bg-white mx-5 p-6 rounded-md shadow-md">
+      >
       <h2 className="font-black text-5xl text-center text-primary">Crea tu cuenta</h2>
         {/* Name */}
       <div className="mb-5">
@@ -28,7 +58,7 @@ const Signup = () => {
               required: "El nombre es Obligatorio!!",
             })}
           />
-          {errors.name && <Error>{errors.name?.message}</Error>}
+          {errors.name && <Error>{errors.name.message}</Error>}
         </div>
             {/* Lastname */}
         <div className="mb-5">
@@ -44,7 +74,7 @@ const Signup = () => {
               required: "El Apellido es Obligatorio!!",
             })}
           />
-          {errors.lastname && <Error>{errors.lastname?.message}</Error>}
+          {errors.lastname && <Error>{errors.lastname.message}</Error>}
         </div>
             {/* DNI */}
         <div className="mb-5">
@@ -60,23 +90,36 @@ const Signup = () => {
               required: "El DNI es Obligatorio!!",
             })}
           />
-          {errors.dni && <Error>{errors.dni?.message}</Error>}
+          {errors.dni && <Error>{errors.dni.message}</Error>}
         </div>
         {/* password */}
         <div className="mb-5">
           <label htmlFor="password" className="text-sm uppercase font-bold">
             Contraseña
           </label>
-          <input
-            id="password"
-            className="w-full p-3  border border-gray-100"
-            type="text"//TODO: que se pueda ver o sea tipo password
-            placeholder="Nombre "
-            {...register("password", {
-              required: "La contraseña es Obligatoria!!",
-            })}
-          />
-          {errors.password && <Error>{errors.password?.message}</Error>}
+          <div className="flex justify-between items-center border border-gray-100">
+         <input
+          id="password"
+      className="w-full p-3"
+     type={showPassword ? "password" : "text"}
+     placeholder="Nombre"
+     {...register("password", {
+      required: "La contraseña es Obligatoria!!",
+    })}
+  />
+  <div className="flex items-center justify-center p-3 cursor-pointer">
+  <button type="button" onClick={() => setShowPassword((prev) => !prev)}>
+  {showPassword ? (
+    <FaRegEye className="text-gray-500 text-lg" />
+  ) : (
+    <FaRegEyeSlash className="text-gray-500 text-lg" />
+  )} 
+</button>
+      
+  </div>
+</div>
+
+          {errors.password && <Error>{errors.password.message}</Error>}
         </div>
             {/* email */}
         <div className="mb-5">
@@ -92,7 +135,7 @@ const Signup = () => {
               required: "El Correo es Obligatorio!!",
             })}
           />
-          {errors.email && <Error>{errors.email?.message}</Error>}
+          {errors.email && <Error>{errors.email.message}</Error>}
         </div>
         {/* username */}
           
@@ -109,7 +152,7 @@ const Signup = () => {
               required: "El nombre de usuario es Obligatorio!!",
             })}
           />
-          {errors.username && <Error>{errors.username?.message}</Error>}
+          {errors.username && <Error>{errors.username.message}</Error>}
         </div>
         {/* phone */}
         <div className="mb-5">
@@ -125,7 +168,7 @@ const Signup = () => {
               required: "El Numero de Telefono es Obligatorio!!",
             })}
           />
-          {errors.phone && <Error>{errors.phone?.message}</Error>}
+          {errors.phone && <Error>{errors.phone.message}</Error>}
         </div>
         {/* address */}
         <div className="mb-5">
@@ -141,23 +184,15 @@ const Signup = () => {
               required: "La direccion es Obligatoria!!",
             })}
           />
-          {errors.address && <Error>{errors.address?.message}</Error>}
+          {errors.address && <Error>{errors.address.message}</Error>}
         </div>
+        <button type="submit" className="bg-primary text-white hover:bg-orange-500 py-2 px-6  w-full" >
+          Registrate
+        </button>
       </form>
-    </div>
+    
   )
 }
 
 export default Signup
 
-/*
-name
-lastname
-dni
-email
-username
-phone
-address
-password
-
-*/

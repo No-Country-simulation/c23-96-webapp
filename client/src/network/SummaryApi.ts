@@ -5,7 +5,7 @@ if (!backendDomain) {
 
 const SummaryApi = {
     SignUp: {
-        url: `${backendDomain}/auth/register`,
+        url: `${backendDomain}/auth/signup`,
         method: 'post'
     },
     Login: {
