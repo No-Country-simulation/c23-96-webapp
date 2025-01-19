@@ -12,136 +12,136 @@ const Signup = () => {
   return ( 
     <div >
       
-      <form className="bg-white mx-5 p-6 rounded-lg">
+      <form className="bg-white mx-5 p-6 rounded-md shadow-md">
       <h2 className="font-black text-5xl text-center text-primary">Crea tu cuenta</h2>
         {/* Name */}
       <div className="mb-5">
           <label htmlFor="name" className="text-sm uppercase font-bold">
-            Paciente
+            Nombre
           </label>
           <input
             id="name"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre del Paciente"
+            placeholder="Ingresa tu Nombre"
             {...register("name", {
-              required: "El nombre del Paciente es Obligatorio!!",
+              required: "El nombre es Obligatorio!!",
             })}
           />
           {errors.name && <Error>{errors.name?.message}</Error>}
         </div>
             {/* Lastname */}
         <div className="mb-5">
-          <label htmlFor="name" className="text-sm uppercase font-bold">
-            Paciente
+          <label htmlFor="lastname" className="text-sm uppercase font-bold">
+            Apellido
           </label>
           <input
-            id="name"
+            id="lastname"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre del Paciente"
-            {...register("name", {
-              required: "El nombre del Paciente es Obligatorio!!",
+            placeholder="Ingresa tu Apellido"
+            {...register("lastname", {
+              required: "El Apellido es Obligatorio!!",
             })}
           />
-          {errors.name && <Error>{errors.name?.message}</Error>}
+          {errors.lastname && <Error>{errors.lastname?.message}</Error>}
         </div>
             {/* DNI */}
         <div className="mb-5">
-          <label htmlFor="name" className="text-sm uppercase font-bold">
-            Paciente
+          <label htmlFor="dni" className="text-sm uppercase font-bold">
+            DNI
           </label>
           <input
-            id="name"
+            id="dni"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre del Paciente"
-            {...register("name", {
-              required: "El nombre del Paciente es Obligatorio!!",
+            placeholder="Ingrese su Numero de Documento"
+            {...register("dni", {
+              required: "El DNI es Obligatorio!!",
             })}
           />
-          {errors.name && <Error>{errors.name?.message}</Error>}
+          {errors.dni && <Error>{errors.dni?.message}</Error>}
         </div>
         {/* password */}
         <div className="mb-5">
-          <label htmlFor="name" className="text-sm uppercase font-bold">
-            Paciente
+          <label htmlFor="password" className="text-sm uppercase font-bold">
+            Contraseña
           </label>
           <input
-            id="name"
+            id="password"
             className="w-full p-3  border border-gray-100"
-            type="text"
-            placeholder="Nombre del Paciente"
-            {...register("name", {
-              required: "El nombre del Paciente es Obligatorio!!",
+            type="text"//TODO: que se pueda ver o sea tipo password
+            placeholder="Nombre "
+            {...register("password", {
+              required: "La contraseña es Obligatoria!!",
             })}
           />
-          {errors.name && <Error>{errors.name?.message}</Error>}
+          {errors.password && <Error>{errors.password?.message}</Error>}
         </div>
             {/* email */}
         <div className="mb-5">
-          <label htmlFor="name" className="text-sm uppercase font-bold">
-            Paciente
+          <label htmlFor="email" className="text-sm uppercase font-bold">
+            Correo Electronico
           </label>
           <input
-            id="name"
+            id="email"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre del Paciente"
-            {...register("name", {
-              required: "El nombre del Paciente es Obligatorio!!",
+            placeholder="Nombre "
+            {...register("email", {
+              required: "El Correo es Obligatorio!!",
             })}
           />
-          {errors.name && <Error>{errors.name?.message}</Error>}
+          {errors.email && <Error>{errors.email?.message}</Error>}
         </div>
         {/* username */}
           
         <div className="mb-5">
-          <label htmlFor="name" className="text-sm uppercase font-bold">
-            Paciente
+          <label htmlFor="username" className="text-sm uppercase font-bold">
+            Nombre de Usuario
           </label>
           <input
-            id="name"
+            id="username"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre del Paciente"
-            {...register("name", {
-              required: "El nombre del Paciente es Obligatorio!!",
+            placeholder="Nombre "//TODO: Es necesario Nombre de usuario???
+            {...register("username", {
+              required: "El nombre de usuario es Obligatorio!!",
             })}
           />
-          {errors.name && <Error>{errors.name?.message}</Error>}
+          {errors.username && <Error>{errors.username?.message}</Error>}
         </div>
         {/* phone */}
         <div className="mb-5">
-          <label htmlFor="name" className="text-sm uppercase font-bold">
-            Paciente
+          <label htmlFor="phone" className="text-sm uppercase font-bold">
+            Telefono
           </label>
           <input
-            id="name"
+            id="phone"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre del Paciente"
-            {...register("name", {
-              required: "El nombre del Paciente es Obligatorio!!",
+            placeholder="Nombre "//TODO: añadirle un formato de telefono
+            {...register("phone", {
+              required: "El Numero de Telefono es Obligatorio!!",
             })}
           />
-          {errors.name && <Error>{errors.name?.message}</Error>}
+          {errors.phone && <Error>{errors.phone?.message}</Error>}
         </div>
         {/* address */}
         <div className="mb-5">
-          <label htmlFor="name" className="text-sm uppercase font-bold">
-            Paciente
+          <label htmlFor="address" className="text-sm uppercase font-bold">
+            Direccion
           </label>
           <input
-            id="name"
+            id="address"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre del Paciente"
-            {...register("name", {
-              required: "El nombre del Paciente es Obligatorio!!",
+            placeholder="Nombre "
+            {...register("address", {
+              required: "La direccion es Obligatoria!!",
             })}
           />
-          {errors.name && <Error>{errors.name?.message}</Error>}
+          {errors.address && <Error>{errors.address?.message}</Error>}
         </div>
       </form>
     </div>

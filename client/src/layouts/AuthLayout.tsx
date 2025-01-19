@@ -1,10 +1,9 @@
-import React from 'react'
 import { Outlet } from 'react-router-dom'
 
 const AuthLayout = () => {
   return (
-    <div className="bg-[url('/principal.jpg')] bg-cover bg-center min-h-screen justify-center">
-    <main className='space-y-28 m-16'>
+    <div className="bg-[url('/bg.png')] bg-slate-200 bg-cover bg-no-repeat bg-center min-h-screen justify-center">
+    <main>
         <Outlet/>
     </main>
     </div>
