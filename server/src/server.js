@@ -17,7 +17,7 @@ server.use(express.json())
 const PORT = 4000;
 
 const corsOptions = {
-  origin: "",
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };

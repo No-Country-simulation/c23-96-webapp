@@ -12,7 +12,7 @@ const userSchema = new Schema({
     required: [true, "El apellido es requerido"],
   },
   dni: {
-    type: Number,
+    type: String,
     required: [true, "El DNI es requerido"],
   },
   email: {
