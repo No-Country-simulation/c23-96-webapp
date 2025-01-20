@@ -13,7 +13,7 @@ const rootRouter = express.Router();
 indexRoute.use("/", userRouter);
 
 //Authentication Data
-indexRoute.use("/auth", authRouter)
+indexRoute.use("/auth", authRouter) //   api/auth
 
 
 
