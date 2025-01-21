@@ -32,6 +32,8 @@ server.get("/", (req, res) => {
   res.redirect("/api");
 });
 
-server.listen(process.env.PORT || 4000, () => {
-  console.log(`Server listen in http://localhost:${process.env.PORT || 4000}`);
+const PORT = process.env.PORT || 4000;
+
+server.listen(PORT, () => {
+  console.log(`Server listen in http://localhost:${PORT}`);
 });
