@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Acount = require("./account");
+const Account = require("./account");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -20,9 +20,9 @@ const userSchema = new Schema({
     required: [true, "El correo es requerido"],
     unique: true,
   },
-  Acount: {
+  Account: {
     type: Schema.Types.ObjectId,
-    ref: Acount,
+    ref: Account,
   },
   username: {
     type: String,
@@ -33,7 +33,7 @@ const userSchema = new Schema({
     type: String,
   },
   address: {
-    type: String
+    type: String,
   },
   password: {
     type: String,

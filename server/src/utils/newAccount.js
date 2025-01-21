@@ -1,9 +1,9 @@
-const {generateUniqueCVU} = require('./cvuGenerator');
-const accountModel = require('../models/account'); 
+const { generateUniqueCVU } = require("./cvuGenerator");
+const accountModel = require("../models/account");
 
 module.exports.createNewAccount = async () => {
   try {
-    // Generate a unique CVU
+    // Generate an unique CVU
     const newCVU = await generateUniqueCVU(accountModel);
 
     //Create Acount
@@ -13,10 +13,10 @@ module.exports.createNewAccount = async () => {
       balanceDolar: 0,
     });
 
-    console.log('Account created successfully:', account);
+    console.log("Account created successfully:", account);
     return account;
   } catch (error) {
-    console.error('Error creating account:', error.message);
+    console.error("Error creating account:", error.message);
     throw error;
   }
 };

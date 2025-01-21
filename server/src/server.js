@@ -12,7 +12,7 @@ connect();
 
 const server = express();
 
-server.use(express.json())
+server.use(express.json());
 
 const PORT = 4000;
 
