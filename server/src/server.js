@@ -14,8 +14,6 @@ const server = express();
 
 server.use(express.json());
 
-const PORT = 4000;
-
 const corsOptions = {
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -34,6 +32,6 @@ server.get("/", (req, res) => {
   res.redirect("/api");
 });
 
-server.listen(PORT, () => {
-  console.log(`Server listen in http://localhost:${PORT}`);
+server.listen(process.env.PORT || 4000, () => {
+  console.log(`Server listen in http://localhost:${process.env.PORT || 4000}`);
 });
