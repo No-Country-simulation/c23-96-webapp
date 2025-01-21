@@ -4,6 +4,6 @@ const { verifyToken } = require("../middlewares/verifyToken.middleware");
 
 const adminRouter = express.Router();
 
-adminRouter.get("/", verifyToken, listUsers);
+adminRouter.get("/", listUsers);
 
 module.exports = adminRouter;

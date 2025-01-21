@@ -15,7 +15,7 @@ indexRoute.use("/", userRouter);
 //Authentication Da
 indexRoute.use("/auth", authRouter);
 
-
+//Admin Functions
 indexRoute.use("/admin", adminRouter);
 
 module.exports = indexRoute;
