@@ -3,7 +3,7 @@
 
 //reusable Function Body For Request
 
-import { TUser } from "../types/function";
+import { TLogin, TUser } from "../types/function";
 import SummaryApi from "./SummaryApi";
 
 
@@ -37,7 +37,8 @@ export async function fetchData(input: RequestInfo, init?: RequestInit) {
 type ApiResponse<T> = {
   success: boolean; 
   data: T; 
-  message?: string; 
+  message?: string;
+  token?: string; 
 };
 
 type SignUpResponse = {
@@ -57,7 +58,7 @@ export async function SignUp(user: TUser): Promise<ApiResponse<SignUpResponse>> 
   }
 
   //Pick of Type User
-  type TLogin = {[k in "dni" | "password"]: TUser[k]}
+
   
   // Login
   export async function Login(auth: TLogin): Promise<ApiResponse<TLogin>> {
