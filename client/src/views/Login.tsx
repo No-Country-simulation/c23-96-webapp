@@ -40,7 +40,7 @@ const Login = () => {
     className="bg-white mx-5 p-6 rounded-md shadow-md"
     onSubmit={handleSubmit(onSubmit)}
   >
-    <h2 className="font-black text-5xl text-center text-primary">
+    <h2 className="font-black text-5xl text-center text-principal">
       Ingresa
     </h2>
              {/* DNI */}
@@ -92,7 +92,7 @@ const Login = () => {
 
                 <button
         type="submit"
-        className="bg-primary text-white hover:bg-orange-500 py-2 px-6  w-full"
+        className="bg-principal text-white hover:bg-orange-500 py-2 px-6  w-full"
       >
         Registrate
       </button>
