@@ -23,9 +23,9 @@ const Header = () => {
       </header>
 
       {/* Navigation */}
-      <nav className="bg-principal grid grid-cols-2 justify-around items-center text-white p-2">
-        <button className="bg-principal p-2 rounded">Pesos</button>
-        <button className="bg-greenaport p-2 rounded">Dólares</button>
+      <nav className="bg-principal grid grid-cols-2 justify-around items-center text-white p-2 rounded-br-full">
+        <button className="bg-orange-700 p-2 rounded rounded-bl-full">Pesos</button>
+        <button className="bg-greenaport p-2 rounded rounded-br-full">Dólares</button>
       </nav>
       </div>
     </>

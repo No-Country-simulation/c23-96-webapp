@@ -2,7 +2,7 @@
 
 const CardsUser = () => {
   return (
-    <div className="bg-white flex mt-10 justify-end">
+    <div className="flex mt-10 justify-end">
     <div className="gap-6 flex">
         {/* Orange Card */}
         <div className="w-96 h-56 m-auto bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform hover:scale-110">
