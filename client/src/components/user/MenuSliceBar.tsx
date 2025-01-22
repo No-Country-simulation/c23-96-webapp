@@ -6,17 +6,17 @@ const MenuSliceBar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
-    { name: "Inicio", icon: <FaHome />, link: "#" },
-    { name: "Autorizaciones", icon: <FaCheckCircle />, link: "#" },
-    { name: "Usuarios", icon: <FaUsers />, link: "#" },
-    { name: "Comercios", icon: <FaStore />, link: "#" },
+    { name: "Inicio", icon: <FaHome />, link: "/" },
+    { name: "Transferencia", icon: <FaCheckCircle />, link: "/transferencia" },
+    { name: "Cargar Saldo", icon: <FaUsers />, link: "#" },
+    { name: "Pagar Cuentas", icon: <FaStore />, link: "#" },
     { name: "Cerrar Sesión", icon: <FaSignOutAlt />, link: "#" },
   ];
 
   return (
     <>
       {/* Botón hamburguesa */}
-      <div className="fixed top-4 left-4 z-20 md:hidden">
+      <div className="fixed top-9 left-4 z-20 md:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-2xl p-2 bg-cyan-500 text-white rounded-md focus:outline-none"
@@ -27,7 +27,7 @@ const MenuSliceBar = () => {
 
       {/* Menú principal */}
       <div
-        className={`fixed flex flex-col top-0 left-0 bg-white h-full text-gray-600 transition-all duration-300 z-10 ${
+        className={`fixed flex flex-col left-0 bg-principal h-full text-gray-600 transition-all duration-300 z-10 ${
           isOpen ? "w-64" : "w-0"
         } md:w-64`}
       >
@@ -37,7 +37,7 @@ const MenuSliceBar = () => {
               <li key={index}>
                 <a
                   href={item.link}
-                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white border-l-4 border-transparent hover:border-cyan-500"
+                  className="relative flex flex-row border-b-black items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white border-l-4 border-transparent hover:border-cyan-500"
                 >
                   <span className="inline-flex justify-center items-center ml-4 text-lg">
                     {item.icon}
