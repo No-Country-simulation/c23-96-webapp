@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
-const KeyToken = process.env.TOKEN_JSON_KEY;
+const KeyToken = process.env.TOKEN_KEY;
 
 if (!KeyToken) {
   throw new Error("TOKEN_JSON_KEY is not defined in environment variables");
@@ -15,11 +15,12 @@ if (!KeyToken) {
  * @param res Respuesta enviada al cliente
  * @param next Función para pasar al siguiente middleware
  */
-export const verifyToken = (req, res, next) => {
+module.exports.verifyToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.startsWith("Bearer ")
-    ? authHeader.split(" ")[1]
-    : null;
+  const token =
+    authHeader && authHeader.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
 
   console.log("Token recibido:", token);
 

@@ -1,10 +1,11 @@
-const {createNewAccount} = require("../../utils/newAccount");
+const { createNewAccount } = require("../../utils/newAccount");
 const createHttpError = require("http-errors");
-const bcrypt = require('bcrypt');
-const userModel = require('../../models/user');
+const bcrypt = require("bcrypt");
+const userModel = require("../../models/user");
 
 module.exports.register = async (req, res, next) => {
-  const { name, lastname, email, phone, address, dni, username, password } = req.body;
+  const { name, lastname, email, phone, address, dni, username, password } =
+    req.body;
   const passwordRaw = req.body.password;
 
   try {
@@ -12,39 +13,38 @@ module.exports.register = async (req, res, next) => {
       throw createHttpError(400, "Todos los parámetros son necesarios");
     }
 
-  
+    //Comprueba si existe el DNI
     const existingDNI = await userModel.findOne({ dni: dni });
     if (existingDNI) {
       throw createHttpError(400, "El DNI ya existe");
     }
 
-
+    //Comprueba si existe el correo
     const existingEmail = await userModel.findOne({ email: email });
     if (existingEmail) {
       throw createHttpError(400, "El correo ya existe");
     }
 
-  
+    // Hash de contraseña
     const passwordHashed = await bcrypt.hash(passwordRaw, 10);
 
     // Crear una nueva cuenta (esperar el resultado)
     const account = await createNewAccount();
 
-    
+    // Crear el usuario
     const newUser = await userModel.create({
       name,
       lastname,
       dni,
       email,
-      Account: account.account,  
+      Account: account._id,
       username,
       phone,
       address,
       password: passwordHashed,
     });
 
-    
-    res.status(201).json({ newUser, account }); 
+    res.status(201).json({ newUser, account });
   } catch (error) {
     next(error);
   }

@@ -1,6 +1,9 @@
 import { StateCreator } from "zustand";
 
+type AuthState= {
+    user: 
+}
 
-export const authTokenSlice:StateCreator<T> = (set)=>{
+export const authTokenSlice:StateCreator<AuthState> = (set)=>{
     
 }

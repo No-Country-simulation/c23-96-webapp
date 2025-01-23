@@ -1,9 +1,21 @@
-import React from 'react'
+import AcountBalance from "@/components/user/AcountBalance";
+import CardsUser from "../components/user/CardsUser";
+import CarrucelOfOfter from "@/components/user/CarrucelOfOfter";
+import MovementsList from "@/components/user/MovementsList";
 
 const HomeUser = () => {
   return (
-    <div className='bg-red-600 text-center p-5 text-white text-5xl'>Hola soy el home user</div>
-  )
-}
+    <>
+      <img src="/bg.png" className="object-cover" />
+      <CardsUser />
 
-export default HomeUser
+      <AcountBalance />
+
+      <CarrucelOfOfter/>
+
+      <MovementsList/>
+    </>
+  );
+};
+
+export default HomeUser;
