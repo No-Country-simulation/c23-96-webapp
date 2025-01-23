@@ -1,6 +1,4 @@
-import {create} from 'zustand'
-import {authTokenSlice} from './AuthTokenSlice'
+import { create } from "zustand";
+import { authTokenSlice } from "./AuthTokenSlice";
 
-export const useAppStore = create<AuthTokenSlice>(...a) => ({
-
-})
+export const useAppStore = create(authTokenSlice);

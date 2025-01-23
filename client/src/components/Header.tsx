@@ -1,7 +1,11 @@
+import { useAppStore } from "@/store/useAppStore";
 import { IoIosNotifications } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
 import { RiQuestionAnswerFill } from "react-icons/ri";
 const Header = () => {
+  const {user} = useAppStore();
+
+
   return (
     <>
       {/* Header */}
@@ -9,7 +13,7 @@ const Header = () => {
       <header className="bg-principal p-2 flex border-orange-400 border-b-2 justify-between items-center">
         <button className="flex items-center gap-2">
           <MdAccountCircle className="text-black text-2xl" />
-          <h3 className="text-sm text-white">Hola Ale</h3>
+          <h3 className="text-sm text-white">Hola {user?.username}</h3>
         </button>
 
         <div className="flex items-center gap-2">
