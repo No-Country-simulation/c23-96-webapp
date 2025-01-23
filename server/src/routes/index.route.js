@@ -10,7 +10,7 @@ const indexRoute = express();
 const rootRouter = express.Router();
 
 //users Data
-indexRoute.use("/", userRouter);
+indexRoute.use("/users", userRouter);
 
 //Authentication Da
 indexRoute.use("/auth", authRouter);
