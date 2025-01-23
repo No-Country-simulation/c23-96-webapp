@@ -6,6 +6,7 @@ import SimulatorLayout from "./layouts/SimulatorLayout";
 import AuthLayout from "./layouts/AuthLayout";
 import Signup from "./views/Signup";
 import Login from "./views/Login";
+import AdminDashboard from "./views/AdminDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -25,12 +26,9 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomeUser />,
+        element: <AdminDashboard />,
       },
-      {
-        path: '',
-        element: <HomeUser />,
-      },
+ 
     ],
   },
   {

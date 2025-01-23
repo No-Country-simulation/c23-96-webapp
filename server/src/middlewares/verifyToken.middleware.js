@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const KeyToken = process.env.TOKEN_JSON_KEY;
+const KeyToken = process.env.TOKEN_KEY;
 
 if (!KeyToken) {
   throw new Error("TOKEN_JSON_KEY is not defined in environment variables");
