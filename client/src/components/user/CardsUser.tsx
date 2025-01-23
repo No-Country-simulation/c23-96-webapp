@@ -24,11 +24,11 @@ const CardsUser = () => {
   ];
 
   return (
-    <div className="overflow-x-auto flex gap-4 mt-10 px-4">
+    <div className="overflow-x-auto flex gap-8 mt-10 px-4">
       {cards.map((card, index) => (
         <div
           key={index}
-          className="flex-none w-96 h-56 bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform hover:scale-110"
+          className="flex-none w-96 h-56 bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform hover:scale-95"
         >
           <img
             className="relative object-cover w-full h-full rounded-xl"
