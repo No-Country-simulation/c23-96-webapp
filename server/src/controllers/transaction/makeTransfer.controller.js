@@ -1,6 +1,5 @@
 const transactionModel = require("../../models/transaction");
 const accountModel = require("../../models/account");
-const createHttpError = require("../../utils/createHTTPError");
 
 module.exports.makeTransfer = async (req, res, next) => {
   const { amount, originccount, destinationAccount } = req.body;

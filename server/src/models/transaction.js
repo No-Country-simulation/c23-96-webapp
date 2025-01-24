@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const cuenta = require("./acount");
+const cuenta = require("./account");
+const Schema = mongoose.Schema;
 
 const transactionSchema = new mongoose.Schema({
   date: {
