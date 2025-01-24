@@ -6,11 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Login as LoginFetch } from "../network/fetchApiAuth";
 import { TLogin } from "../types/function";
+import { useAppStore } from "@/store/useAppStore";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const { setAuthData } = useAppStore(); 
   const navigate = useNavigate();
+
+ 
   const {
     register,
     handleSubmit,
@@ -20,18 +23,20 @@ const Login = () => {
 
   const onSubmit = async (user: TLogin) => {
     try {
-      const data = await LoginFetch(user);
-      toast.success("Ingreso existoso");
+      const data = await LoginFetch(user); // Llamada al backend
+      const { token, user: userData } = data;
+
+      // Guardar en el contexto y localStorage
+      setAuthData({ user: userData, token });
+
+      toast.success("Ingreso exitoso");
       reset();
       navigate("/");
 
-      console.log(data);
-      const token = data.token;
-
-      console.log(token);
+      console.log("Token:", token);
     } catch (error) {
-      toast.error("Ocurrio un error al Ingresar");
-      console.log("error Al registro", error);
+      toast.error("Ocurrió un error al ingresar");
+      console.log("Error al registrar:", error);
     }
   };
   return (
