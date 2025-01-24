@@ -14,4 +14,4 @@ module.exports.getUser = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}; 
