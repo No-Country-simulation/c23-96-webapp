@@ -1,61 +1,64 @@
-const transactionModel = require("../../models/transaction");
+const createHttpError = require("http-errors");
 const accountModel = require("../../models/account");
+const transactionModel = require("../../models/transaction");
 
 module.exports.makeTransfer = async (req, res, next) => {
-  const { amount, originccount, destinationAccount } = req.body;
+  const { originAccount, destinationAccount, amount } = req.body;
 
   try {
-    //Validaciones
-    if (!amount || !originccount || !destinationAccount) {
-      throw new createHttpError(400, "Parámetro inválido");
+    // Validar datos
+    if (!originAccount || !destinationAccount || !amount) {
+      throw createHttpError(400, "Todos los parámetros son obligatorios.");
     }
 
-    if (destinationAccount === originccount) {
-      throw new createHttpError(
+    if (originAccount === destinationAccount) {
+      throw createHttpError(
         400,
-        "La cuenta de destino y la cuenta de origen no deben ser la misma"
+        "Las cuentas de origen y destino no pueden ser iguales."
       );
     }
 
     if (amount <= 0) {
-      throw new createHttpError(400, "El monto debe ser mayor a cero");
+      throw createHttpError(400, "El monto debe ser mayor a 0.");
     }
 
-    const originAccount = await accountModel.findOne({ account: originccount }); //si no funciona con account:, canbiar por "_id"
-    const destinationAccount = await accountModel.findOne({
+    // search in db
+    const origin = await accountModel.findOne({ account: originAccount });
+    const destination = await accountModel.findOne({
       account: destinationAccount,
-    });
+    }); //si no funciona con account:, canbiar por "_id"
 
-    if (!originAccount) {
-      throw new createHttpError(400, "Cuenta origen no encontrada");
+    if (!origin) {
+      throw createHttpError(404, "La cuenta de origen no existe.");
     }
 
-    if (!destinationAccount) {
-      throw new createHttpError(400, "Cuenta destino no encontrada");
+    if (!destination) {
+      throw createHttpError(404, "La cuenta de destino no existe.");
     }
 
-    if (originAccount.balance < amount) {
-      throw new createHttpError(400, "Saldo insuficiente");
+    if (origin.balancePeso < amount) {
+      throw createHttpError(400, "Saldo insuficiente en la cuenta de origen.");
     }
 
-    //Actualizar saldo
-    originAccount.balancePeso -= amount;
-    destinationAccount.balancePeso += amount;
+    // Actualizar balances
+    origin.balancePeso -= amount;
+    destination.balancePeso += amount;
 
-    await originAccount.save();
-    await destinationAccount.save();
+    await origin.save();
+    await destination.save();
 
-    const transaction = new transactionModel({
-      date: new Date(),
+    // Create transaction
+    const transaction = await transactionModel.create({
       type: "transfer",
       amount,
-      originccount,
-      destinationAccount,
+      originAccount: origin._id,
+      destinationAccount: destination._id,
     });
 
-    res
-      .status(200)
-      .json({ message: "transacción realizada correctamente", transaction });
+    res.status(200).json({
+      message: "Transferencia realizada con éxito.",
+      transaction,
+    });
   } catch (error) {
     next(error);
   }
