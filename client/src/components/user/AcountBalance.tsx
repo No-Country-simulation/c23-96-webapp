@@ -1,6 +1,16 @@
-import React from "react";
+import { useAppStore } from "@/store/useAppStore";
 
 const AcountBalance = () => {
+
+  const {user} = useAppStore();
+
+  const id = user?._id
+
+  const getAccountData async (id) => {
+    const data = await getAccountData(id)
+    
+  }
+
   const cuentas = [
     { id: 1, tipo: "Cuenta Corriente", numero: "****1234", saldo: "$20,000" },
     { id: 2, tipo: "Cuenta Crédito", numero: "****5678", saldo: "$15,000" },
