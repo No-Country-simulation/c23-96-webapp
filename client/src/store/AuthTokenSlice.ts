@@ -1,4 +1,3 @@
-import { getAccountData } from "@/network/fetchApiUsers";
 import { TAccount } from "@/types";
 import { TUser, TUserLocalStorage } from "@/types/function";
 import { StateCreator } from "zustand";
@@ -7,12 +6,14 @@ type AuthState = {
   user: TUserLocalStorage | null;
   token: string | null;
   account: TAccount[];
+  userId: string | null;
   setAuthData: (data: { user: TUser; token: string }) => void;
   clearAuthData: () => void;
   getToken: () => void;
+  getUserId: () => void;
   getUser: () => void;
   isLogged: () => boolean;
-  // getAccountData: (account: {data: TAccount[]}) => void;
+
 };
 
 export const authTokenSlice: StateCreator<AuthState> = (set, get) => ({
@@ -25,11 +26,16 @@ export const authTokenSlice: StateCreator<AuthState> = (set, get) => ({
     const tokenLocalStorage = localStorage.getItem("authToken");
     return tokenLocalStorage || null;
   })(),
+  userId: (() => {
+    return localStorage.getItem("authUserId") || null; 
+  })(),
 
   setAuthData: ({ user, token }) => {
-    set({ user, token });
+    const userId = user._id; 
+    set({ user, token, userId });
     localStorage.setItem("authUser", JSON.stringify(user));
     localStorage.setItem("authToken", token);
+    localStorage.setItem("authUserId", userId); 
   },
 
   getToken: () => {
@@ -43,17 +49,20 @@ export const authTokenSlice: StateCreator<AuthState> = (set, get) => ({
     set({ user: parsedUser });
   },
 
+  getUserId: () => {
+    const userIdLocalStorage = localStorage.getItem("authUserId");
+    set({ userId: userIdLocalStorage || null });
+  },
+
   clearAuthData: () => {
-    set({ user: null, token: null });
+    set({ user: null, token: null, userId: null });
     localStorage.removeItem("authUser");
     localStorage.removeItem("authToken");
+    localStorage.removeItem("authUserId");
   },
 
   isLogged: () => {
-    const { user, token } = get();
-    return user !== null && token !== null;
+    const { user, token, userId } = get();
+    return user !== null && token !== null && userId !== null;
   },
-
-
-
 });

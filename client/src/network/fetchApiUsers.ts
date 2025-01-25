@@ -9,7 +9,7 @@ type UserResponse = {
     token: string; // Token de autenticación
   };
     
-    // SignUp
+    // Get Account data of user
   export async function getAccountData(userID: string): Promise<ApiResponse<UserResponse>> {
       return fetchData(`${SummaryApi.GetAcountUser.url}/${userID}/account` , {
         method: SummaryApi.GetAcountUser.method,
