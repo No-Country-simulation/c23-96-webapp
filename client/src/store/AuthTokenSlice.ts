@@ -1,5 +1,5 @@
-import { TAccount } from "@/types";
-import { TUser, TUserLocalStorage } from "@/types/function";
+import { TAccount } from "../types";
+import { TUser, TUserLocalStorage } from "../types/function";
 import { StateCreator } from "zustand";
 
 type AuthState = {

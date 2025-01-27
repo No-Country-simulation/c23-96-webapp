@@ -1,21 +1,26 @@
-import { ApiResponse } from "@/types/function";
-import { fetchData, useCommonHeaders } from "./util/fetchFunction";
+import { ApiResponse } from "../types/function";
+import { fetchData } from "./util/fetchFunction";
 import SummaryApi from "./SummaryApi";
 
-const headers = useCommonHeaders();
+type AccountDetails = {
+  _id: string;
+  cvu: string;
+  balancePeso: number;
+  balanceDolar: number;
+  account: string;
+  __v: number;
+};
 
-type UserResponse = {
-    userID: string; // Usuario registrado
-    token: string; // Token de autenticación
-  };
-    
-    // Get Account data of user
-  export async function getAccountData(userID: string): Promise<ApiResponse<UserResponse>> {
-      return fetchData(`${SummaryApi.GetAcountUser.url}/${userID}/account` , {
-        method: SummaryApi.GetAcountUser.method,
-        headers: headers,
-      });
-    }
-
-    
-  
+// Get Account data of user
+export async function getAccountData(
+  userID: string,
+  token: string
+): Promise<ApiResponse<AccountDetails>> {
+  return fetchData(`${SummaryApi.GetAcountUser.url}account/${userID}`, {
+    method: SummaryApi.GetAcountUser.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+}

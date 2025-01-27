@@ -1,4 +1,4 @@
-import { accountSchema } from "@/schemas/user.schema"
+import { accountSchema } from "../schemas/user.schema"
 import * as yup from "yup"
 
 
