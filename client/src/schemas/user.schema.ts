@@ -1,6 +1,7 @@
 import * as yup from "yup"
 
 export const userSchema = yup.object().shape({
+    _id: yup.string().required("El ID del usuario es requerido"),
     name: yup.string().required().min(3, 'minimo tienen que ser 3 caracteres'),
     lastname: yup.string().required(),
     dni: yup.string().required(),
@@ -12,7 +13,12 @@ export const userSchema = yup.object().shape({
     rol: yup.string()
 })
 
-
+export const accountSchema = yup.object().shape({
+    account: yup.string(),
+    cvu: yup.string(),
+    balancePeso: yup.number(),
+    balanceDolar: yup.number()                             
+})
 
 
 
