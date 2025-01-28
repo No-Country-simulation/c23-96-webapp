@@ -1,4 +1,3 @@
-import { ApiResponse } from "../types/function";
 import { fetchData } from "./util/fetchFunction";
 import SummaryApi from "./SummaryApi";
 
@@ -15,12 +14,20 @@ type AccountDetails = {
 export async function getAccountData(
   userID: string,
   token: string
-): Promise<ApiResponse<AccountDetails>> {
-  return fetchData(`${SummaryApi.GetAcountUser.url}account/${userID}`, {
-    method: SummaryApi.GetAcountUser.method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+): Promise<AccountDetails> {
+  const data = await fetchData(
+    `${SummaryApi.GetAcountUser.url}account/${userID}`,
+    {
+      method: SummaryApi.GetAcountUser.method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (data && data._id) {
+    return data; 
+  }
+
+  throw new Error("La estructura de la respuesta del servidor no es válida.");
 }

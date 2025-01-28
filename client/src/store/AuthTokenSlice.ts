@@ -7,17 +7,20 @@ type AuthState = {
   token: string | null;
   account: TAccount[];
   userId: string | null;
+  isPesos: boolean
   setAuthData: (data: { user: TUser; token: string }) => void;
   clearAuthData: () => void;
   getToken: () => void;
   getUserId: () => void;
   getUser: () => void;
   isLogged: () => boolean;
-
+  DolarPage: () => void;
+  PesosPage: () => void;
 };
 
 export const authTokenSlice: StateCreator<AuthState> = (set, get) => ({
   account: [],
+  isPesos: true,
   user: (() => {
     const userLocalStorage = localStorage.getItem("authUser");
     return userLocalStorage ? JSON.parse(userLocalStorage) : null;
@@ -65,4 +68,11 @@ export const authTokenSlice: StateCreator<AuthState> = (set, get) => ({
     const { user, token, userId } = get();
     return user !== null && token !== null && userId !== null;
   },
+  DolarPage:() =>{
+    set({isPesos: false})
+  },
+  PesosPage:()=>{
+    set({isPesos: true})
+  }
+  
 });

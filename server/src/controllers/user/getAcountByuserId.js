@@ -20,6 +20,7 @@ module.exports.getAccount = async (req, res, next) => {
     }
 
     res.status(200).json(account);
+    console.log(account)
   } catch (error) {
     next(error);
   }
