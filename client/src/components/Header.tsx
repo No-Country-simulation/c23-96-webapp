@@ -3,14 +3,14 @@ import { IoIosNotifications } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
 import { RiQuestionAnswerFill } from "react-icons/ri";
 const Header = () => {
-  const {user} = useAppStore();
+  const {user, PesosPage, DolarPage, isPesos} = useAppStore();
 
 
   return (
     <>
       {/* Header */}
       <div className="md:sticky md:top-0 md:z-50">
-      <header className="bg-principal p-2 flex border-orange-400 border-b-2 justify-between items-center">
+      <header className={` ${isPesos ? ("bg-principal border-orange-400") : ("bg-greenaport border-green-800")} p-2 flex  border-b-2 justify-between items-center`}>
         <button className="flex items-center gap-2">
           <MdAccountCircle className="text-black text-2xl" />
           <h3 className="text-sm text-white">Hola {user?.username}</h3>
@@ -27,9 +27,10 @@ const Header = () => {
       </header>
 
       {/* Navigation */}
-      <nav className="bg-principal grid grid-cols-2 justify-around items-center text-white rounded-bl-full lg:rounded-bl-none  p-2 rounded-br-full">
-        <button className="bg-orange-700 p-2 rounded rounded-bl-full">Pesos</button>
-        <button className="bg-greenaport p-2 rounded rounded-br-full">Dólares</button>
+      <nav className={`${isPesos ? ("bg-principal") : ("bg-greenaport")} grid grid-cols-2 justify-around items-center text-white rounded-bl-full lg:rounded-bl-none  p-2 rounded-br-full`}>
+        
+        <button className={`${isPesos ? ("bg-orange-700"): ("bg-principal")} p-2 rounded rounded-bl-full`} onClick={PesosPage}>Pesos</button>
+        <button className={`${isPesos ? ("bg-greenaport"): ("bg-green-700")}  p-2 rounded rounded-br-full`} onClick={DolarPage}>Dólares</button>
       </nav>
       </div>
     </>
