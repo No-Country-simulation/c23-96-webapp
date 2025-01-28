@@ -12,7 +12,7 @@ userRouter.put('/:id', editUser);
 userRouter.delete('/:id', deleteUser); 
 
 // Obtener cuenta por User ID
-userRouter.get("/:id/account", getAccount);
+userRouter.get("/account/:id", getAccount);
 
 // Obtener tarjetas por User ID
 userRouter.get("/:id/cards", getCards);

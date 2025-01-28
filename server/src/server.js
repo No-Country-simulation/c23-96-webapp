@@ -4,6 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const indexRoute = require("./routes/index.route");
 const connect = require("./config/db");
+const morgan = require("morgan")
 
 //Llamo a la variables de entorno
 dotenv.config();
@@ -25,6 +26,16 @@ const corsOptions = {
 //Security Config
 server.use(helmet());
 server.use(cors(corsOptions));
+
+server.use(morgan())
+
+server.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  next();
+});
+
 
 //Routes in Server
 server.use("/api", indexRoute);
