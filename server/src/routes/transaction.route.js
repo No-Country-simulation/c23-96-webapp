@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   makeTransfer,
-} = require("../controllers/transaction/makeTransfer.controller");
+} = require("../controllers/transaction/cvuTransfer.controller");
 const { history } = require("../controllers/transaction/history.controller");
 const { verifyToken } = require("../middlewares/verifyToken.middleware");
 
