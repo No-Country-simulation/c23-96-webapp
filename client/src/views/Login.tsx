@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Login as LoginFetch } from "../network/fetchApiAuth";
 import { TLogin } from "../types/function";
-import { useAppStore } from "@/store/useAppStore";
+import { useAppStore } from "../store/useAppStore";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);

@@ -1,7 +1,7 @@
 
 import { Outlet } from "react-router-dom";
 import MenuSliceBar from "../components/user/MenuSliceBar";
-import Header from "@/components/Header";
+import Header from "../components/Header";
 
 const UserLayout = () => {
   return (

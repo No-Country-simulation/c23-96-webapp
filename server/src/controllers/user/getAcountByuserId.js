@@ -19,7 +19,8 @@ module.exports.getAccount = async (req, res, next) => {
       throw createHttpError(404, "No se encontró la cuenta asociada al usuario");
     }
 
-    res.status(200).json({ account });
+    res.status(200).json(account);
+    console.log(account)
   } catch (error) {
     next(error);
   }

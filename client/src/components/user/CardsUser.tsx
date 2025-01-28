@@ -1,6 +1,9 @@
+import { useAppStore } from "../../store/useAppStore";
 
 
 const CardsUser = () => {
+const {isPesos } = useAppStore();
+
   const cards = [
     {
       name: "Karthik P",
@@ -24,6 +27,7 @@ const CardsUser = () => {
   ];
 
   return (
+    
     <div className="overflow-x-auto flex gap-8 mt-10 px-4">
       {cards.map((card, index) => (
         <div
