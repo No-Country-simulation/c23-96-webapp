@@ -11,7 +11,23 @@ const SummaryApi = {
     Login: {
         url: `${backendDomain}/auth/login`,
         method: 'post'
-    }
+    },
+    GetAcountUser: {
+        url: `${backendDomain}/users/`,
+        method: 'get'
+    },
+    GetCardsUser: {
+        url: `${backendDomain}/users/login`,
+        method: 'get'
+    },
+    EditUser: {
+        url: `${backendDomain}/users/login`,
+        method: 'put'
+    },
+    DeleteUser: {
+        url: `${backendDomain}/users/login`,
+        method: 'delete'
+    },
 }
 
 export default SummaryApi;
