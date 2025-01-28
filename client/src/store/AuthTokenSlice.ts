@@ -5,7 +5,7 @@ import { StateCreator } from "zustand";
 type AuthState = {
   user: TUserLocalStorage | null;
   token: string | null;
-  account: TAccount[];
+  account: TAccount | null;
   userId: string | null;
   isPesos: boolean
   setAuthData: (data: { user: TUser; token: string }) => void;
@@ -16,6 +16,7 @@ type AuthState = {
   isLogged: () => boolean;
   DolarPage: () => void;
   PesosPage: () => void;
+  getAccount: (account: TAccount) => void;
 };
 
 export const authTokenSlice: StateCreator<AuthState> = (set, get) => ({
@@ -73,6 +74,10 @@ export const authTokenSlice: StateCreator<AuthState> = (set, get) => ({
   },
   PesosPage:()=>{
     set({isPesos: true})
+  },
+
+  getAccount:(accountData: TAccount)=> {
+    set({account: accountData})
   }
   
 });

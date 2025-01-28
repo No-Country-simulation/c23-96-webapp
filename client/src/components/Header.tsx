@@ -2,6 +2,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { IoIosNotifications } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
 import { RiQuestionAnswerFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 const Header = () => {
   const {user, PesosPage, DolarPage, isPesos} = useAppStore();
 
@@ -11,10 +12,10 @@ const Header = () => {
       {/* Header */}
       <div className="md:sticky md:top-0 md:z-50">
       <header className={` ${isPesos ? ("bg-principal border-orange-400") : ("bg-greenaport border-green-800")} p-2 flex  border-b-2 justify-between items-center`}>
-        <button className="flex items-center gap-2">
+        <Link to={"user"} className="flex items-center gap-2">
           <MdAccountCircle className="text-black text-2xl" />
           <h3 className="text-sm text-white">Hola {user?.username}</h3>
-        </button>
+        </Link>
 
         <div className="flex items-center gap-2">
           <button>
