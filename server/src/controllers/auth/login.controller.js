@@ -3,28 +3,54 @@ const jwt = require("jsonwebtoken");
 const createHttpError = require("http-errors");
 const userModel = require("../../models/user");
 const dotenv = require("dotenv");
+const { sendEmail } = require("../mail/sendMail.controller");
+
 dotenv.config();
 
+const failedAttempts = {};
+
 module.exports.login = async (req, res, next) => {
-  const dni = req.body.dni;
-  const password = req.body.password;
+  const { dni, password } = req.body;
 
   try {
-    if (!password || !dni) {
-      throw createHttpError(400, "Todos los Parametros Son Necesarios");
+    if (!dni || !password) {
+      throw createHttpError(400, "Todos los parámetros son necesarios");
     }
 
-    const user = await userModel.findOne({ dni: dni });
+    const user = await userModel.findOne({ dni });
 
     if (!user) {
-      throw createHttpError(401, "Invalid credentials");
+      throw createHttpError(401, "Credenciales inválidas");
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      console.log("credenciales incorrectas");
+      console.log("Credenciales incorrectas");
+
+      failedAttempts[dni] = (failedAttempts[dni] || 0) + 1;
+
+      if (failedAttempts[dni] >= 3) {
+        console.log("Enviando correo por múltiples intentos fallidos...");
+
+        await sendEmail(
+          user.email,
+          "Confirmación de Identidad",
+          `Hola ${user.name}, detectamos varios intentos fallidos de inicio de sesión en tu cuenta. Si fuiste tú, por favor confirma tu identidad.`
+        );
+
+        return res.status(403).json({
+          message: "Demasiados intentos fallidos. Por favor, revisa tu correo.",
+        });
+      }
+
+      return res.status(401).json({
+        message: "Credenciales incorrectas",
+        attempts: failedAttempts[dni],
+      });
     }
+
+    failedAttempts[dni] = 0;
 
     const token = jwt.sign({ dni: user.dni }, process.env.TOKEN_KEY, {
       expiresIn: "1h",
@@ -32,7 +58,7 @@ module.exports.login = async (req, res, next) => {
 
     res.status(201).json({
       user,
-      message: "Ingreso Correcto",
+      message: "Ingreso correcto",
       token,
     });
   } catch (error) {
