@@ -15,7 +15,7 @@ const AccountBalance = () => {
 
 
   const [account, setAccount] = useState<AccountDetails | null>(null);
-  const { userId, token, isPesos } = useAppStore();
+  const { userId, token, isPesos, getAccount } = useAppStore();
 
   useEffect(() => {
     console.log("UserID:", userId, "Token:", token);
@@ -27,6 +27,7 @@ const AccountBalance = () => {
       try {
         const data = await getAccountData(userId, token);
         console.log("Response data:", data);
+        getAccount(data)
         setAccount(data);
       } catch (error) {
         console.error("Error fetching account data:", error);
