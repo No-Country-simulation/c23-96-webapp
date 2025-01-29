@@ -4,14 +4,14 @@ const transactionModel = require("../../models/transaction");
 
 module.exports.cvuTransfer = async (req, res, next) => {
   try {
-    const { originCVU, destinationCVU, amount } = req.body;
+    const { originAccount, destinationCVU, amount } = req.body;
 
     // Validaciones
-    if (!originCVU || !destinationCVU || !amount) {
+    if (!originAccount || !destinationCVU || !amount) {
       throw createHttpError(400, "Todos los parámetros son obligatorios.");
     }
 
-    if (originCVU === destinationCVU) {
+    if (originAccount === destinationCVU) {
       throw createHttpError(
         400,
         "Las cuentas de origen y destino no pueden ser iguales."
@@ -23,7 +23,7 @@ module.exports.cvuTransfer = async (req, res, next) => {
     }
 
     // Buscar cuentas en la base de datos
-    const origin = await accountModel.findOne({ cvu: originCVU });
+    const origin = await accountModel.findById({ cvu: originAccount });
     const destination = await accountModel.findOne({ cvu: destinationCVU });
 
     if (!origin) {
