@@ -6,7 +6,7 @@ const AcountSchema = new mongoose.Schema({
     required: true,
     unique: true,
     default: function () {
-      return this._id.toString(); 
+      return this._id.toString();
     },
   },
   cvu: {
@@ -20,7 +20,7 @@ const AcountSchema = new mongoose.Schema({
   balanceDolar: {
     type: Number,
   },
- 
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
 });
 
 module.exports = mongoose.model("Acount", AcountSchema);

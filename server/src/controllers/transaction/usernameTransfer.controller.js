@@ -1,56 +1,80 @@
 const createHttpError = require("http-errors");
 const accountModel = require("../../models/account");
 const transactionModel = require("../../models/transaction");
+const userModel = require("../../models/user");
 
 module.exports.usernameTransfer = async (req, res, next) => {
   try {
-    const { originUsername, destinationUsername, amount } = req.body;
+    const { originAccount, destinationUsername, amount, moneyType } = req.body;
 
     // Validaciones
-    if (!originUsername || !destinationUsername || !amount) {
+    if (!originAccount || !destinationUsername || !amount) {
       throw createHttpError(400, "Todos los parámetros son obligatorios.");
-    }
-
-    if (originUsername === destinationUsername) {
-      throw createHttpError(
-        400,
-        "Las cuentas de origen y destino no pueden ser iguales."
-      );
     }
 
     if (amount <= 0) {
       throw createHttpError(400, "El monto debe ser mayor a 0.");
     }
 
-    // Buscar cuentas en la base de datos
-    const origin = await accountModel.findOne({ username: originUsername });
-    const destination = await accountModel.findOne({
-      username: destinationUsername,
-    });
-
+    // Buscar cuenta de origen por ID
+    const origin = await accountModel.findById(originAccount);
     if (!origin) {
       throw createHttpError(404, "La cuenta de origen no existe.");
     }
 
+    // Buscar usuario por username
+    const user = await userModel.findOne({ username: destinationUsername });
+    if (!user) {
+      throw createHttpError(404, "El usuario de destino no existe.");
+    }
+
+    // Buscar cuenta de destino por el usuario encontrado
+    const destination = await accountModel.findOne({ user: user._id });
     if (!destination) {
-      throw createHttpError(404, "La cuenta de destino no existe.");
+      throw createHttpError(
+        404,
+        "El usuario de destino no tiene cuenta asociada."
+      );
     }
 
-    if (origin.balancePeso < amount) {
-      throw createHttpError(400, "Saldo insuficiente en la cuenta de origen.");
+    if (origin._id.equals(destination._id)) {
+      throw createHttpError(
+        400,
+        "Las cuentas de origen y destino no pueden ser iguales."
+      );
     }
 
-    // Realizar la transferencia
-    origin.balancePeso -= amount;
-    destination.balancePeso += amount;
+    // Validar saldo y actualizar balances
+    if (moneyType === "peso") {
+      if (origin.balancePeso < amount) {
+        throw createHttpError(
+          400,
+          "Saldo insuficiente en la cuenta de origen."
+        );
+      }
+      origin.balancePeso -= amount;
+      destination.balancePeso += amount;
+    } else if (moneyType === "dolar") {
+      if (origin.balanceDolar < amount) {
+        throw createHttpError(
+          400,
+          "Saldo insuficiente en la cuenta de origen."
+        );
+      }
+      origin.balanceDolar -= amount;
+      destination.balanceDolar += amount;
+    } else {
+      throw createHttpError(400, "Tipo de moneda no válido.");
+    }
 
     await origin.save();
     await destination.save();
 
-    // Registrar la transacción
+    // Crear transacción
     const transaction = await transactionModel.create({
       type: "transfer",
       amount,
+      moneyType,
       originAccount: origin._id,
       destinationAccount: destination._id,
     });

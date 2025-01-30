@@ -3,7 +3,7 @@ const accountModel = require("../../models/account");
 const transactionModel = require("../../models/transaction");
 
 module.exports.makeTransfer = async (req, res, next) => {
-  const { originAccount, destinationAccount, amount } = req.body;
+  const { originAccount, destinationAccount, amount, moneyType } = req.body;
 
   try {
     // Validar datos
@@ -36,14 +36,28 @@ module.exports.makeTransfer = async (req, res, next) => {
       throw createHttpError(404, "La cuenta de destino no existe.");
     }
 
-    if (origin.balancePeso < amount) {
-      throw createHttpError(400, "Saldo insuficiente en la cuenta de origen.");
+    if (moneyType === "peso") {
+      // Actualizar balances
+      if (origin.balancePeso < amount) {
+        throw createHttpError(
+          400,
+          "Saldo insuficiente en la cuenta de origen."
+        );
+      }
+      origin.balancePeso -= amount;
+      destination.balancePeso += amount;
+    } else if (moneyType === "dolar") {
+      // Actualizar balances
+      if (origin.balanceDolar < amount) {
+        throw createHttpError(
+          400,
+          "Saldo insuficiente en la cuenta de origen."
+        );
+      }
+
+      origin.balanceDolar -= amount;
+      destination.balanceDolar += amount;
     }
-
-    // Actualizar balances
-    origin.balancePeso -= amount;
-    destination.balancePeso += amount;
-
     await origin.save();
     await destination.save();
 
@@ -51,6 +65,7 @@ module.exports.makeTransfer = async (req, res, next) => {
     const transaction = await transactionModel.create({
       type: "transfer",
       amount,
+      moneyType,
       originAccount: origin._id,
       destinationAccount: destination._id,
     });

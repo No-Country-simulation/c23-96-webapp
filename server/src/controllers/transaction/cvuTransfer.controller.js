@@ -4,7 +4,7 @@ const transactionModel = require("../../models/transaction");
 
 module.exports.cvuTransfer = async (req, res, next) => {
   try {
-    const { originAccount, destinationCVU, amount } = req.body;
+    const { originAccount, destinationCVU, amount, moneyType } = req.body;
 
     // Validaciones
     if (!originAccount || !destinationCVU || !amount) {
@@ -23,7 +23,7 @@ module.exports.cvuTransfer = async (req, res, next) => {
     }
 
     // Buscar cuentas en la base de datos
-    const origin = await accountModel.findById({ cvu: originAccount });
+    const origin = await accountModel.findOne({ account: originAccount });
     const destination = await accountModel.findOne({ cvu: destinationCVU });
 
     if (!origin) {
@@ -34,21 +34,37 @@ module.exports.cvuTransfer = async (req, res, next) => {
       throw createHttpError(404, "La cuenta de destino no existe.");
     }
 
-    if (origin.balancePeso < amount) {
-      throw createHttpError(400, "Saldo insuficiente en la cuenta de origen.");
-    }
+    if (moneyType === "peso") {
+      // Actualizar balances
+      if (origin.balancePeso < amount) {
+        throw createHttpError(
+          400,
+          "Saldo insuficiente en la cuenta de origen."
+        );
+      }
+      origin.balancePeso -= amount;
+      destination.balancePeso += amount;
+    } else if (moneyType === "dolar") {
+      // Actualizar balances
+      if (origin.balanceDolar < amount) {
+        throw createHttpError(
+          400,
+          "Saldo insuficiente en la cuenta de origen."
+        );
+      }
 
-    // Realizar la transferencia
-    origin.balancePeso -= amount;
-    destination.balancePeso += amount;
+      origin.balanceDolar -= amount;
+      destination.balanceDolar += amount;
+    }
 
     await origin.save();
     await destination.save();
 
-    // Registrar la transacción
+    // Create transaction
     const transaction = await transactionModel.create({
       type: "transfer",
       amount,
+      moneyType,
       originAccount: origin._id,
       destinationAccount: destination._id,
     });

@@ -16,7 +16,7 @@ const transactionRouter = express.Router();
 
 transactionRouter.post("/transfer", verifyToken, makeTransfer);
 transactionRouter.post("/transfer/cvu", verifyToken, cvuTransfer);
-transactionRouter.post("/transfer/username", verifyToken, usernameTransfer);
+transactionRouter.post("/transfer/username", usernameTransfer);
 transactionRouter.post("/buyDollars", verifyToken, buyDollars);
 
 transactionRouter.get("/history", verifyToken, history);
