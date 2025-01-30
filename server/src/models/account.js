@@ -20,7 +20,6 @@ const AcountSchema = new mongoose.Schema({
   balanceDolar: {
     type: Number,
   },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
 });
 
 module.exports = mongoose.model("Acount", AcountSchema);
