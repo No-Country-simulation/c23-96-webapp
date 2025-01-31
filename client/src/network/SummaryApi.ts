@@ -28,6 +28,16 @@ const SummaryApi = {
         url: `${backendDomain}/users/login`,
         method: 'delete'
     },
+    Transference: {
+        url: `${backendDomain}/transaction/transfer`,
+        method: 'post'
+    },
+    GetHistoryTransfers: {
+        url: `${backendDomain}/transaction/history`,
+        method: 'get'
+    },
+
+
 }
 
 export default SummaryApi;

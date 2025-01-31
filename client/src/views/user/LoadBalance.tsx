@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useAppStore } from "@/store/useAppStore";
+import { transference } from "@/network/fetchApiTransaction";
 import Modal from "../../components/ui/Modal";
 
-type FormData = {
-  phoneNumber: string;
-  amount: number;
-};
+import { toast } from "react-toastify";
 
 const MobileBrands = () => {
+  const { account, token } = useAppStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
 
@@ -16,18 +16,25 @@ const MobileBrands = () => {
     { name: "Apple", image: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" },
     { name: "Xiaomi", image: "https://upload.wikimedia.org/wikipedia/commons/2/29/Xiaomi_logo.svg" },
     { name: "Motorola", image: "https://armoto.vtexassets.com/assets/vtex.file-manager-graphql/images/e8ab638f-14cc-4790-92b2-04118c9bfe7f___26c294aacc24ef1a99fd9b09d967da58.png" },
-    
   ];
 
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm({
+    defaultValues: {
+      phoneNumber: "",
+      amount: 0,
+    },
+  });
 
   const openModal = (brand: string) => {
     setSelectedBrand(brand);
+    setValue("phoneNumber", "");
+    setValue("amount", 0);
     setIsModalOpen(true);
   };
 
@@ -37,9 +44,23 @@ const MobileBrands = () => {
     reset();
   };
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(`Marca: ${selectedBrand}, Datos:`, data);
-    closeModal();
+  const onSubmit = async (data: { phoneNumber: string; amount: number }) => {
+    const requestData = {
+      originAccount: account,
+      destinationAccount: "679bc61db30416a98404e7ad",
+      moneyType: "peso",
+      type: "telefono",
+      extra: data.phoneNumber,
+      amount: data.amount,
+    };
+
+    try {
+      const response = await transference(token, requestData);
+      toast.success(response.message || "Carga de saldo realizada con éxito.");
+      closeModal();
+    } catch (error) {
+      toast.error(error.message || "Error al realizar la carga de saldo.");
+    }
   };
 
   return (
@@ -132,4 +153,5 @@ const MobileBrands = () => {
     </div>
   );
 };
+
 export default MobileBrands;

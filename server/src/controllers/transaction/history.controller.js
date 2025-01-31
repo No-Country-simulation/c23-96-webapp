@@ -4,7 +4,7 @@ const createHttpError = require("http-errors");
 
 module.exports.history = async (req, res, next) => {
   try {
-    const { account } = req.body;
+    const { account } = req.params;
 
     if (!account) {
       throw createHttpError(400, "El número de cuenta es obligatorio.");
@@ -35,10 +35,9 @@ module.exports.history = async (req, res, next) => {
       })
       .sort({ date: -1 });
 
-    res.status(200).json({
-      message: "Transacciones recibidas con éxito.",
+    res.status(200).json(
       transactions,
-    });
+    );
   } catch (error) {
     next(error);
   }

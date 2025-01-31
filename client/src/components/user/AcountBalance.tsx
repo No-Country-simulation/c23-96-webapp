@@ -18,7 +18,7 @@ const AccountBalance = () => {
   const { userId, token, isPesos, getAccount } = useAppStore();
 
   useEffect(() => {
-    console.log("UserID:", userId, "Token:", token);
+    
     const fetchAccount = async () => {
       if (!userId || !token) {
         console.error("Faltan datos para realizar la petición.");
@@ -26,7 +26,6 @@ const AccountBalance = () => {
       }
       try {
         const data = await getAccountData(userId, token);
-        console.log("Response data:", data);
         getAccount(data)
         setAccount(data);
       } catch (error) {

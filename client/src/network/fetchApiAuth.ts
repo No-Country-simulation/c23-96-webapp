@@ -4,8 +4,6 @@ import { fetchData } from "./util/fetchFunction";
 
 
 
-
-
 type SignUpResponse = {
   user: TUser; // Usuario registrado
   token: string; // Token de autenticación

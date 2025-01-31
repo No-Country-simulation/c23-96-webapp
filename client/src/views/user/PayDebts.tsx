@@ -1,43 +1,53 @@
-import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import Modal from "../../components/ui/Modal";
+import { useAppStore } from "@/store/useAppStore";
+import { transference } from "@/network/fetchApiTransaction";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface FormData {
-  accountNumber: string;
+  service: string;
   amount: number;
 }
 
 const PayDebts = () => {
+  const { account, token } = useAppStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<string | null>(null);
 
   const services = [
-    "Luz",
-    "Agua",
-    "Gas",
-    "Internet",
-    "Teléfono",
-    "Cable",
-    "Impuestos",
-    "Seguro",
-    "Mantenimiento",
-    "Tarjeta de Crédito",
-    "Multas",
-    "Colegiaturas",
-    "Streaming",
-    "Hipoteca",
-    "Préstamos",
+    "Luz", "Agua", "Gas", "Internet", "Teléfono",
+    "Cable", "Impuestos", "Seguro", "Mantenimiento",
+    "Tarjeta de Crédito", "Multas", "Colegiaturas",
+    "Streaming", "Hipoteca", "Préstamos",
   ];
+
+  const serviceTypeMap: Record<string, string> = {
+    "Obra social": "obra social",
+    Teléfono: "telefono",
+    Impuestos: "impuesto",
+    Hipoteca: "casa",
+    Colegiaturas: "colegio",
+    "Tarjeta de Crédito": "auto",
+  };
 
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      service: "",
+      amount: 0,
+    },
+  });
 
   const openModal = (service: string) => {
     setSelectedService(service);
+    setValue("service", service);
     setIsModalOpen(true);
   };
 
@@ -47,9 +57,23 @@ const PayDebts = () => {
     reset();
   };
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(`Servicio: ${selectedService}, Datos:`, data);
-    closeModal();
+  const onSubmit = async (data: FormData) => {
+    const transactionData = {
+      originAccount: account,
+      destinationAccount: "679bc61db30416a98404e7ad",
+      moneyType: "peso",
+      type: serviceTypeMap[data.service] || "otro",
+      extra: data.service,
+      amount: data.amount,
+    };
+
+    try {
+      const response = await transference(token, transactionData);
+      toast.success(response.message || "Pago realizado con éxito.");
+      closeModal();
+    } catch (error) {
+      toast.error(error.message || "Error al realizar el Pago.");
+    }
   };
 
   return (
@@ -62,10 +86,7 @@ const PayDebts = () => {
             className="flex flex-col items-center justify-center h-24 w-full rounded-lg shadow-md bg-gray-100 hover:bg-blue-100"
             onClick={() => openModal(service)}
           >
-            <div className="text-2xl text-gray-700 mb-2">
-              {/* Ícono opcional */}
-              💳
-            </div>
+            <div className="text-2xl text-gray-700 mb-2">💳</div>
             <span className="text-sm font-medium text-gray-800">{service}</span>
           </button>
         ))}
@@ -73,41 +94,20 @@ const PayDebts = () => {
 
       {isModalOpen && (
         <Modal onClose={closeModal}>
-          <h2 className="text-lg font-bold mb-4">
-            Pagar deuda - {selectedService}
-          </h2>
+          <h2 className="text-lg font-bold mb-4">Pagar deuda - {selectedService}</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label
-                htmlFor="accountNumber"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Número de cuenta
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Servicio</label>
               <input
-                id="accountNumber"
                 type="text"
-                {...register("accountNumber", {
-                  required: "El número de cuenta es obligatorio",
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: "Debe ser un número válido",
-                  },
-                })}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                {...register("service")}
+                disabled
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-gray-100"
               />
-              {errors.accountNumber && (
-                <p className="text-red-500 text-sm">
-                  {errors.accountNumber.message}
-                </p>
-              )}
             </div>
 
             <div>
-              <label
-                htmlFor="amount"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
                 Monto
               </label>
               <input
@@ -119,9 +119,7 @@ const PayDebts = () => {
                 })}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
               />
-              {errors.amount && (
-                <p className="text-red-500 text-sm">{errors.amount.message}</p>
-              )}
+              {errors.amount && <p className="text-red-500 text-sm">{errors.amount.message}</p>}
             </div>
 
             <div className="flex justify-end space-x-2">
