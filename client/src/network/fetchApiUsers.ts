@@ -31,3 +31,5 @@ export async function getAccountData(
 
   throw new Error("La estructura de la respuesta del servidor no es válida.");
 }
+
+

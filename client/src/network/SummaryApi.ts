@@ -32,6 +32,11 @@ const SummaryApi = {
         url: `${backendDomain}/transaction/transfer`,
         method: 'post'
     },
+    GetHistoryTransfers: {
+        url: `${backendDomain}/transaction/history`,
+        method: 'get'
+    },
+
 
 }
 
