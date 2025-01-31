@@ -4,7 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const indexRoute = require("./routes/index.route");
 const connect = require("./config/db");
-const morgan = require("morgan")
+const morgan = require("morgan");
 
 //Llamo a la variables de entorno
 dotenv.config();
@@ -14,8 +14,6 @@ connect();
 const server = express();
 
 server.use(express.json());
-
-const PORT = 4000;
 
 const corsOptions = {
   origin: "*",
@@ -27,15 +25,14 @@ const corsOptions = {
 server.use(helmet());
 server.use(cors(corsOptions));
 
-server.use(morgan())
+server.use(morgan());
 
 server.use((req, res, next) => {
-  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-  res.set('Pragma', 'no-cache');
-  res.set('Expires', '0');
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
   next();
 });
-
 
 //Routes in Server
 server.use("/api", indexRoute);
@@ -44,6 +41,8 @@ server.use("/api", indexRoute);
 server.get("/", (req, res) => {
   res.redirect("/api");
 });
+
+const PORT = process.env.PORT || 4000;
 
 server.listen(PORT, () => {
   console.log(`Server listen in http://localhost:${PORT}`);
