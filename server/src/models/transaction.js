@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const cuenta = require("./acount");
+const cuenta = require("./account");
+const Schema = mongoose.Schema;
 
 const transactionSchema = new mongoose.Schema({
   date: {
@@ -7,6 +8,9 @@ const transactionSchema = new mongoose.Schema({
     default: Date.now,
   },
   type: {
+    type: String,
+  },
+  moneyType: {
     type: String,
   },
   amount: {

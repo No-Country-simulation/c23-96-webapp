@@ -1,4 +1,4 @@
-const bcript = require("bcrypt");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const createHttpError = require("http-errors");
 const userModel = require("../../models/user");
@@ -20,7 +20,7 @@ module.exports.login = async (req, res, next) => {
       throw createHttpError(401, "Invalid credentials");
     }
 
-    const passwordMatch = await bcript.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
       console.log("credenciales incorrectas");

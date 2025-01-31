@@ -2,6 +2,7 @@ const { createNewAccount } = require("../../utils/newAccount");
 const createHttpError = require("http-errors");
 const bcrypt = require("bcrypt");
 const userModel = require("../../models/user");
+const { createDebitCards } = require("../../utils/newCards");
 
 module.exports.register = async (req, res, next) => {
   const { name, lastname, email, phone, address, dni, username, password } =
@@ -31,6 +32,8 @@ module.exports.register = async (req, res, next) => {
     // Crear una nueva cuenta (esperar el resultado)
     const account = await createNewAccount();
 
+    //crear una tarjeta de credito
+    const { pesoCard, dolarCard } = await createDebitCards(account._id, `${name} ${lastname}`);
     // Crear el usuario
     const newUser = await userModel.create({
       name,
@@ -44,7 +47,7 @@ module.exports.register = async (req, res, next) => {
       password: passwordHashed,
     });
 
-    res.status(201).json({ newUser, account });
+    res.status(201).json({ newUser, account, cards: { pesoCard, dolarCard } });
   } catch (error) {
     next(error);
   }
