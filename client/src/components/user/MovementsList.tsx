@@ -32,7 +32,7 @@ const MovementsList = () => {
   const movimientos = [
     { id: 1, razon: "Pago supermercado", categoria: "transferencias", fecha: "03/01", monto: "-$150.00" },
     { id: 2, razon: "Transferencia", categoria: "obra social", fecha: "02/01", monto: "+$500.00" },
-    { id: 3, razon: "Transferencia", categoria: "Envíos", fecha: "02/01", monto: "+$500.00" },
+    { id: 3, razon: "Transferencia", categoria: "sueldo", fecha: "02/01", monto: "+$500.00" },
   ];
 
   return (
