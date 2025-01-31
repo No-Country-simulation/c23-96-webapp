@@ -19,6 +19,6 @@ transactionRouter.post("/transfer/cvu", verifyToken, cvuTransfer);
 transactionRouter.post("/transfer/username", usernameTransfer);
 transactionRouter.post("/buyDollars", verifyToken, buyDollars);
 
-transactionRouter.get("/history", verifyToken, history);
+transactionRouter.get("/history", history);
 
 module.exports = transactionRouter;

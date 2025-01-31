@@ -4,29 +4,36 @@ const createHttpError = require("http-errors");
 
 module.exports.history = async (req, res, next) => {
   try {
-    const userId = req.body.user._id;
-    if (!userId) {
-      throw createHttpError(400, "El ID del usuario es necesario");
+    const { account } = req.body;
+
+    if (!account) {
+      throw createHttpError(400, "El número de cuenta es obligatorio.");
     }
 
-    const userAccount = await accountModel.findOne({ user: userId });
+    // Search account by account number
+    const userAccount = await accountModel.findOne({ account });
 
     if (!userAccount) {
-      throw createHttpError(404, "El usuario no existe");
+      throw createHttpError(404, "No se encontró una cuenta con ese número.");
     }
 
-    //If the user has more than one account
-    const accountIds = userAccounts.map((account) => account._id);
-
-    // finds all the transactions from this user
+    // Search transactions
     const transactions = await transactionModel
       .find({
         $or: [
-          { originAccount: { $in: accountIds } },
-          { destinationAccount: { $in: accountIds } },
+          { originAccount: userAccount._id },
+          { destinationAccount: userAccount._id },
         ],
       })
-      .sort({ date: -1 }); // sort by descending date
+      .populate({
+        path: "originccount",
+        select: "account cvu balancePeso balanceDolar",
+      })
+      .populate({
+        path: "destinationAccount",
+        select: "account cvu balancePeso balanceDolar",
+      })
+      .sort({ date: -1 });
 
     res.status(200).json({
       message: "Transacciones recibidas con éxito.",
