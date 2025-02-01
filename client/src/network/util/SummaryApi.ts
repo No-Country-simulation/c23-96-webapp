@@ -13,11 +13,11 @@ const SummaryApi = {
         method: 'post'
     },
     GetAcountUser: {
-        url: `${backendDomain}/users/`,
+        url: `${backendDomain}/users/account/`,
         method: 'get'
     },
     GetCardsUser: {
-        url: `${backendDomain}/users/login`,
+        url: `${backendDomain}/users/cards/`,
         method: 'get'
     },
     EditUser: {
