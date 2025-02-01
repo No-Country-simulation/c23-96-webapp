@@ -6,15 +6,22 @@ import { Link } from "react-router-dom";
 
 const MenuSliceBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { clearAuthData } = useAppStore();
+  const { clearAuthData, isPesos } = useAppStore(); 
+
+  // Definir colores según isPesos
+  const bgColor = isPesos ? "bg-principal" : "bg-blue-400"; 
+  const hoverColor = isPesos ? "hover:bg-cyan-500" : "hover:bg-blue-500"; 
+  const borderColor = isPesos ? "border-orange-400" : "border-blue-200"; 
 
   return (
     <>
       {/* Botón hamburguesa */}
-      <div className="fixed top-9 left-4 z-20 md:hidden">
+      <div className="fixed top-9 left-4 z-30 md:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="text-2xl p-2 bg-cyan-500 text-white rounded-md focus:outline-none"
+          className={`text-3xl p-3 rounded-md focus:outline-none ${
+            isPesos ? "bg-cyan-500 text-white" : "bg-blue-500 text-white"
+          }`}
         >
           {isOpen ? <FiX /> : <FiMenu />}
         </button>
@@ -22,54 +29,46 @@ const MenuSliceBar = () => {
 
       {/* Menú principal */}
       <div
-        className={`fixed flex flex-col left-0 bg-principal h-full text-gray-600 transition-all duration-300 z-10 ${
-          isOpen ? "w-64" : "w-0"
-        } lg:w-64`}
+        className={`fixed flex flex-col left-0 h-full text-gray-700 transition-all duration-300 z-20 ${bgColor} ${
+          isOpen ? "w-72" : "w-0"
+        } lg:w-72`}
       >
         <div className="overflow-y-auto flex flex-col justify-between flex-grow">
-          <ul className={`flex flex-col py-4 space-y-1 ${isOpen ? "block" : "hidden"} lg:block`}>
+          <ul className={`flex flex-col py-6 space-y-2 ${isOpen ? "block" : "hidden"} lg:block`}>
             <li>
               <Link
                 to="/"
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaHome />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Inicio</span>
+                <FaHome className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Inicio</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/transferencia"
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaCheckCircle />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Transferencia</span>
+                <FaCheckCircle className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Transferencia</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/cargarSaldo"
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaUsers />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Cargar Saldo</span>
+                <FaUsers className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Cargar Saldo</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/cuentas"
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaStore />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Pagar Cuentas</span>
+                <FaStore className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Pagar Cuentas</span>
               </Link>
             </li>
             {/* Cerrar Sesión */}
@@ -77,25 +76,23 @@ const MenuSliceBar = () => {
               <button
                 onClick={() => {
                   clearAuthData();
-                  setIsOpen(false); 
+                  setIsOpen(false);
                 }}
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500 w-full text-left"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white w-full text-left`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaSignOutAlt />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Cerrar Sesión</span>
+                <FaSignOutAlt className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Cerrar Sesión</span>
               </button>
             </li>
           </ul>
-          <p className="mb-14 px-5 py-3 hidden md:block text-center text-xs">Copyright @2021</p>
+          <p className="mb-10 px-6 py-3 hidden md:block text-center text-sm">Copyright @2024</p>
         </div>
       </div>
 
-      {/* Fondo oscuro  */}
+      {/* Fondo oscuro */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-5 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"
           onClick={() => setIsOpen(false)}
         ></div>
       )}

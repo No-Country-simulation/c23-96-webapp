@@ -40,7 +40,7 @@ const CardsUser: React.FC = () => {
   if (!card) return <p className="text-center mt-10">Cargando tarjeta...</p>;
 
   return (
-    <div className="flex justify-center mt-10 px-4">
+    <div className="my-10 px-4">
       <div className="w-96 h-56 bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform hover:scale-95">
         <img
           className="relative object-cover w-full h-full rounded-xl"
