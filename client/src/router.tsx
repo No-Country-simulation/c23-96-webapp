@@ -13,6 +13,7 @@ import UserData from "./views/user/UserData";
 import Transferences from "./views/Transferences";
 import PayDebts from "./views/user/PayDebts";
 import LoadBalance from "./views/user/LoadBalance";
+import PaySimulation from "./views/PaySimulation";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -85,14 +86,18 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // Ruta para simulador (disponible para todos los logueados)
+  // Ruta para simulador
   {
     path: "/ingresos",
     element: (
-      <ProtectedRoute>
         <SimulatorLayout />
-      </ProtectedRoute>
     ),
+    children: [
+    {
+      index:true,
+      element: <PaySimulation/>,
+    },
+    ],
   },
 
   // Ruta para autenticación
