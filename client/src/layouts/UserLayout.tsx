@@ -16,7 +16,7 @@ const UserLayout = () => {
         </div>
         
        
-        <div className="lg:col-span-2 flex justify-center items-center p-4 mt-10">
+        <div className="lg:col-span-2 flex lg:justify-center items-center p-4 mt-10">
           <div className="w-full max-w-3xl"> 
             <Outlet />
           </div>
