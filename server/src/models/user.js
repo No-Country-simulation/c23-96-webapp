@@ -19,6 +19,12 @@ const userSchema = new Schema({
     type: String,
     required: [true, "El correo es requerido"],
     unique: true,
+    validate: {
+      validator: function (value) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      },
+      message: "Formato de correo electrónico no válido",
+    },
   },
   Account: {
     type: Schema.Types.ObjectId,
