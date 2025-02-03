@@ -16,7 +16,7 @@ module.exports.history = async (req, res, next) => {
     }
 
     //If the user has more than one account
-    const accountIds = userAccounts.map((account) => account._id);
+    const accountIds = userAccount.map((account) => account._id);
 
     // finds all the transactions from this user
     const transactions = await transactionModel
