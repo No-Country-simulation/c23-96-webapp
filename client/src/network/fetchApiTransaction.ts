@@ -54,3 +54,16 @@ export async function getTransactions(
     },
   });
 }
+
+export async function getTransaction(
+  token: string,
+  account: string
+): Promise<ApiResponse<TTransaction>> {
+  return fetchData(`${SummaryApi.GetTransfer.url}${account}`, {
+    method: SummaryApi.GetTransfer.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+

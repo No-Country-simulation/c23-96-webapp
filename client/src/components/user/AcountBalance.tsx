@@ -28,6 +28,7 @@ const AccountBalance = () => {
         const data = await getAccountData(userId, token);
         getAccount(data)
         setAccount(data);
+        localStorage.setItem("account", JSON.stringify(data))
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
