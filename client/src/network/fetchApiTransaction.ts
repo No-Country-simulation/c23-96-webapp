@@ -8,6 +8,14 @@ export type TTransaction = {
   moneyType: string;
   date: string;
   amount: number;
+  extra?: string;
+  destinationAccount?: {
+    _id: string;
+    cvu: string;
+    balancePeso: number;
+    balanceDolar: number;
+    account: string;
+  };
 };
 
 export async function transference(
@@ -46,7 +54,7 @@ export async function transference(
 export async function getTransactions(
   token: string,
   account: string
-): Promise<ApiResponse<TTransaction>> {
+): Promise<ApiResponse<TTransaction[]>> {
   return fetchData(`${SummaryApi.GetHistoryTransfers.url}/${account}`, {
     method: SummaryApi.GetHistoryTransfers.method,
     headers: {
@@ -57,13 +65,12 @@ export async function getTransactions(
 
 export async function getTransaction(
   token: string,
-  account: string
+  id: string
 ): Promise<ApiResponse<TTransaction>> {
-  return fetchData(`${SummaryApi.GetTransfer.url}${account}`, {
+  return fetchData(`${SummaryApi.GetTransfer.url}/${id}`, {
     method: SummaryApi.GetTransfer.method,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 }
-
