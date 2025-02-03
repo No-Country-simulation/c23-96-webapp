@@ -15,6 +15,6 @@ userRouter.delete('/:id', deleteUser);
 userRouter.get("/account/:id", getAccount);
 
 // Obtener tarjetas por User ID
-userRouter.get("/:id/cards", getCards);
+userRouter.get("/cards/:id", getCards);
 
 module.exports = userRouter;

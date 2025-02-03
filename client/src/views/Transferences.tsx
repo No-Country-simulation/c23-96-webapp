@@ -11,13 +11,13 @@ const TransferForm = () => {
     formState: { errors },
   } = useForm();
 
-  const { token, account } = useAppStore(); // Obtiene el token y la cuenta de origen
+  const { token, account } = useAppStore(); 
 
   const onSubmit = async (data) => {
     const transactionData = {
       ...data,
-      originAccount: account, // Asigna la cuenta de origen
-      type: "transferencia", // Tipo de transacción por defecto
+      originAccount: account, 
+      type: "transferencia", 
     };
 
     try {

@@ -28,6 +28,7 @@ const AccountBalance = () => {
         const data = await getAccountData(userId, token);
         getAccount(data)
         setAccount(data);
+        localStorage.setItem("account", JSON.stringify(data))
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
@@ -37,7 +38,7 @@ const AccountBalance = () => {
   }, [userId, token]);
 
   if (!account) return <p>Cargando datos de la cuenta...</p>;
-  const bgColor = isPesos ? "bg-principal" : "bg-greenaport"
+  const bgColor = isPesos ? "bg-principal" : "bg-blue-400"
 
   return (
     <div className={`min-w-[300px] max-w-sm ${bgColor} bg-gradient-to-r   text-white rounded-2xl shadow-lg p-6 m-4 flex flex-col items-center justify-center`} >

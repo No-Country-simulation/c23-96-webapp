@@ -20,7 +20,7 @@ module.exports.getCards = async (req, res, next) => {
       throw createHttpError(404, "No se encontraron tarjetas asociadas a la cuenta");
     }
 
-    res.status(200).json({ cards });
+    res.status(200).json(cards);
   } catch (error) {
     next(error);
   }
