@@ -30,7 +30,7 @@ const Header = () => {
       {/* Navigation */}
       <nav className={`${isPesos ? ("bg-principal") : ("bg-blue-400")} grid grid-cols-2 justify-around items-center text-white rounded-bl-full lg:rounded-bl-none  p-2 rounded-br-full`}>
         
-        <button className={`${isPesos ? ("bg-orange-700"): ("bg-principal")} p-2 rounded rounded-bl-full`} onClick={PesosPage}>Pesos</button>
+        <button className={`${isPesos ? ("bg-orange-700"): ("bg-principal")} p-2 rounded md:rounded-bl-full`} onClick={PesosPage}>Pesos</button>
         <button className={`${isPesos ? ("bg-blue-500"): ("bg-blue-600")}  p-2 rounded rounded-br-full`} onClick={DolarPage}>Dólares</button>
       </nav>
       </div>

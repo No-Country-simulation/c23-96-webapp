@@ -1,121 +1,149 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Modal from "../../components/ui/Modal";
+import Modal from "../components/ui/Modal";
 import { useAppStore } from "@/store/useAppStore";
 import { transference } from "@/network/fetchApiTransaction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const PaySimulation = () => {
+  interface FormData {
+    transactionType: string;
+    account: string;
+    amount: number;
+    moneyType: string;
+    extra?: string;
+  }
 
-    interface FormData {
-        service: string;
-        amount: number;
-      }
-      const PayDebts = () => {
-        const { account, token } = useAppStore();
-        const [isModalOpen, setIsModalOpen] = useState(false);
-        const [selectedService, setSelectedService] = useState<string | null>(null);
-      
-        const services = [
-          "Luz", "Agua", "Gas", "Internet", "Teléfono",
-          "Cable", "Impuestos", "Seguro", "Mantenimiento",
-          "Tarjeta de Crédito", "Multas", "Colegiaturas",
-          "Streaming", "Hipoteca", "Préstamos",
-        ];
-      
-        const serviceTypeMap: Record<string, string> = {
-          "Obra social": "obra social",
-          Teléfono: "telefono",
-          Impuestos: "impuesto",
-          Hipoteca: "casa",
-          Colegiaturas: "colegio",
-          "Tarjeta de Crédito": "auto",
-        };
-      
-        const {
-          register,
-          handleSubmit,
-          setValue,
-          reset,
-          formState: { errors },
-        } = useForm<FormData>({
-          defaultValues: {
-            service: "",
-            amount: 0,
-          },
-        });
-      
-        const openModal = (service: string) => {
-          setSelectedService(service);
-          setValue("service", service);
-          setIsModalOpen(true);
-        };
-      
-        const closeModal = () => {
-          setIsModalOpen(false);
-          setSelectedService(null);
-          reset();
-        };
-      
-        const onSubmit = async (data: FormData) => {
-          const transactionData = {
-            originAccount: account,
-            destinationAccount: "679bc61db30416a98404e7ad",
-            moneyType: "peso",
-            type: serviceTypeMap[data.service] || "otro",
-            extra: data.service,
-            amount: data.amount,
-          };
-      
-          try {
-            const response = await transference(token, transactionData);
-            toast.success(response.message || "Pago realizado con éxito.");
-            closeModal();
-          } catch (error) {
-            toast.error(error.message || "Error al realizar el Pago.");
-          }
-        };
+  const { token } = useAppStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<string | null>(
+    null
+  );
 
+  const transactions = [
+    "Deposito",
+    "Sueldo",
+    "Subsidios",
+    "Debito",
+    "Retiro de Efectivo",
+    "Subscripcion",
+    "Restaurante",
+    "Supermercado",
+  ];
 
+  const moneyTypeOptions = ["Peso", "Dolar"];
+  const subscriptionOptions = [
+    "Netflix",
+    "Amazon",
+    "YouTube",
+    "Spotify",
+    "Disney+",
+  ];
+  const debitOptions = [
+    "Supermercado",
+    "Electrónica",
+    "Restaurante",
+    "Ropa",
+    "Farmacia",
+  ];
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      transactionType: "",
+      account: "",
+      amount: 0,
+      moneyType: "Peso",
+      extra: "",
+    },
+  });
+
+  const openModal = (transaction: string) => {
+    setSelectedTransaction(transaction);
+    setValue("transactionType", transaction);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedTransaction(null);
+    reset();
+  };
+
+  const onSubmit = async (data: FormData) => {
+    const isSum = ["Deposito", "Sueldo", "Subsidios"].includes(
+      data.transactionType
+    );
+    const originAccount = isSum ? "679bc61db30416a98404e7ad" : data.account;
+    const destinationAccount = isSum
+      ? data.account
+      : "679bc61db30416a98404e7ad";
+
+    const transactionData = {
+      originAccount,
+      destinationAccount,
+      amount: data.amount,
+      moneyType: data.moneyType.toLowerCase(),
+      type: data.transactionType.toLowerCase(),
+      extra: data.extra || data.moneyType,
+    };
+
+    try {
+      const response = await transference(token, transactionData);
+      toast.success(response.message || "Transacción realizada con éxito.");
+      closeModal();
+    } catch (error) {
+      toast.error(error.message || "Error al realizar la transacción.");
+    }
+  };
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">Selecciona un servicio para pagar</h1>
+      <h1 className="text-xl font-bold mb-4">Selecciona una operación</h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {services.map((service) => (
+        {transactions.map((transaction) => (
           <button
-            key={service}
+            key={transaction}
             className="flex flex-col items-center justify-center h-24 w-full rounded-lg shadow-md bg-gray-100 hover:bg-blue-100"
-            onClick={() => openModal(service)}
+            onClick={() => openModal(transaction)}
           >
             <div className="text-2xl text-gray-700 mb-2">💳</div>
-            <span className="text-sm font-medium text-gray-800">{service}</span>
+            <span className="text-sm font-medium text-gray-800">
+              {transaction}
+            </span>
           </button>
         ))}
       </div>
 
       {isModalOpen && (
         <Modal onClose={closeModal}>
-          <h2 className="text-lg font-bold mb-4">Pagar deuda - {selectedService}</h2>
+          <h2 className="text-lg font-bold mb-4">{selectedTransaction}</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Servicio</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Cuenta
+              </label>
               <input
                 type="text"
-                {...register("service")}
-                disabled
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-gray-100"
+                {...register("account", {
+                  required: "Este campo es obligatorio",
+                })}
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
 
             <div>
-              <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700">
                 Monto
               </label>
               <input
-                id="amount"
                 type="number"
                 {...register("amount", {
                   required: "El monto es obligatorio",
@@ -123,8 +151,67 @@ const PaySimulation = () => {
                 })}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
               />
-              {errors.amount && <p className="text-red-500 text-sm">{errors.amount.message}</p>}
+              {errors.amount && (
+                <p className="text-red-500 text-sm">{errors.amount.message}</p>
+              )}
             </div>
+
+            {selectedTransaction &&
+              ["Debito", "Retiro de Efectivo", "Deposito", "Sueldo"].includes(
+                selectedTransaction
+              ) && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Moneda
+                  </label>
+                  <select
+                    {...register("moneyType")}
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                  >
+                    {moneyTypeOptions.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+            {selectedTransaction === "Subscripcion" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Servicio
+                </label>
+                <select
+                  {...register("extra")}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                >
+                  {subscriptionOptions.map((service) => (
+                    <option key={service} value={service}>
+                      {service}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {selectedTransaction === "Debito" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Categoría
+                </label>
+                <select
+                  {...register("extra")}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                >
+                  {debitOptions.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div className="flex justify-end space-x-2">
               <button
@@ -138,7 +225,7 @@ const PaySimulation = () => {
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
               >
-                Pagar
+                Confirmar
               </button>
             </div>
           </form>
@@ -148,5 +235,4 @@ const PaySimulation = () => {
   );
 };
 
-
-export default PaySimulation
+export default PaySimulation;
