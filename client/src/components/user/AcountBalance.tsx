@@ -18,7 +18,7 @@ const AccountBalance = () => {
   const { userId, token, isPesos, getAccount } = useAppStore();
 
   useEffect(() => {
-    console.log("UserID:", userId, "Token:", token);
+    
     const fetchAccount = async () => {
       if (!userId || !token) {
         console.error("Faltan datos para realizar la petición.");
@@ -26,9 +26,9 @@ const AccountBalance = () => {
       }
       try {
         const data = await getAccountData(userId, token);
-        console.log("Response data:", data);
         getAccount(data)
         setAccount(data);
+        localStorage.setItem("account", JSON.stringify(data))
       } catch (error) {
         console.error("Error fetching account data:", error);
       }
@@ -38,7 +38,7 @@ const AccountBalance = () => {
   }, [userId, token]);
 
   if (!account) return <p>Cargando datos de la cuenta...</p>;
-  const bgColor = isPesos ? "bg-principal" : "bg-greenaport"
+  const bgColor = isPesos ? "bg-principal" : "bg-blue-400"
 
   return (
     <div className={`min-w-[300px] max-w-sm ${bgColor} bg-gradient-to-r   text-white rounded-2xl shadow-lg p-6 m-4 flex flex-col items-center justify-center`} >

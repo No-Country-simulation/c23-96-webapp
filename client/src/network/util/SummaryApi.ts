@@ -13,11 +13,11 @@ const SummaryApi = {
         method: 'post'
     },
     GetAcountUser: {
-        url: `${backendDomain}/users/`,
+        url: `${backendDomain}/users/account/`,
         method: 'get'
     },
     GetCardsUser: {
-        url: `${backendDomain}/users/login`,
+        url: `${backendDomain}/users/cards/`,
         method: 'get'
     },
     EditUser: {
@@ -28,6 +28,19 @@ const SummaryApi = {
         url: `${backendDomain}/users/login`,
         method: 'delete'
     },
+    Transference: {
+        url: `${backendDomain}/transaction/transfer`,
+        method: 'post'
+    },
+    GetHistoryTransfers: {
+        url: `${backendDomain}/transaction/history`,
+        method: 'get'
+    },
+    GetTransfer: {
+        url: `${backendDomain}/transaction/`,
+        method: 'get'
+    },
+
 }
 
 export default SummaryApi;

@@ -1,18 +1,14 @@
+import { Outlet } from "react-router-dom"
 
 
 const SimulatorLayout = () => {
   return (
-    <div>
-        <div>
-          
-        </div>
-        <div>
-          
-        </div>
-        <div>
-          
-        </div>
-    </div>
+    <div className="">
+      <h1>Elije que Deseas Simular</h1>
+    <main className="md:w-3/4 sm:w-3/4  bg-white mx-5 p-6 rounded-md shadow-md ">
+    <Outlet />
+  </main>
+  </div>
   )
 }
 

@@ -53,7 +53,7 @@ module.exports.login = async (req, res, next) => {
     failedAttempts[dni] = 0;
 
     const token = jwt.sign({ dni: user.dni }, process.env.TOKEN_KEY, {
-      expiresIn: "1h",
+      expiresIn: "7d",
     });
 
     res.status(201).json({

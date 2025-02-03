@@ -1,105 +1,105 @@
 import { useAppStore } from "@/store/useAppStore";
 import { useState } from "react";
 import { FaHome, FaCheckCircle, FaUsers, FaStore, FaSignOutAlt } from "react-icons/fa";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const MenuSliceBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { clearAuthData } = useAppStore();
+  const { clearAuthData, isPesos } = useAppStore(); 
+
+  const bgColor = isPesos ? "bg-principal" : "bg-blue-400"; 
+  const hoverColor = isPesos ? "hover:bg-cyan-500" : "hover:bg-blue-500"; 
+  const borderColor = isPesos ? "border-orange-400" : "border-blue-200"; 
+  const buttonColor = isPesos ? "bg-orange-500" : "bg-white text-blue-500";
 
   return (
-    <>
-      {/* Botón hamburguesa */}
-      <div className="fixed top-9 left-4 z-20 md:hidden">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-2xl p-2 bg-cyan-500 text-white rounded-md focus:outline-none"
-        >
-          {isOpen ? <FiX /> : <FiMenu />}
-        </button>
-      </div>
-
+    <div className="flex">
       {/* Menú principal */}
       <div
-        className={`fixed flex flex-col left-0 bg-principal h-full text-gray-600 transition-all duration-300 z-10 ${
+        className={`fixed flex flex-col left-0 h-full text-gray-700 transition-all duration-300 z-20 ${bgColor} ${
           isOpen ? "w-64" : "w-0"
-        } lg:w-64`}
+        } lg:w-1/3 lg:block overflow-hidden top-0`}
       >
-        <div className="overflow-y-auto flex flex-col justify-between flex-grow">
-          <ul className={`flex flex-col py-4 space-y-1 ${isOpen ? "block" : "hidden"} lg:block`}>
+        <div className="overflow-y-auto flex flex-col justify-between flex-grow relative h-full">
+          <button 
+            className="absolute top-1/2 right-0 transform -translate-y-1/2  text-white p-2 rounded-l-md lg:hidden"
+            onClick={() => setIsOpen(false)}
+          >
+           
+          </button>
+
+          <ul className={`flex flex-col lg:mt-16 py-6 space-y-2 ${isOpen ? "block" : "hidden"} lg:block`}>
             <li>
               <Link
                 to="/"
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaHome />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Inicio</span>
+                <FaHome className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Inicio</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/transferencia"
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaCheckCircle />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Transferencia</span>
+                <FaCheckCircle className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Transferencia</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/cargarSaldo"
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaUsers />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Cargar Saldo</span>
+                <FaUsers className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Cargar Saldo</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/cuentas"
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaStore />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Pagar Cuentas</span>
+                <FaStore className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Pagar Cuentas</span>
               </Link>
             </li>
-            {/* Cerrar Sesión */}
             <li>
               <button
                 onClick={() => {
                   clearAuthData();
-                  setIsOpen(false); 
+                  setIsOpen(false);
                 }}
-                className="relative border-orange-400 border-b-2 flex flex-row items-center h-11 focus:outline-none hover:bg-cyan-500 text-gray-600 hover:text-white hover:border-cyan-500 w-full text-left"
+                className={`relative flex flex-row items-center h-14 px-5 text-lg ${borderColor} border-b-2 focus:outline-none ${hoverColor} hover:text-white w-full text-left`}
               >
-                <span className="inline-flex justify-center items-center ml-4 text-lg">
-                  <FaSignOutAlt />
-                </span>
-                <span className="ml-2 text-sm tracking-wide truncate">Cerrar Sesión</span>
+                <FaSignOutAlt className="text-2xl" />
+                <span className="ml-3 text-base font-semibold">Cerrar Sesión</span>
               </button>
             </li>
           </ul>
-          <p className="mb-14 px-5 py-3 hidden md:block text-center text-xs">Copyright @2021</p>
         </div>
       </div>
 
-      {/* Fondo oscuro  */}
+      {/* Botón de menú */}
+      <div className="fixed top-1/2 left-2 transform -translate-y-1/2 z-30 lg:hidden">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`text-3xl p-3 rounded-md focus:outline-none ${buttonColor}`}
+        >
+          <FiX />
+        </button>
+      </div>
+
+      {/* Fondo oscuro */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-5 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden"
           onClick={() => setIsOpen(false)}
         ></div>
       )}
-    </>
+    </div>
   );
 };
 

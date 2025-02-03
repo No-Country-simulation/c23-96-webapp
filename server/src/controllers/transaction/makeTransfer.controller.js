@@ -3,7 +3,7 @@ const accountModel = require("../../models/account");
 const transactionModel = require("../../models/transaction");
 
 module.exports.makeTransfer = async (req, res, next) => {
-  const { originAccount, destinationAccount, amount, moneyType } = req.body;
+  const { originAccount, destinationAccount, amount, moneyType, type, extra } = req.body;
 
   try {
     // Validar datos
@@ -61,10 +61,15 @@ module.exports.makeTransfer = async (req, res, next) => {
     await origin.save();
     await destination.save();
 
+    if(extra === undefined){
+      extra = ''
+    };
+
     // Create transaction
     const transaction = await transactionModel.create({
-      type: "transfer",
+      type: type,
       amount,
+      extra,
       moneyType,
       originAccount: origin._id,
       destinationAccount: destination._id,

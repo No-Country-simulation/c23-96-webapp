@@ -33,7 +33,6 @@ const Login = () => {
       reset();
       navigate("/");
 
-      console.log("Token:", token);
     } catch (error) {
       toast.error("Ocurrió un error al ingresar");
       console.log("Error al registrar:", error);

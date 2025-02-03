@@ -17,6 +17,9 @@ const transactionSchema = new mongoose.Schema({
     type: Number,
     required: [true, "El monto es requerido"],
   },
+  extra: {
+    type: String,
+  },
   originccount: {
     type: Schema.Types.ObjectId,
     ref: cuenta,
