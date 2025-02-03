@@ -17,7 +17,7 @@ module.exports.history = async (req, res, next) => {
       throw createHttpError(404, "No se encontró una cuenta con ese número.");
     }
 
-    // Search transactions
+    // finds all the transactions from this user
     const transactions = await transactionModel
       .find({
         $or: [
@@ -35,9 +35,7 @@ module.exports.history = async (req, res, next) => {
       })
       .sort({ date: -1 });
 
-    res.status(200).json(
-      transactions,
-    );
+    res.status(200).json(transactions);
   } catch (error) {
     next(error);
   }
