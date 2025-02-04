@@ -24,10 +24,10 @@ const ProtectedRoute = ({ children , rol }: ProtectedRouteProps) => {
   const { isLogged, user } = useAppStore();
 
   if (!isLogged()) {
-    return <Navigate to="/auth/registro" replace />;
+    return <Navigate to="/auth/ingreso" replace />;
   }
-
   if (rol && user?.rol !== rol) {
+    console.log(`Acceso denegado: se esperaba rol ${rol}, pero el usuario tiene ${user?.rol}`);
     return <Navigate to="/" replace />;
   }
   return children;
@@ -35,6 +35,7 @@ const ProtectedRoute = ({ children , rol }: ProtectedRouteProps) => {
 
 
 export const router = createBrowserRouter([
+  // RUTA PARA USUARIOS
   {
     path: "/",
     element: (
@@ -49,58 +50,56 @@ export const router = createBrowserRouter([
       },
       {
         path: "user",
-        element: <UserData/>
+        element: <UserData />
       },
       {
         path: "transferencia",
-        element: <Transferences/>
+        element: <Transferences />
       },
       {
         path: "cuentas",
-        element: <PayDebts/>
+        element: <PayDebts />
       },
       {
         path: "cargarSaldo",
-        element: <LoadBalance/>
+        element: <LoadBalance />
       },
     ],
   },
 
-  // Ruta para administradores
+  // 🔹 CORRECCIÓN: RUTA PARA ADMINISTRADORES
   {
     path: "/admin",
     element: (
-      <ProtectedRoute rol="admin">
+      <ProtectedRoute rol="admin"> {/* Asegura que solo admin entra */}
         <AdminLayout />
       </ProtectedRoute>
     ),
     children: [
       {
         index: true,
-        element: <AdminDashboard />,
+        element: <AdminDashboard />, 
       },
       {
         path: "transferencia",
-        element: <Transferences/>
+        element: <Transferences />,
       },
     ],
   },
 
-  // Ruta para simulador
+  // RUTA PARA SIMULADOR
   {
     path: "/ingresos",
-    element: (
-        <SimulatorLayout />
-    ),
+    element: <SimulatorLayout />,
     children: [
-    {
-      index:true,
-      element: <PaySimulation/>,
-    },
+      {
+        index: true,
+        element: <PaySimulation />,
+      },
     ],
   },
 
-  // Ruta para autenticación
+  // RUTA PARA AUTENTICACIÓN
   {
     path: "/auth/",
     element: <AuthLayout />,

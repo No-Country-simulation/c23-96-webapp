@@ -31,8 +31,11 @@ const Login = () => {
 
       toast.success("Ingreso exitoso");
       reset();
-      navigate("/");
-
+      if (userData.rol === "admin") {
+        navigate("/admin", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
     } catch (error) {
       toast.error("Ocurrió un error al ingresar");
       console.log("Error al registrar:", error);

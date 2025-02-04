@@ -2,7 +2,7 @@ import { useAppStore } from "@/store/useAppStore";
 import AcountBalance from "../../components/user/AcountBalance";
 import CardsUser from "../../components/user/CardsUser";
 import CarrucelOfOfter from "../../components/user/CarrucelOfOfter";
-import MovementsList from "../../components/user/MovementsList";
+import MovementsList from "../../components/MovementsList";
 
 const HomeUser = () => {
 
@@ -17,7 +17,9 @@ const HomeUser = () => {
 
       <CarrucelOfOfter/>
 
-      <MovementsList/>
+      <MovementsList
+      admin={false}
+      />
     </>
   );
 };

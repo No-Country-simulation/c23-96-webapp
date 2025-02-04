@@ -63,6 +63,17 @@ export async function getTransactions(
   });
 }
 
+export async function getAllTransactions(
+  token: string,
+): Promise<ApiResponse<TTransaction[]>> {
+  return fetchData(SummaryApi.GetAllHistoryTransfers.url, {
+    method: SummaryApi.GetAllHistoryTransfers.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 export async function getTransaction(
   token: string,
   id: string

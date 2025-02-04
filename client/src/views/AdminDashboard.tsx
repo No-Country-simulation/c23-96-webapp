@@ -1,10 +1,15 @@
-import StatsGraphic from '../components/admin/StatsGraphic'
-import React from 'react'
+import AllUsers from "@/components/admin/AllUsers";
+import MovementsList from "@/components/MovementsList";
+
 
 const AdminDashboard = () => {
   return (
-    <StatsGraphic/>
-  )
-}
+    <>
+      <AllUsers />
 
-export default AdminDashboard
+      <MovementsList admin={true} />
+    </>
+  );
+};
+
+export default AdminDashboard;
