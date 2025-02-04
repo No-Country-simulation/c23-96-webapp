@@ -14,7 +14,7 @@ const { verifyToken } = require("../middlewares/verifyToken.middleware");
 
 const transactionRouter = express.Router();
 
-transactionRouter.post("/transfer", verifyToken, makeTransfer);
+transactionRouter.post("/transfer", makeTransfer);
 transactionRouter.post("/transfer/cvu", verifyToken, cvuTransfer);
 transactionRouter.post("/transfer/username", usernameTransfer);
 transactionRouter.post("/buyDollars", verifyToken, buyDollars);
