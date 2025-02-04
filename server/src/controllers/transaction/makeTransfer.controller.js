@@ -3,31 +3,8 @@ const accountModel = require("../../models/account");
 const transactionModel = require("../../models/transaction");
 const userModel = require("../../models/user");
 
-const DAILY_LIMIT = 10; // Diary limit for "user" role users
-
-async function checkDailyLimit(originAccountId, amount) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Start of the day
-
-  const totalToday = await transactionModel.aggregate([
-    {
-      $match: {
-        originccount: originAccountId,
-        createdAt: { $gte: today },
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        totalAmount: { $sum: "$amount" },
-      },
-    },
-  ]);
-
-  const dailyTotal = totalToday.length ? totalToday[0].totalAmount : 0;
-
-  return dailyTotal + amount > DAILY_LIMIT;
-}
+const pesosLimit = 10; // Diary limit for "user" role users in pesos
+const dollarsLimit = 10; // Diary limit for "user" role users in dollars
 
 module.exports.makeTransfer = async (req, res, next) => {
   try {
@@ -60,9 +37,23 @@ module.exports.makeTransfer = async (req, res, next) => {
     const user = await userModel.findOne({ Account: origin._id });
 
     if (user?.rol === "user") {
-      const exceedsLimit = await checkDailyLimit(origin._id, amount);
-      if (exceedsLimit) {
-        throw createHttpError(400, "Límite diario de transferencias excedido.");
+      if (
+        moneyType === "peso" &&
+        origin.transferredPeso + amount > pesosLimit
+      ) {
+        throw createHttpError(
+          400,
+          "Límite diario de transferencias en pesos excedido."
+        );
+      }
+      if (
+        moneyType === "dolar" &&
+        origin.transferredDolar + amount > dollarsLimit
+      ) {
+        throw createHttpError(
+          400,
+          "Límite diario de transferencias en dólares excedido."
+        );
       }
     }
 
@@ -75,6 +66,7 @@ module.exports.makeTransfer = async (req, res, next) => {
       }
       origin.balancePeso -= amount;
       destination.balancePeso += amount;
+      origin.transferredPeso += amount;
     } else if (moneyType === "dolar") {
       if (origin.balanceDolar < amount) {
         throw createHttpError(
@@ -82,8 +74,10 @@ module.exports.makeTransfer = async (req, res, next) => {
           "Saldo insuficiente en la cuenta de origen."
         );
       }
+
       origin.balanceDolar -= amount;
       destination.balanceDolar += amount;
+      origin.transferredDolar += amount;
     } else {
       throw createHttpError(400, "Tipo de moneda inválido.");
     }
@@ -91,7 +85,7 @@ module.exports.makeTransfer = async (req, res, next) => {
     await origin.save();
     await destination.save();
 
-    // Create a new transaction
+    // Create Transaction
     const transaction = await transactionModel.create({
       type: "transfer",
       amount,
