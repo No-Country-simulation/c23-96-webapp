@@ -24,7 +24,6 @@ const AllUsers = () => {
     const fetchUsers = async () => {
       try {
         const response = await getAllUsers(token);
-        console.log("Respuesta completa de getAllUsers:", response);
 
         if (response && response.data) {
           if (Array.isArray(response.data)) {

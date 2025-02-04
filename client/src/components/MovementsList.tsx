@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAppStore } from "../store/useAppStore";
-import { getTransactions, TTransaction, getTransaction, getAllTransactions } from "@/network/fetchApiTransaction";
+import {
+  getTransactions,
+  TTransaction,
+  getTransaction,
+  getAllTransactions,
+} from "@/network/fetchApiTransaction";
 
 import Modal from "./ui/Modal";
 import { BiTransferAlt } from "react-icons/bi";
@@ -15,7 +20,7 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
   const [transactions, setTransactions] = useState<TTransaction[]>([]);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   const idAccount = account?.account;
 
   useEffect(() => {
@@ -34,10 +39,10 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
         console.error("Error fetching transactions:", error);
       }
     };
-  
+
     fetchData();
   }, [idAccount, token, admin]);
-  
+
   const openModal = async (transactionId: string) => {
     if (!token) return;
     try {
@@ -103,7 +108,11 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
                 </p>
               </div>
             </div>
-            <p className={`font-bold ${amount < 0 ? "text-red-600" : "text-green-600"}`}>
+            <p
+              className={`font-bold ${
+                amount < 0 ? "text-red-600" : "text-green-600"
+              }`}
+            >
               {amount < 0 ? "-" : "+"}${Math.abs(amount)}
             </p>
           </li>
@@ -118,7 +127,9 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
             </h2>
 
             <div className="flex items-center justify-center mb-4">
-              <span className="text-4xl text-blue-600">{getCategoryIcon(selectedTransaction.type)}</span>
+              <span className="text-4xl text-blue-600">
+                {getCategoryIcon(selectedTransaction.type)}
+              </span>
             </div>
 
             <div className="space-y-3">
@@ -128,28 +139,43 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
               </div>
               <div className="flex justify-between border-b pb-2">
                 <span className="text-gray-600">Monto</span>
-                <span className={`font-bold ${selectedTransaction.amount < 0 ? "text-red-600" : "text-green-600"}`}>
-                  {selectedTransaction.amount < 0 ? "-" : "+"}${Math.abs(selectedTransaction.amount)}
+                <span
+                  className={`font-bold ${
+                    selectedTransaction.amount < 0
+                      ? "text-red-600"
+                      : "text-green-600"
+                  }`}
+                >
+                  {selectedTransaction.amount < 0 ? "-" : "+"}$
+                  {Math.abs(selectedTransaction.amount)}
                 </span>
               </div>
               <div className="flex justify-between border-b pb-2">
                 <span className="text-gray-600">Moneda</span>
-                <span className="font-medium">{selectedTransaction.moneyType}</span>
+                <span className="font-medium">
+                  {selectedTransaction.moneyType}
+                </span>
               </div>
               <div className="flex justify-between border-b pb-2">
                 <span className="text-gray-600">Fecha</span>
-                <span className="font-medium">{new Date(selectedTransaction.date).toLocaleString()}</span>
+                <span className="font-medium">
+                  {new Date(selectedTransaction.date).toLocaleString()}
+                </span>
               </div>
               {selectedTransaction.extra && (
                 <div className="flex justify-between border-b pb-2">
                   <span className="text-gray-600">Notas</span>
-                  <span className="font-medium">{selectedTransaction.extra}</span>
+                  <span className="font-medium">
+                    {selectedTransaction.extra}
+                  </span>
                 </div>
               )}
               {selectedTransaction.destinationAccount && (
                 <div className="flex justify-between border-b pb-2">
                   <span className="text-gray-600">Destino (CVU)</span>
-                  <span className="font-medium">{selectedTransaction.destinationAccount.cvu}</span>
+                  <span className="font-medium">
+                    {selectedTransaction.destinationAccount.cvu}
+                  </span>
                 </div>
               )}
             </div>

@@ -48,6 +48,28 @@ const SummaryApi = {
         url: `${backendDomain}/transaction/`,
         method: 'get'
     },
+    GetAllOffers: {
+        url: `${backendDomain}/admin/offer`,
+        method: 'get'
+    },
+    GetOneOffer: {
+        url: `${backendDomain}/admin/offer/`,
+        method: 'get'
+    },
+    EditOffer: {
+        url: `${backendDomain}/admin/offer/`,
+        method: 'put'
+    },
+    DeleteOffer: {
+        url: `${backendDomain}/admin/offer/`,
+        method: 'delete'
+    },
+    Createoffer: {
+        url: `${backendDomain}/admin/offer`,
+        method: 'post'
+    },
+
+
 
 
 }
