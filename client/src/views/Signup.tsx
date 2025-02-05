@@ -83,7 +83,7 @@ const Signup = () => {
             id="email"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre "
+            placeholder="Ingrese tu Correo Electronico"
             {...register("email", {
               required: "El Correo es Obligatorio!!",
             })}
@@ -99,7 +99,7 @@ const Signup = () => {
             id="dni"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Ingrese su Numero de Documento"
+            placeholder="Ingrese tu Numero de Documento"
             {...register("dni", {
               required: "El DNI es Obligatorio!!",
             })}
@@ -116,7 +116,7 @@ const Signup = () => {
               id="password"
               className="w-full p-3 focus:outline-none"
               type={showPassword ? "text" : "password"}
-              placeholder="Nombre"
+              placeholder="Ingrese tu Contraseña"
               {...register("password", {
                 required: "La contraseña es Obligatoria!!",
               })}
@@ -146,7 +146,7 @@ const Signup = () => {
             id="address"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre "
+            placeholder="Ingrese Su Direccion"
             {...register("address", {
               required: "La direccion es Obligatoria!!",
             })}
@@ -163,7 +163,7 @@ const Signup = () => {
             id="username"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre " //TODO: Es necesario Nombre de usuario???
+            placeholder="Ingresa el Nombre que quieras de Usuario " 
             {...register("username", {
               required: "El nombre de usuario es Obligatorio!!",
             })}
@@ -179,7 +179,7 @@ const Signup = () => {
             id="phone"
             className="w-full p-3  border border-gray-100"
             type="text"
-            placeholder="Nombre " //TODO: añadirle un formato de telefono
+            placeholder="Ingrese su Telefono " 
             {...register("phone", {
               required: "El Numero de Telefono es Obligatorio!!",
             })}

@@ -3,8 +3,8 @@ const accountModel = require("../../models/account");
 const transactionModel = require("../../models/transaction");
 const userModel = require("../../models/user");
 
-const pesosLimit = 10; // Daily limit for "user" role users in pesos
-const dollarsLimit = 10; // Daily limit for "user" role users in dollars
+const pesosLimit = 5000000; // Daily limit for "user" role users in pesos
+const dollarsLimit = 1000; // Daily limit for "user" role users in dollars
 
 module.exports.makeTransfer = async (req, res, next) => {
   try {

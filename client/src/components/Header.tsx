@@ -32,12 +32,12 @@ const Header = () => {
               className="flex items-center gap-2"
             >
               <MdAccountCircle className="text-black text-2xl" />
-              <h3 className="text-sm text-white">Hola {user?.username}</h3>
+              <h3 className="font-bold text-white">Hola {user?.username}</h3>
             </button>
           ) : (
             <Link to={"user"} className="flex items-center gap-2">
               <MdAccountCircle className="text-black text-2xl" />
-              <h3 className="text-sm text-white">Hola {user?.username}</h3>
+              <h3 className="md:text-xl font-bold text-lg text-white">Hola {user?.username}</h3>
             </Link>
           )}
 

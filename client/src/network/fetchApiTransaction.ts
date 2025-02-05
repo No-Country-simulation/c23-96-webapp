@@ -85,3 +85,34 @@ export async function getTransaction(
     },
   });
 }
+
+
+export async function buyDollars(
+  token: string,
+  accountId:string,
+  amount: string,
+): Promise<any> {
+  return fetchData(`${SummaryApi.BuyDollars.url}${accountId}`, {
+    method: SummaryApi.BuyDollars.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ amount: Number(amount) })
+  });
+}
+
+export async function buyPesos(
+  token: string,
+  accountId:string,
+  amount: string,
+): Promise<any> {
+  return fetchData(`${SummaryApi.BuyPesos.url}${accountId}`, {
+    method: SummaryApi.BuyPesos.method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ amount: Number(amount) })
+  });
+}

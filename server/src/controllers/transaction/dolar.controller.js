@@ -5,7 +5,7 @@ const userModel = require("../../models/user");
 
 const OPEN_EXCHANGE_API = "https://openexchangerates.org/api/latest.json";
 const APP_ID = process.env.OPEN_EXCHANGE_APP_ID;
-const limit = 10; // Límite diario de compra de dólares
+const limit = 500; // Límite diario de compra de dólares
 
 module.exports.buyDollars = async (req, res, next) => {
   const { amount } = req.body;
@@ -41,7 +41,7 @@ module.exports.buyDollars = async (req, res, next) => {
     account.dollarsBought = account.dollarsBought || 0;
 
     // Verificar si se excede el límite diario
-    if (account.dollarsBought + amount > DAILY_DOLLAR_LIMIT) {
+    if (account.dollarsBought + amount > limit) {
       throw createHttpError(
         400,
         "Límite diario de compra de dólares excedido."
