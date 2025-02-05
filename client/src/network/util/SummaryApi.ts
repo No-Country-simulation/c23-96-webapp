@@ -68,6 +68,14 @@ const SummaryApi = {
         url: `${backendDomain}/admin/offer`,
         method: 'post'
     },
+    BuyDollars: {
+        url: `${backendDomain}/transaction/buyDollars/`,
+        method: 'post'
+    },
+    BuyPesos: {
+        url: `${backendDomain}/transaction/buyPesos/`,
+        method: 'post'
+    },
 
 
 
