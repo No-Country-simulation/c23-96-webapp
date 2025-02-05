@@ -6,15 +6,14 @@ const { newOffer } = require("../controllers/admin/offer/newOffer.controller");
 const { getOffers } = require("../controllers/admin/offer/getOffers.controller");
 const { updateOffer } = require("../controllers/admin/offer/updateOffer.controller");
 
-
 const adminRouter = express.Router();
 
 adminRouter.get("/", verifyToken, listUsers);
 adminRouter.get("/history", history);
-
 adminRouter.post("/offer", newOffer);
 adminRouter.get("/offer", getOffers);
 adminRouter.delete("/offer/:id", newOffer);
 adminRouter.put("/offer/:id", updateOffer)
+
 
 module.exports = adminRouter;
