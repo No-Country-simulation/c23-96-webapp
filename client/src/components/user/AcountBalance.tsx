@@ -8,7 +8,6 @@ type AccountDetails = {
   balancePeso: number;
   balanceDolar: number;
   account: string;
-  __v: number;
 };
 
 const AccountBalance = () => {

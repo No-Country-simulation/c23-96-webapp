@@ -22,20 +22,25 @@ const CardsUser: React.FC = () => {
         console.log("Faltan Datos para realizar la petición");
         return;
       }
+      
       try {
         const data: Card[] = await getCardsData(userId, token);
-        if (data.length > 0) {
+        console.log(data.data)
+        if (data.data.length > 0) {
           const selectedCard = isPesos
-            ? data.find((c) => c.type === "peso")
-            : data.find((c) => c.type === "dolar");
+            ? data.data.find((c) => c.type === "peso")
+            : data.data.find((c) => c.type === "dolar");
+  
           setCard(selectedCard || null);
         }
       } catch (error) {
         console.log("Error fetching account data:", error);
       }
     };
+
     fetchCardsUser();
   }, [userId, token, isPesos]);
+  
 
   if (!card) return <p className="text-center mt-10">Cargando tarjeta...</p>;
 
