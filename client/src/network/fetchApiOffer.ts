@@ -3,16 +3,16 @@ import SummaryApi from "./util/SummaryApi";
 import { fetchData } from "./util/fetchFunction";
 
 interface Offer {
-    id: string;
+    id?: string; 
     title: string;
     description: string;
-    createdBy?: string;
     createdAt?: string;
   }
  
 
   export async function createOffer(
     token: string,
+    bodyOffer: Offer,
   ): Promise<ApiResponse<Offer[]>> {
     return fetchData(SummaryApi.Createoffer.url, {
       method: SummaryApi.Createoffer.method,
@@ -20,6 +20,7 @@ interface Offer {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(bodyOffer)
     });
   }
   

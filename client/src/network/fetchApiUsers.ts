@@ -8,7 +8,6 @@ type AccountDetails = {
   balancePeso: number;
   balanceDolar: number;
   account: string;
-  __v: number;
 };
 
 // Get Account data of user
@@ -25,13 +24,11 @@ export async function getAccountData(
       },
     }
   );
+  const accountData = Array.isArray(data.data) ? data.data[0] : data.data;
 
-  if (data && data._id) {
-    return data; 
-  }
-
-  throw new Error("La estructura de la respuesta del servidor no es válida.");
+  return accountData;
 }
+
 
 type Card = {
   _id: string;
@@ -50,12 +47,7 @@ export async function getCardsData(userID: string, token: string): Promise<Card[
       Authorization: `Bearer ${token}`,
     },
   });
-
-  if (Array.isArray(data)) {
-    return data;
-  }
-
-  throw new Error("La estructura de la respuesta del servidor no es válida.");
+  return data
 }
 
 // Función para obtener todos los usuarios
@@ -109,11 +101,10 @@ async function fetchData(url: string, options: RequestInit): Promise<ApiResponse
     }
 
     const data = await response.json();
-    console.log("Datos recibidos de la API:", data);
-    return { data }; // Asegúrate de que ApiResponse sea del tipo adecuado para los datos.
+    return { data }; 
   } catch (error) {
     console.error("Error en fetchData:", error);
-    return { data: [] }; // Devuelve un valor vacío en caso de error.
+    return { data: [] }; 
   }
 }
 

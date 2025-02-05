@@ -29,6 +29,9 @@ const ProtectedRoute = ({ children , rol }: ProtectedRouteProps) => {
   if (rol && user?.rol !== rol) {
     console.log(`Acceso denegado: se esperaba rol ${rol}, pero el usuario tiene ${user?.rol}`);
     return <Navigate to="/" replace />;
+    if(rol === "admin"){
+      return <Navigate to="/" replace />
+    }
   }
   return children;
 };
@@ -71,7 +74,7 @@ export const router = createBrowserRouter([
   {
     path: "/admin",
     element: (
-      <ProtectedRoute rol="admin"> {/* Asegura que solo admin entra */}
+      <ProtectedRoute rol="admin"> 
         <AdminLayout />
       </ProtectedRoute>
     ),
@@ -79,10 +82,6 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <AdminDashboard />, 
-      },
-      {
-        path: "transferencia",
-        element: <Transferences />,
       },
     ],
   },

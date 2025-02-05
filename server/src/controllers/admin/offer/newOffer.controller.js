@@ -8,7 +8,7 @@ module.exports.newOffer = async (req, res, next) => {
       title,
       description,
     });
-    return res.status(201).json({ message: "Offer created", offer });
+    return res.status(201).json(offer);
   } catch (error) {
     next(error);
   }
