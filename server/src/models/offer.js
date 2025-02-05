@@ -8,6 +8,7 @@ const offerSchema = new Schema(
     },
     description: {
       type: String,
+
     },
   },
   { timestamps: true }

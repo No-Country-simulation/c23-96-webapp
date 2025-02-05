@@ -3,7 +3,9 @@ import SummaryApi from "./util/SummaryApi";
 import { fetchData } from "./util/fetchFunction";
 
 interface Offer {
+
     _id?: string; 
+
     title: string;
     description: string;
     createdAt?: string;
