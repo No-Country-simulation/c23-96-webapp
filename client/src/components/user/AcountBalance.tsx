@@ -40,7 +40,7 @@ const AccountBalance = () => {
   const bgColor = isPesos ? "bg-principal" : "bg-blue-400"
 
   return (
-    <div className={`min-w-[300px] max-w-sm ${bgColor} bg-gradient-to-r   text-white rounded-2xl shadow-lg p-6 m-4 flex flex-col items-center justify-center`} >
+    <div className={`min-w-[300px] w-96 h-56 ${bgColor} bg-gradient-to-r   text-white rounded-2xl shadow-lg p-6 m-4 flex flex-col items-center justify-center`} >
       <h3 className="font-extrabold text-xl text-center mb-4">
        {isPesos ? ("Cuenta Corriente"): ("Cuenta Dolar")}
       </h3>

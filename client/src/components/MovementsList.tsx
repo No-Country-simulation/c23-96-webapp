@@ -87,7 +87,7 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
   });
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 mt-8">
+    <div className="bg-white rounded-lg shadow-md p-4 mt-8 w-full">
       <div className="flex justify-between my-3 border-b-2">
         <h3 className="font-bold text-lg mb-4">Últimos Movimientos</h3>
         <button className="text-blue-700 font-bold">Ver Todos</button>
