@@ -9,7 +9,7 @@ const limit = 10; // Límite diario de compra de dólares
 
 module.exports.buyDollars = async (req, res, next) => {
   const { amount } = req.body;
-  const { id } = req.params;
+  const { Account } = req.params;
 
   try {
     if (!amount || amount <= 0) {
@@ -17,7 +17,7 @@ module.exports.buyDollars = async (req, res, next) => {
     }
 
     // Buscar cuenta en la base de datos
-    const account = await accountModel.findOne({ account: id });
+    const account = await accountModel.findOne({ account: Account });
     const user = await userModel.findOne({ Account: account._id });
 
     if (!account) {
