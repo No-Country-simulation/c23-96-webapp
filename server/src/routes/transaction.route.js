@@ -9,7 +9,7 @@ const {
   usernameTransfer,
 } = require("../controllers/transaction/usernameTransfer.controller");
 const { buyDollars } = require("../controllers/transaction/dolar.controller");
-const { buyPesos } = require("../controllers/transaction/peso.controller");
+const { buyPesos } = require("../controllers/transaction/buyPesos.controller");
 const { history } = require("../controllers/transaction/history.controller");
 const { verifyToken } = require("../middlewares/verifyToken.middleware");
 const {
