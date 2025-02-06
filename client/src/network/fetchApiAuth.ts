@@ -22,9 +22,6 @@ type SignUpResponse = {
     return { success: true, ...response };
   }
   
-
-
-  
   // Login
   export async function Login(auth: TLogin): Promise<ApiResponse<{ token: string; user: TUser }>> {
     const response = await fetchData<{ token: string; user: TUser }>(SummaryApi.Login.url, {

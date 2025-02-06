@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TransactionData } from "@/types";
 
+
 interface TransferFormInputs {
   destinationAccount: string;
   moneyType: "peso" | "dolar";

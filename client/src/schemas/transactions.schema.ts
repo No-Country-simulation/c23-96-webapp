@@ -16,6 +16,4 @@ const transactionSchema = yup.object().shape({
   }).optional(),
 });
 
-
-
 export default transactionSchema;

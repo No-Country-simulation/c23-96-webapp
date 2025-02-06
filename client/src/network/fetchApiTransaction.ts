@@ -3,13 +3,14 @@ import SummaryApi from "./util/SummaryApi";
 import { fetchData } from "./util/fetchFunction";
 import { TransactionData, TTransaction } from "@/types";
 
-
 export async function transference(
   token: string,
   data: TransactionData
 ): Promise<ApiResponse<TransactionData>> {
   try {
+
     const response: ApiResponse<TransactionData> = await fetchData(SummaryApi.Transference.url, {
+
       method: SummaryApi.Transference.method,
       headers: {
         Authorization: `Bearer ${token}`,
