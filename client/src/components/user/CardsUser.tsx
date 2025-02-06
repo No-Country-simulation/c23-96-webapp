@@ -1,16 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppStore } from "../../store/useAppStore";
 import { getCardsData } from "@/network/fetchApiUsers";
-
-type Card = {
-  _id: string;
-  name: string;
-  cardNumber: string;
-  expirationDate: string;
-  cvv: string;
-  type: "peso" | "dolar";
-  account: string;
-};
+import { Card } from "@/types";
 
 const CardsUser: React.FC = () => {
   const [card, setCard] = useState<Card | null>(null);
@@ -22,15 +13,33 @@ const CardsUser: React.FC = () => {
         console.log("Faltan Datos para realizar la petición");
         return;
       }
-      
+
       try {
-        const data: Card[] = await getCardsData(userId, token);
-        console.log(data.data)
-        if (data.data.length > 0) {
+        const response = await getCardsData(userId, token);
+        console.log(response)
+        if (!response) {
+          console.log("No se encontraron tarjetas");
+          console.log(userId)
+          console.log(response)
+          return;
+        }
+
+        const validCards = response.filter(
+          (c: Card) =>
+            c._id &&
+            c.name &&
+            c.cardNumber &&
+            c.expirationDate &&
+            c.cvv &&
+            c.type &&
+            c.account
+        );
+
+        if (validCards.length > 0) {
           const selectedCard = isPesos
-            ? data.data.find((c) => c.type === "peso")
-            : data.data.find((c) => c.type === "dolar");
-  
+            ? validCards.find((c) => c.type === "peso")
+            : validCards.find((c) => c.type === "dolar");
+
           setCard(selectedCard || null);
         }
       } catch (error) {
@@ -40,7 +49,6 @@ const CardsUser: React.FC = () => {
 
     fetchCardsUser();
   }, [userId, token, isPesos]);
-  
 
   if (!card) return <p className="text-center mt-10">Cargando tarjeta...</p>;
 
@@ -49,7 +57,11 @@ const CardsUser: React.FC = () => {
       <div className="w-96 h-56 bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform hover:scale-95">
         <img
           className="relative object-cover w-full h-full rounded-xl"
-          src={isPesos ? "https://i.imgur.com/Zi6v09P.png" : "https://i.imgur.com/kGkSg1v.png"}
+          src={
+            isPesos
+              ? "https://i.imgur.com/Zi6v09P.png"
+              : "https://i.imgur.com/kGkSg1v.png"
+          }
           alt="Card background"
         />
         <div className="w-full px-8 absolute top-8">
@@ -67,11 +79,15 @@ const CardsUser: React.FC = () => {
             <div className="flex justify-between">
               <div>
                 <p className="font-light text-xs">Expira</p>
-                <p className="font-medium tracking-wider text-sm">{card.expirationDate}</p>
+                <p className="font-medium tracking-wider text-sm">
+                  {card.expirationDate}
+                </p>
               </div>
               <div>
                 <p className="font-light text-xs">CVV</p>
-                <p className="font-bold tracking-more-wider text-sm">{card.cvv}</p>
+                <p className="font-bold tracking-more-wider text-sm">
+                  {card.cvv}
+                </p>
               </div>
             </div>
           </div>

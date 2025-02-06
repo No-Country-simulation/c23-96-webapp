@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useAppStore } from "../store/useAppStore";
 import {
   getTransactions,
-  TTransaction,
   getTransaction,
   getAllTransactions,
 } from "@/network/fetchApiTransaction";
@@ -14,11 +13,16 @@ import { SiMoneygram } from "react-icons/si";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { IoCardOutline, IoRestaurantSharp } from "react-icons/io5";
 import { MdAddShoppingCart } from "react-icons/md";
+import { TTransaction } from "@/types";
 
-const MovementsList = ({ admin }: { admin: boolean }) => {
+type MovementsListProps = {
+  admin: boolean;
+};
+
+const MovementsList: React.FC<MovementsListProps> = ({ admin }) => {
   const { token, account, isPesos } = useAppStore();
   const [transactions, setTransactions] = useState<TTransaction[]>([]);
-  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<TTransaction | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const idAccount = account?.account;
@@ -28,27 +32,20 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
     if (!admin && !idAccount) return;
     const fetchData = async () => {
       try {
-        let data;
-        if (admin) {
-          data = await getAllTransactions(token);
-        } else {
-          data = await getTransactions(token, idAccount);
-        }
-    
-        console.log("API Response:", data);
-    
-        if (!Array.isArray(data)) {
-          setTransactions([]); 
+        const data = admin ? await getAllTransactions(token) : await getTransactions(token, idAccount);
+        
+        if (!data) {
+          setTransactions([]);
           return;
         }
-    
+        
         setTransactions(data);
       } catch (error) {
         console.error("Error fetching transactions:", error);
-        setTransactions([]); 
+        setTransactions([]);
       }
     };
-    
+
     fetchData();
   }, [idAccount, token, admin]);
 
@@ -56,8 +53,10 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
     if (!token) return;
     try {
       const response = await getTransaction(token, transactionId);
-      setSelectedTransaction(response.transaction);
-      setIsModalOpen(true);
+      if (response) {
+        setSelectedTransaction(response);
+        setIsModalOpen(true);
+      }
     } catch (error) {
       console.error("Error fetching transaction details:", error);
     }
@@ -102,7 +101,7 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
         <button className="text-blue-700 font-bold">Ver Todos</button>
       </div>
       <ul className="space-y-2">
-        {filteredTransactions.map(({ _id, type, moneyType, date, amount }) => (
+        {filteredTransactions.map(({ _id, type, date,extra, amount }) => (
           <li
             key={_id}
             className="flex justify-between items-center border-b pb-2 cursor-pointer hover:bg-gray-100 p-2"
@@ -113,14 +112,12 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
               <div>
                 <p className="font-medium">{type}</p>
                 <p className="text-sm text-gray-600">
-                  {moneyType} • {new Date(date).toLocaleDateString()}
+                  {extra} • {new Date(date).toLocaleDateString()}
                 </p>
               </div>
             </div>
             <p
-              className={`font-bold ${
-                amount < 0 ? "text-red-600" : "text-green-600"
-              }`}
+              className={`font-bold ${amount < 0 ? "text-red-600" : "text-green-600"}`}
             >
               {amount < 0 ? "-" : "+"}${Math.abs(amount)}
             </p>
@@ -149,44 +146,19 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
               <div className="flex justify-between border-b pb-2">
                 <span className="text-gray-600">Monto</span>
                 <span
-                  className={`font-bold ${
-                    selectedTransaction.amount < 0
-                      ? "text-red-600"
-                      : "text-green-600"
-                  }`}
+                  className={`font-bold ${selectedTransaction.amount < 0 ? "text-red-600" : "text-green-600"}`}
                 >
-                  {selectedTransaction.amount < 0 ? "-" : "+"}$
-                  {Math.abs(selectedTransaction.amount)}
+                  {selectedTransaction.amount < 0 ? "-" : "+"}${Math.abs(selectedTransaction.amount)}
                 </span>
               </div>
               <div className="flex justify-between border-b pb-2">
                 <span className="text-gray-600">Moneda</span>
-                <span className="font-medium">
-                  {selectedTransaction.moneyType}
-                </span>
+                <span className="font-medium">{selectedTransaction.moneyType}</span>
               </div>
               <div className="flex justify-between border-b pb-2">
                 <span className="text-gray-600">Fecha</span>
-                <span className="font-medium">
-                  {new Date(selectedTransaction.date).toLocaleString()}
-                </span>
+                <span className="font-medium">{new Date(selectedTransaction.date).toLocaleString()}</span>
               </div>
-              {selectedTransaction.extra && (
-                <div className="flex justify-between border-b pb-2">
-                  <span className="text-gray-600">Notas</span>
-                  <span className="font-medium">
-                    {selectedTransaction.extra}
-                  </span>
-                </div>
-              )}
-              {selectedTransaction.destinationAccount && (
-                <div className="flex justify-between border-b pb-2">
-                  <span className="text-gray-600">Destino (CVU)</span>
-                  <span className="font-medium">
-                    {selectedTransaction.destinationAccount.cvu}
-                  </span>
-                </div>
-              )}
             </div>
 
             <div className="mt-6 flex justify-center">

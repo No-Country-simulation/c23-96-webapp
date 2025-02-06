@@ -1,30 +1,41 @@
 import { useAppStore } from "@/store/useAppStore";
 import { transference } from "../network/fetchApiTransaction";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TTransaction } from "@/types";
+
+interface TransferFormInputs {
+  destinationAccount: string;
+  moneyType: "peso" | "dolar";
+  amount: number;
+}
 
 const TransferForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<TransferFormInputs>();
 
-  const { token, account } = useAppStore(); 
+  const { token, account } = useAppStore();
 
-  const onSubmit = async (data) => {
-    const transactionData = {
+  const onSubmit: SubmitHandler<TransferFormInputs> = async (data) => {
+    if (!token) {
+      return;
+    }
+    
+    const transactionData: TTransaction = {
       ...data,
-      originAccount: account, 
-      type: "transferencia", 
+      originAccount: account,
+      type: "transferencia",
     };
 
     try {
       const response = await transference(token, transactionData);
       toast.success(response.message || "Transferencia realizada con éxito.");
     } catch (error) {
-      toast.error(error.message || "Error al realizar la transferencia.");
+      toast.error(error instanceof Error ? error.message : "Error al realizar la transferencia.");
     }
   };
 
@@ -33,10 +44,7 @@ const TransferForm = () => {
       <h1 className="text-xl font-bold mb-4">Formulario de Transferencia</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label
-            htmlFor="destinationAccount"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="destinationAccount" className="block text-sm font-medium text-gray-700">
             Cuenta de destino
           </label>
           <input
@@ -45,16 +53,11 @@ const TransferForm = () => {
             {...register("destinationAccount", { required: "La cuenta de destino es obligatoria" })}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
           />
-          {errors.destinationAccount && (
-            <p className="text-red-500 text-sm">{errors.destinationAccount.message}</p>
-          )}
+          {errors.destinationAccount && <p className="text-red-500 text-sm">{errors.destinationAccount.message}</p>}
         </div>
 
         <div>
-          <label
-            htmlFor="moneyType"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="moneyType" className="block text-sm font-medium text-gray-700">
             Tipo de moneda
           </label>
           <select
@@ -66,16 +69,11 @@ const TransferForm = () => {
             <option value="peso">Peso</option>
             <option value="dolar">Dólar</option>
           </select>
-          {errors.moneyType && (
-            <p className="text-red-500 text-sm">{errors.moneyType.message}</p>
-          )}
+          {errors.moneyType && <p className="text-red-500 text-sm">{errors.moneyType.message}</p>}
         </div>
 
         <div>
-          <label
-            htmlFor="amount"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="amount" className="block text-sm font-medium text-gray-700">
             Monto
           </label>
           <input
@@ -87,16 +85,11 @@ const TransferForm = () => {
             })}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
           />
-          {errors.amount && (
-            <p className="text-red-500 text-sm">{errors.amount.message}</p>
-          )}
+          {errors.amount && <p className="text-red-500 text-sm">{errors.amount.message}</p>}
         </div>
 
         <div className="flex justify-end space-x-2">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
+          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
             Transferir
           </button>
         </div>

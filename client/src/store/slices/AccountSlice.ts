@@ -16,7 +16,7 @@ export const accountSlice: StateCreator<AccountState> = (set) => ({
     },
   
     clearAccount: () => {
-      set({ account: null });
+      set({ account: undefined });
       localStorage.removeItem("account");
     },
   });

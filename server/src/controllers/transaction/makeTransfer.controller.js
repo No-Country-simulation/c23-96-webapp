@@ -8,7 +8,7 @@ const dollarsLimit = 1000; // Daily limit for "user" role users in dollars
 
 module.exports.makeTransfer = async (req, res, next) => {
   try {
-    const { originAccount, destinationAccount, amount, moneyType } = req.body;
+    const { originAccount, destinationAccount,type,  amount, moneyType, extra } = req.body;
 
     if (!originAccount || !destinationAccount || !amount || !moneyType) {
       throw createHttpError(400, "Todos los parámetros son obligatorios.");

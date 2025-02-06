@@ -1,4 +1,5 @@
-import { ApiResponse, TLogin, TUser } from "../types/function";
+import { TUser } from "@/types";
+import { ApiResponse, TLogin } from "../types/function";
 import SummaryApi from "./util/SummaryApi";
 import { fetchData } from "./util/fetchFunction";
 

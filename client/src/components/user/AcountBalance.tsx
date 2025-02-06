@@ -5,17 +5,10 @@ import Modal from "../ui/Modal";
 import { buyDollars, buyPesos } from "@/network/fetchApiTransaction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-type AccountDetails = {
-  _id: string;
-  cvu: string;
-  balancePeso: number;
-  balanceDolar: number;
-  account: string;
-};
+import { TAccount } from "@/types";
 
 const AccountBalance = () => {
-  const [account, setAccount] = useState<AccountDetails | null>(null);
+  const [account, setAccount] = useState<TAccount>();
   const { userId, token, isPesos } = useAppStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [amount, setAmount] = useState("");
@@ -39,6 +32,10 @@ const AccountBalance = () => {
   }, [userId, token]);
 
   const handleBuy = async () => {
+    if (!account?._id || !token) {
+      console.log("Faltan Datos para realizar la petición");
+      return;
+    }
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
       toast.error("Ingrese una cantidad válida");
       return;
@@ -52,12 +49,12 @@ const AccountBalance = () => {
       }
 
       toast.success("Compra realizada con éxito");
-      setAmount(""); 
+      setAmount("");
       setIsModalOpen(false);
     } catch (error) {
       console.error("Error al comprar:", error);
       toast.error("Hubo un error en la compra");
-      setIsModalOpen(false); 
+      setIsModalOpen(false);
     }
   };
 
@@ -78,9 +75,10 @@ const AccountBalance = () => {
         <p className="font-bold text-2xl text-green-700">
           $
           {isPesos
-            ? account.balancePeso.toFixed(2)
-            : account.balanceDolar.toFixed(2)}
+            ? account.balancePeso?.toFixed(2) || "0.00"
+            : account.balanceDolar?.toFixed(2) || "0.00"}
         </p>
+
         <p className="text-sm">
           <span className="font-semibold">N° Cuenta:</span> {account.account}
         </p>
@@ -88,11 +86,11 @@ const AccountBalance = () => {
       <div className="mt-4">
         <button
           onClick={() => setIsModalOpen(true)}
-          className={`bg-white ${
-            isPesos ? "text-principal" : "text-blue-500"
+          className={` ${
+            isPesos ? "text-principal bg-principal" : "text-blue-500 bg-white"
           } font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-gray-100 transition`}
         >
-          {isPesos ? "Comprar Pesos" : "Comprar Dólares"}
+          {isPesos ? "" : "Comprar Dólares"}
         </button>
       </div>
 

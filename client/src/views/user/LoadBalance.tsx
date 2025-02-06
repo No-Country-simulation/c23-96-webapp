@@ -53,13 +53,16 @@ const MobileBrands = () => {
       extra: data.phoneNumber,
       amount: data.amount,
     };
+    if(!token){
+      return
+    }
 
     try {
       const response = await transference(token, requestData);
       toast.success(response.message || "Carga de saldo realizada con éxito.");
       closeModal();
     } catch (error) {
-      toast.error(error.message || "Error al realizar la carga de saldo.");
+      toast.error(error instanceof Error ? error.message : "Error al realizar la carga de saldo.");
     }
   };
 

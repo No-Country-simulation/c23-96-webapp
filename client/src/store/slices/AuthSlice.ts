@@ -18,6 +18,8 @@ export const authSlice: StateCreator<AuthState> = (set, get) => ({
     set({ token: null, userId: null });
     localStorage.removeItem("authToken");
     localStorage.removeItem("authUserId");
+    localStorage.removeItem("authUser");
+    localStorage.removeItem("account");
   },
 
   isLogged: () => {

@@ -1,5 +1,5 @@
-import { TAccount } from "../types";
-import { TUser, TUserLocalStorage } from "../types/function";
+import { TAccount, TUser } from "../types";
+import { TUserLocalStorage } from "../types/function";
 
 
 export type AuthState = {
@@ -21,7 +21,7 @@ export type UserState = {
 
 
 export type AccountState = {
-  account: TAccount | null;
+  account: TAccount ;
   isPesos: boolean;
   setAccount: (account: TAccount) => void;
   toggleCurrency: () => void;
