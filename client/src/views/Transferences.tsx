@@ -3,7 +3,7 @@ import { transference } from "../network/fetchApiTransaction";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { TTransaction } from "@/types";
+import { TransactionData } from "@/types";
 
 interface TransferFormInputs {
   destinationAccount: string;
@@ -25,9 +25,10 @@ const TransferForm = () => {
       return;
     }
     
-    const transactionData: TTransaction = {
+    const transactionData: TransactionData = {
       ...data,
-      originAccount: account,
+      originAccount: account._id,
+      extra: "Transferencia",
       type: "transferencia",
     };
     if (!token) {

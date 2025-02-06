@@ -93,7 +93,7 @@ const PaySimulation = () => {
       type: data.transactionType.toLowerCase(),
       extra: data.extra || data.moneyType,
     };
-    if(!token){
+    if (!token) {
       return;
     }
 
@@ -102,7 +102,11 @@ const PaySimulation = () => {
       toast.success(response.message || "Transacción realizada con éxito.");
       closeModal();
     } catch (error) {
-      toast.error(error.message || "Error al realizar la transacción.");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Error al realizar la transferencia."
+      );
     }
   };
 

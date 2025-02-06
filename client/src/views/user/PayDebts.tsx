@@ -5,7 +5,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { transference } from "@/network/fetchApiTransaction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { TTransactions } from "@/types";
+import { TransactionData } from "@/types";
 
 interface FormData {
   service: string;
@@ -59,16 +59,16 @@ const PayDebts = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    const transactionData: TTransactions = {
+    const transactionData: TransactionData = {
       originAccount: account._id,
       destinationAccount: "679bc61db30416a98404e7ad",
       moneyType: "peso",
       type: serviceTypeMap[data.service] || "otro",
       extra: data.service,
       amount: data.amount ?? 0,
+
     };
     
-
     try {
       const response = await transference(token ?? "", transactionData);
       toast.success(response.message || "Pago realizado con éxito.");

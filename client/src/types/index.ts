@@ -14,3 +14,13 @@ export type Card = yup.InferType<typeof cardSchema>;
 export type TOffer = yup.InferType<typeof offerSchema>;
 
 export type TTransaction = yup.InferType<typeof transactionSchema>;
+
+export type TransactionData = {
+    originAccount: string;
+    destinationAccount: string;
+    moneyType: "peso" | "dólar" | string;
+    type: string;
+    extra: string;
+    amount: number;
+  };
+  
