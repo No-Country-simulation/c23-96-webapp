@@ -56,13 +56,13 @@ REACT_APP_BACKEND_URL=your_backend_url
 #### Iniciar backend
 ```bash
  cd server
- npm start // npm run dev
+ npm npm run dev
 ```
 
 #### Iniciar frontend
 ```bash
  cd client
- npm start // npm run dev
+ npm npm run dev
 ```
 
 ## 📖 Uso de la API
