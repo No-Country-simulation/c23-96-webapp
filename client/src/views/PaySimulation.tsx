@@ -53,7 +53,6 @@ const PaySimulation = () => {
     handleSubmit,
     setValue,
     reset,
-    watch,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {

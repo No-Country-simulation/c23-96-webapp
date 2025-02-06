@@ -1,29 +1,14 @@
 import { ApiResponse } from "@/types/function";
 import SummaryApi from "./util/SummaryApi";
 import { fetchData } from "./util/fetchFunction";
-
-export type TTransaction = {
-  _id: string;
-  type: string;
-  moneyType: string;
-  date: string;
-  amount: number;
-  extra?: string;
-  destinationAccount?: {
-    _id: string;
-    cvu: string;
-    balancePeso: number;
-    balanceDolar: number;
-    account: string;
-  };
-};
+import { TTransaction } from "@/types";
 
 export async function transference(
   token: string,
   data: TTransaction
 ): Promise<ApiResponse<TTransaction>> {
   try {
-    const response = await fetchData(SummaryApi.Transference.url, {
+    const response: ApiResponse<TTransaction> = await fetchData(SummaryApi.Transference.url, {
       method: SummaryApi.Transference.method,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -54,7 +39,7 @@ export async function transference(
 export async function getTransactions(
   token: string,
   account: string
-): Promise<ApiResponse<TTransaction[]>> {
+): Promise<TTransaction[]> {
   return fetchData(`${SummaryApi.GetHistoryTransfers.url}/${account}`, {
     method: SummaryApi.GetHistoryTransfers.method,
     headers: {
@@ -65,7 +50,7 @@ export async function getTransactions(
 
 export async function getAllTransactions(
   token: string,
-): Promise<ApiResponse<TTransaction[]>> {
+): Promise<TTransaction[]> {
   return fetchData(SummaryApi.GetAllHistoryTransfers.url, {
     method: SummaryApi.GetAllHistoryTransfers.method,
     headers: {
@@ -77,7 +62,7 @@ export async function getAllTransactions(
 export async function getTransaction(
   token: string,
   id: string
-): Promise<ApiResponse<TTransaction>> {
+): Promise<TTransaction> {
   return fetchData(`${SummaryApi.GetTransfer.url}/${id}`, {
     method: SummaryApi.GetTransfer.method,
     headers: {
@@ -86,33 +71,32 @@ export async function getTransaction(
   });
 }
 
-
 export async function buyDollars(
   token: string,
-  accountId:string,
-  amount: string,
-): Promise<any> {
+  accountId: string,
+  amount: string
+): Promise<ApiResponse<TTransaction>> {
   return fetchData(`${SummaryApi.BuyDollars.url}${accountId}`, {
     method: SummaryApi.BuyDollars.method,
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ amount: Number(amount) })
+    body: JSON.stringify({ amount: Number(amount) }),
   });
 }
 
 export async function buyPesos(
   token: string,
-  accountId:string,
-  amount: string,
-): Promise<any> {
+  accountId: string,
+  amount: string
+): Promise<ApiResponse<TTransaction>> {
   return fetchData(`${SummaryApi.BuyPesos.url}${accountId}`, {
     method: SummaryApi.BuyPesos.method,
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ amount: Number(amount) })
+    body: JSON.stringify({ amount: Number(amount) }),
   });
 }

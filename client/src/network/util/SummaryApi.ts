@@ -1,4 +1,4 @@
-const backendDomain: string = import.meta.env.VITE_backendDomain || "http://localhost:4000/api";  
+const backendDomain: string = import.meta.env.VITE_backendDomain;  
 if (!backendDomain) {
     throw new Error("La variable de entorno VITE_backendDomain no está definida.");
   }

@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import UserLayout from "./layouts/UserLayout";
 import HomeUser from "./views/user/HomeUser";
 import AdminLayout from "./layouts/AdminLayout";
@@ -7,110 +7,50 @@ import AuthLayout from "./layouts/AuthLayout";
 import Signup from "./views/Signup";
 import Login from "./views/Login";
 import AdminDashboard from "./views/AdminDashboard";
-import { useAppStore } from "./store/useAppStore";
-import { ReactNode } from "react";
 import UserData from "./views/user/UserData";
 import Transferences from "./views/Transferences";
 import PayDebts from "./views/user/PayDebts";
 import LoadBalance from "./views/user/LoadBalance";
 import PaySimulation from "./views/PaySimulation";
-
-interface ProtectedRouteProps {
-  children: ReactNode;
-  rol?: string; 
-}
-
-const ProtectedRoute = ({ children , rol }: ProtectedRouteProps) => {
-  const { isLogged, user } = useAppStore();
-
-  if (!isLogged()) {
-    return <Navigate to="/auth/ingreso" replace />;
-  }
-  if (rol && user?.rol !== rol) {
-    console.log(`Acceso denegado: se esperaba rol ${rol}, pero el usuario tiene ${user?.rol}`);
-    return <Navigate to="/" replace />;
-    if(rol === "admin"){
-      return <Navigate to="/" replace />
-    }
-  }
-  return children;
-};
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 
 export const router = createBrowserRouter([
-  // RUTA PARA USUARIOS
   {
     path: "/",
     element: (
-      <ProtectedRoute rol="user">
+      <ProtectedRoute rol={["user", "company"]}>
         <UserLayout />
       </ProtectedRoute>
     ),
     children: [
-      {
-        index: true,
-        element: <HomeUser />,
-      },
-      {
-        path: "user",
-        element: <UserData />
-      },
-      {
-        path: "transferencia",
-        element: <Transferences />
-      },
-      {
-        path: "cuentas",
-        element: <PayDebts />
-      },
-      {
-        path: "cargarSaldo",
-        element: <LoadBalance />
-      },
+      { index: true, element: <HomeUser /> },
+      { path: "user", element: <UserData /> },
+      { path: "transferencia", element: <Transferences /> },
+      { path: "cuentas", element: <PayDebts /> },
+      { path: "cargarSaldo", element: <LoadBalance /> },
     ],
   },
-
-  // 🔹 CORRECCIÓN: RUTA PARA ADMINISTRADORES
   {
     path: "/admin",
     element: (
-      <ProtectedRoute rol="admin"> 
+      <ProtectedRoute rol={["admin"]}>
         <AdminLayout />
       </ProtectedRoute>
     ),
-    children: [
-      {
-        index: true,
-        element: <AdminDashboard />, 
-      },
-    ],
+    children: [{ index: true, element: <AdminDashboard /> }],
   },
-
-  // RUTA PARA SIMULADOR
   {
     path: "/ingresos",
     element: <SimulatorLayout />,
-    children: [
-      {
-        index: true,
-        element: <PaySimulation />,
-      },
-    ],
+    children: [{ index: true, element: <PaySimulation /> }],
   },
-
-  // RUTA PARA AUTENTICACIÓN
   {
     path: "/auth/",
     element: <AuthLayout />,
     children: [
-      {
-        path: "registro",
-        element: <Signup />,
-      },
-      {
-        path: "ingreso",
-        element: <Login />,
-      },
+      { path: "registro", element: <Signup /> },
+      { path: "ingreso", element: <Login /> },
     ],
   },
 ]);

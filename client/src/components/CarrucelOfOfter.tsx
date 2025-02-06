@@ -8,20 +8,12 @@ import {
 
 import Modal from "./ui/Modal";
 import { useAppStore } from "@/store/useAppStore";
-
-interface Offer {
-
-  _id: string;
-
-  title: string;
-  description: string;
-  createdAt?: string;
-}
+import { TOffer } from "@/types";
 
 const CarrucelOfOfter = ({ admin }: { admin: boolean }) => {
   const { token } = useAppStore();
-  const [offers, setOffers] = useState<Offer[]>([]);
-  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+  const [offers, setOffers] = useState<TOffer[]>([]);
+  const [selectedOffer, setSelectedOffer] = useState<TOffer | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [creatingOffer, setCreatingOffer] = useState(false);
 
@@ -32,6 +24,10 @@ const CarrucelOfOfter = ({ admin }: { admin: boolean }) => {
   }, [token]);
 
   const fetchOffers = async () => {
+    if (!token) {
+      console.log("Faltan Datos para realizar la petición");
+      return;
+    }
     try {
       const response = await getAllOffers(token);
       setOffers(response);
@@ -41,43 +37,39 @@ const CarrucelOfOfter = ({ admin }: { admin: boolean }) => {
     }
   };
 
-  const handleEdit = (offer: Offer) => {
+  const handleEdit = (offer: TOffer) => {
     setSelectedOffer(offer);
     setCreatingOffer(false);
     setModalOpen(true);
   };
 
   const handleDelete = async (offerId: string) => {
-
-    if (!offerId || offerId === "undefined") {
+    if (!offerId || !token || offerId === "undefined") {
       console.error("Invalid offer ID:", offerId);
       return;
     }
-  
+
     try {
       await deleteOffer(token, offerId);
-      setOffers((prevOffers) => prevOffers.filter((offer) => offer._id !== offerId)); 
-
+      setOffers((prevOffers) => prevOffers.filter((offer) => offer._id !== offerId));
     } catch (error) {
       console.error("Error deleting offer", error);
     }
   };
 
   const handleCreate = () => {
-    setSelectedOffer({ _id: "", title: "", description: "" });
-
+    setSelectedOffer({
+      _id: "", 
+      title: "",
+      description: "",
+      createdAt: "",
+    } as TOffer);
     setCreatingOffer(true);
     setModalOpen(true);
   };
 
   const handleSave = async () => {
-
-    if (
-      !selectedOffer ||
-      !selectedOffer.title.trim() ||
-      !selectedOffer.description.trim()
-    ) {
-
+    if (!selectedOffer || !selectedOffer.title.trim() || !selectedOffer.description.trim() || !token) {
       console.error("Title and description are required");
       return;
     }
@@ -86,9 +78,7 @@ const CarrucelOfOfter = ({ admin }: { admin: boolean }) => {
       if (creatingOffer) {
         await createOffer(token, selectedOffer);
       } else {
-
         await editOffer(token, selectedOffer._id, selectedOffer);
-
       }
       setModalOpen(false);
       fetchOffers();
@@ -110,39 +100,24 @@ const CarrucelOfOfter = ({ admin }: { admin: boolean }) => {
 
       {offers.length > 0 ? (
         offers.map((offer) => (
-          <div
-            key={offer._id}
-            className="min-w-[250px] max-w-sm bg-white rounded-lg shadow-md p-4 m-2"
-          >
-
+          <div key={offer._id} className="min-w-[250px] max-w-sm bg-white rounded-lg shadow-md p-4 m-2">
             <h3 className="font-bold text-lg">{offer.title}</h3>
             <p className="text-sm text-gray-600">{offer.description}</p>
             {admin && (
               <p className="text-xs text-gray-400">
-
-                Fecha:{" "}
-                {offer.createdAt
-                  ? new Date(offer.createdAt).toLocaleDateString()
-                  : "N/A"}
-
+                Fecha: {offer.createdAt ? new Date(offer.createdAt).toLocaleDateString() : "N/A"}
               </p>
             )}
             {admin && (
               <div className="flex justify-between mt-2">
-
                 <button
                   onClick={() => handleEdit(offer)}
-
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
                   Editar
                 </button>
-
                 <button
-                  onClick={() => {
-                    handleDelete(offer._id);
-                  }}
-
+                  onClick={() => handleDelete(offer._id)}
                   className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                 >
                   Eliminar
@@ -153,43 +128,23 @@ const CarrucelOfOfter = ({ admin }: { admin: boolean }) => {
         ))
       ) : (
         <div className="w-full flex flex-col items-center justify-center mt-4">
-
-          <p className="text-gray-500 text-center">
-            No hay ofertas disponibles.
-          </p>
-
+          <p className="text-gray-500 text-center">No hay ofertas disponibles.</p>
         </div>
       )}
 
-      {admin && modalOpen && selectedOffer && (
-
-        <Modal
-          title={creatingOffer ? "Crear Oferta" : "Editar Oferta"}
-          onClose={() => setModalOpen(false)}
-        >
-
+      {admin && modalOpen && (
+        <Modal title={creatingOffer ? "Crear Oferta" : "Editar Oferta"} onClose={() => setModalOpen(false)}>
           <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg flex flex-col items-center gap-4">
             <input
               type="text"
-              value={selectedOffer.title}
-
-              onChange={(e) =>
-                setSelectedOffer({ ...selectedOffer, title: e.target.value })
-              }
-
+              value={selectedOffer?.title || ""}
+              onChange={(e) => setSelectedOffer((prev) => ({ ...prev!, title: e.target.value }))}
               className="border p-3 w-full rounded text-lg"
               placeholder="Título de la oferta"
             />
             <textarea
-              value={selectedOffer.description}
-
-              onChange={(e) =>
-                setSelectedOffer({
-                  ...selectedOffer,
-                  description: e.target.value,
-                })
-              }
-
+              value={selectedOffer?.description || ""}
+              onChange={(e) => setSelectedOffer((prev) => ({ ...prev!, description: e.target.value }))}
               className="border p-3 w-full rounded text-lg min-h-[150px]"
               placeholder="Descripción de la oferta"
             />
