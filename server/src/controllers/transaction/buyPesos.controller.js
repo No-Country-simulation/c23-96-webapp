@@ -32,17 +32,19 @@ module.exports.buyPesos = async (req, res, next) => {
       throw createHttpError(500, "No se pudo obtener el tipo de cambio.");
     }
 
-    const pesos = amount * exchangeRate;
+    const pesos = amount / exchangeRate;
 
-    account.balanceDolar -= amount;
-    account.balancePeso += pesos;
+    console.log(exchangeRate, pesos);
+    account.balanceDolar -= pesos;
+    account.balancePeso += amount;
 
     await account.save();
 
     res.status(200).json({
       message: "Compra de pesos exitosa",
       exchangeRate,
-      pesosPurchased: pesos, // Amount of pesos purchased in this transaction
+      dollarsWasted: pesos,
+      pesosPurchased: amount, // Amount of pesos purchased in this transaction
       newBalanceDolar: account.balanceDolar,
       newBalancePeso: account.balancePeso,
     });

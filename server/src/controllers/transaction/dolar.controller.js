@@ -34,10 +34,6 @@ module.exports.buyDollars = async (req, res, next) => {
       );
     }
 
-    if (account.balancePeso < amount) {
-      throw createHttpError(400, "Saldo insuficiente.");
-    }
-
     // get exchange rate from OpenExchangeRates
     const response = await axios.get(`${OPEN_EXCHANGE_API}?app_id=${APP_ID}`);
     const exchangeRate = response.data?.rates?.ARS; // Tasa de cambio de USD a ARS
@@ -48,6 +44,10 @@ module.exports.buyDollars = async (req, res, next) => {
 
     // Calculate dollars bought
     const dollars = amount * exchangeRate;
+
+    if (account.balancePeso < dollars) {
+      throw createHttpError(400, "Saldo insuficiente.");
+    }
 
     console.log(account.balancePeso, account.balanceDolar);
 

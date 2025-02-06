@@ -22,7 +22,7 @@ transactionRouter.post("/transfer", makeTransfer);
 transactionRouter.post("/transfer/cvu", cvuTransfer);
 transactionRouter.post("/transfer/username", usernameTransfer);
 transactionRouter.post("/buyDollars/:Account", buyDollars);
-transactionRouter.post("/buyPesos/:Account", verifyToken, buyPesos);
+transactionRouter.post("/buyPesos/:Account", buyPesos);
 
 transactionRouter.get("/history/:account", history);
 transactionRouter.get("/:id", getTransactionById);
