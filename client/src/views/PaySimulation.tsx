@@ -53,7 +53,6 @@ const PaySimulation = () => {
     handleSubmit,
     setValue,
     reset,
-    watch,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -94,13 +93,20 @@ const PaySimulation = () => {
       type: data.transactionType.toLowerCase(),
       extra: data.extra || data.moneyType,
     };
+    if (!token) {
+      return;
+    }
 
     try {
       const response = await transference(token, transactionData);
       toast.success(response.message || "Transacción realizada con éxito.");
       closeModal();
     } catch (error) {
-      toast.error(error.message || "Error al realizar la transacción.");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Error al realizar la transferencia."
+      );
     }
   };
 
