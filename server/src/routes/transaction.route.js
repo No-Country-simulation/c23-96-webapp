@@ -21,7 +21,7 @@ const transactionRouter = express.Router();
 transactionRouter.post("/transfer", makeTransfer);
 transactionRouter.post("/transfer/cvu", cvuTransfer);
 transactionRouter.post("/transfer/username", usernameTransfer);
-transactionRouter.post("/buyDollars/:Account", verifyToken, buyDollars);
+transactionRouter.post("/buyDollars/:Account", buyDollars);
 transactionRouter.post("/buyPesos/:Account", verifyToken, buyPesos);
 
 transactionRouter.get("/history/:account", history);
