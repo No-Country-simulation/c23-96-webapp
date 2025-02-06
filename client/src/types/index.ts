@@ -23,4 +23,3 @@ export type TransactionData = {
     extra: string;
     amount: number;
   };
-  
