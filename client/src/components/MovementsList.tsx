@@ -34,12 +34,21 @@ const MovementsList = ({ admin }: { admin: boolean }) => {
         } else {
           data = await getTransactions(token, idAccount);
         }
+    
+        console.log("API Response:", data);
+    
+        if (!Array.isArray(data)) {
+          setTransactions([]); 
+          return;
+        }
+    
         setTransactions(data);
       } catch (error) {
         console.error("Error fetching transactions:", error);
+        setTransactions([]); 
       }
     };
-
+    
     fetchData();
   }, [idAccount, token, admin]);
 

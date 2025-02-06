@@ -16,7 +16,7 @@ type AccountDetails = {
 
 const AccountBalance = () => {
   const [account, setAccount] = useState<AccountDetails | null>(null);
-  const { userId, token, isPesos, getAccount } = useAppStore();
+  const { userId, token, isPesos } = useAppStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [amount, setAmount] = useState("");
 
@@ -28,7 +28,6 @@ const AccountBalance = () => {
       }
       try {
         const data = await getAccountData(userId, token);
-        getAccount(data);
         setAccount(data);
         localStorage.setItem("account", JSON.stringify(data));
       } catch (error) {
