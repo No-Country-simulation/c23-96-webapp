@@ -19,7 +19,7 @@ Este proyecto es una aplicación bancaria  para participar en el cohorte Nocount
 ## 🚀 Enlaces de despliegue
 
 - **Backend**: https://b-e-a-api.onrender.com
-- **Frontend**: Pendiente
+- **Frontend**: https://radiant-crisp-7e2bd3.netlify.app/
 
 ## 🚀 Instalación y configuración
 ### 1️⃣ Clonar el repositorio
