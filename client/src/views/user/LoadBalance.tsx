@@ -5,6 +5,7 @@ import { transference } from "@/network/fetchApiTransaction";
 import Modal from "../../components/ui/Modal";
 
 import { toast } from "react-toastify";
+import { TransactionData } from "@/types";
 
 const MobileBrands = () => {
   const { account, token } = useAppStore();
@@ -45,8 +46,8 @@ const MobileBrands = () => {
   };
 
   const onSubmit = async (data: { phoneNumber: string; amount: number }) => {
-    const requestData = {
-      originAccount: account,
+    const requestData: TransactionData = {
+      originAccount: account._id,
       destinationAccount: "679bc61db30416a98404e7ad",
       moneyType: "peso",
       type: "telefono",
