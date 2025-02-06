@@ -7,7 +7,6 @@ type SignUpResponse = {
   user: TUser;
   token: string;
 };
-
 // SignUp
 export async function SignUp(
   user: TUser
@@ -29,6 +28,7 @@ export async function Login(
   const response = await fetchDataAuth<{ token: string; user: TUser }>(
     SummaryApi.Login.url,
     {
+
       method: SummaryApi.Login.method,
       headers: {
         "Content-Type": "application/json",
