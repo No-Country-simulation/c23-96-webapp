@@ -30,7 +30,9 @@ const TransferForm = () => {
       originAccount: account,
       type: "transferencia",
     };
-
+    if (!token) {
+      throw new Error("Token no válido");
+    }
     try {
       const response = await transference(token, transactionData);
       toast.success(response.message || "Transferencia realizada con éxito.");

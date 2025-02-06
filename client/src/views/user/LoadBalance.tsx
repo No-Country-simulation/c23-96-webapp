@@ -46,7 +46,7 @@ const MobileBrands = () => {
 
   const onSubmit = async (data: { phoneNumber: string; amount: number }) => {
     const requestData = {
-      originAccount: account,
+      originAccount: account._id,
       destinationAccount: "679bc61db30416a98404e7ad",
       moneyType: "peso",
       type: "telefono",

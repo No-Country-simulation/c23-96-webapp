@@ -93,6 +93,9 @@ const PaySimulation = () => {
       type: data.transactionType.toLowerCase(),
       extra: data.extra || data.moneyType,
     };
+    if(!token){
+      return;
+    }
 
     try {
       const response = await transference(token, transactionData);
