@@ -47,13 +47,13 @@ module.exports.buyDollars = async (req, res, next) => {
     }
 
     // Calculate dollars bought
-    const dollars = amount / exchangeRate;
+    const dollars = amount * exchangeRate;
 
     console.log(account.balancePeso, account.balanceDolar);
 
     // Update account balances
-    account.balancePeso -= amount;
-    account.balanceDolar += dollars;
+    account.balancePeso -= dollars;
+    account.balanceDolar += amount;
     account.dollarsBought = (account.dollarsBought || 0) + amount;
 
     await account.save();
@@ -62,7 +62,8 @@ module.exports.buyDollars = async (req, res, next) => {
       message: "Compra de dólares exitosa",
       exchangeRate,
       dollarsBought: account.dollarsBought,
-      dollarsPurchased: dollars,
+      dollarsPurchased: amount,
+      pesosWasted: dollars,
       newBalancePeso: account.balancePeso,
       newBalanceDolar: account.balanceDolar,
     });
