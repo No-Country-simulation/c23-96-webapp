@@ -23,7 +23,7 @@
     "dev": "nodemon src/server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Moisarm and AlejandroPerren",
   "license": "ISC",
   "type": "commonjs",
   "description": ""
