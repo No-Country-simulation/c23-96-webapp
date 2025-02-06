@@ -29,7 +29,7 @@ const MenuSliceBar = () => {
            
           </button>
 
-          <ul className={`flex flex-col md:mt-16 py-6 space-y-2 ${isOpen ? "block" : "hidden"} lg:block`}>
+          <ul className={`flex flex-col md:mt-20 py-6 space-y-2 ${isOpen ? "block" : "hidden"} lg:block`}>
             <li>
               <Link
                 to="/"

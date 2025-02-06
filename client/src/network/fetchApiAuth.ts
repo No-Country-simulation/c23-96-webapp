@@ -1,12 +1,13 @@
-import { ApiResponse, TLogin, TUser } from "../types/function";
+import { TUser } from "@/types";
+import { ApiResponse, TLogin } from "../types/function";
 import SummaryApi from "./util/SummaryApi";
 import { fetchData } from "./util/fetchFunction";
 
 
 
 type SignUpResponse = {
-  user: TUser; // Usuario registrado
-  token: string; // Token de autenticación
+  user: TUser; 
+  token: string; 
 };
   
   // SignUp
@@ -20,7 +21,7 @@ export async function SignUp(user: TUser): Promise<ApiResponse<SignUpResponse>> 
     });
   }
 
-  //Pick of Type User
+
 
   
   // Login

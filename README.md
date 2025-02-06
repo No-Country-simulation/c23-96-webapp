@@ -84,5 +84,5 @@ REACT_APP_BACKEND_URL=your_backend_url
 Este proyecto está bajo la licencia MIT. ¡Puedes usarlo, modificarlo libremente! 
 
 ## 📝 Autores
-- **Alejandro Perren** - [GitHub](https://github.com/AlejandroPerren) - [LinkedIn](https://www.linkedin.com/in/alejandro-perren-a4a3661b0/) 
+- **Alejandro Perren** - [GitHub](https://github.com/AlejandroPerren) - [LinkedIn](www.linkedin.com/in/ale-perren-52094a214) 
 - **Moisarm** - [GitHub](https://github.com/Moisarm)

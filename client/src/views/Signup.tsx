@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { Error } from "../utils/Error";
-import { TUser } from "../types/function";
 import { SignUp } from "../network/fetchApiAuth";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { TUser } from "@/types";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);

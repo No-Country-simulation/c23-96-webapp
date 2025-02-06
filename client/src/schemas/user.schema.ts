@@ -13,13 +13,6 @@ export const userSchema = yup.object().shape({
     rol: yup.string()
 })
 
-export const accountSchema = yup.object().shape({
-    account: yup.string(),
-    cvu: yup.string(),
-    balancePeso: yup.number(),
-    balanceDolar: yup.number()                             
-})
-
 
 
 

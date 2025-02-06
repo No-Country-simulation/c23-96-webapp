@@ -3,7 +3,8 @@ import { useAppStore } from "../../store/useAppStore";
 import Modal from "../ui/Modal";
 import { getAllUsers, getOneUser, editUser } from "@/network/fetchApiUsers";
 import { useForm } from "react-hook-form";
-import { TUser } from "@/types/function";
+import { TUser } from "@/types";
+
 
 const AllUsers = () => {
   const { token } = useAppStore();
@@ -15,7 +16,6 @@ const AllUsers = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm<TUser>();
 
   useEffect(() => {
@@ -25,11 +25,11 @@ const AllUsers = () => {
       try {
         const response = await getAllUsers(token);
 
-        if (response && response.data) {
-          if (Array.isArray(response.data)) {
-            setUsers(response.data);
+        if (response && response) {
+          if (Array.isArray(response)) {
+            setUsers(response);
           } else {
-            console.warn("Se esperaba un array, pero se recibió:", response.data);
+            console.warn("Se esperaba un array, pero se recibió:", response);
           }
         } else {
           console.warn("La respuesta no contiene datos válidos:", response);
@@ -48,9 +48,9 @@ const AllUsers = () => {
     try {
       const response = await getOneUser(token, userId);
 
-      if (response?.data) {
-        setSelectedUser(response.data);
-        reset(response.data);
+      if (response) {
+        setSelectedUser(response);
+        reset(response);
         setIsModalOpen(true);
       } else {
         console.warn("No se pudo obtener la información del usuario:", response);

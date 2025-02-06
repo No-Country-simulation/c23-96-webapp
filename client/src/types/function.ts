@@ -1,17 +1,14 @@
-import * as yup from "yup"
-
-import { userSchema } from "../schemas/user.schema"
-
-export type TUser = yup.InferType<typeof userSchema>
+import { TUser } from ".";
 
 export type TLogin = {[k in "dni" | "password"]: TUser[k]}
 
 export type TUserLocalStorage = Omit<TUser, 'password'> 
 
+
 export type ApiResponse<T> = {
-    success: boolean; 
-    data?: T; 
-    message?: string;
-    token?: string; 
-  };
+  success: boolean;
+  data?: T;
+  message?: string;
+  token?: string;
+};
 
