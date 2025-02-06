@@ -20,6 +20,18 @@ const AcountSchema = new mongoose.Schema({
   balanceDolar: {
     type: Number,
   },
+  transferredPeso: {
+    type: Number,
+    default: 0,
+  },
+  transferredDolar: {
+    type: Number,
+    default: 0,
+  },
+  dollarsBought: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("Acount", AcountSchema);

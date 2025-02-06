@@ -20,13 +20,17 @@ const SummaryApi = {
         url: `${backendDomain}/users/cards/`,
         method: 'get'
     },
-    EditUser: {
-        url: `${backendDomain}/users/login`,
-        method: 'put'
+    GetUser: {
+        url: `${backendDomain}/users/`,
+        method: 'get'
     },
-    DeleteUser: {
-        url: `${backendDomain}/users/login`,
-        method: 'delete'
+    GetAllUser: {
+        url: `${backendDomain}/admin`,
+        method: 'get'
+    },
+    EditUser: {
+        url: `${backendDomain}/users/`,
+        method: 'put'
     },
     Transference: {
         url: `${backendDomain}/transaction/transfer`,
@@ -36,10 +40,45 @@ const SummaryApi = {
         url: `${backendDomain}/transaction/history`,
         method: 'get'
     },
+    GetAllHistoryTransfers: {
+        url: `${backendDomain}/admin/history`,
+        method: 'get'
+    },
     GetTransfer: {
         url: `${backendDomain}/transaction/`,
         method: 'get'
     },
+    GetAllOffers: {
+        url: `${backendDomain}/admin/offer`,
+        method: 'get'
+    },
+    GetOneOffer: {
+        url: `${backendDomain}/admin/offer/`,
+        method: 'get'
+    },
+    EditOffer: {
+        url: `${backendDomain}/admin/offer/`,
+        method: 'put'
+    },
+    DeleteOffer: {
+        url: `${backendDomain}/admin/offer/`,
+        method: 'delete'
+    },
+    Createoffer: {
+        url: `${backendDomain}/admin/offer`,
+        method: 'post'
+    },
+    BuyDollars: {
+        url: `${backendDomain}/transaction/buyDollars/`,
+        method: 'post'
+    },
+    BuyPesos: {
+        url: `${backendDomain}/transaction/buyPesos/`,
+        method: 'post'
+    },
+
+
+
 
 }
 

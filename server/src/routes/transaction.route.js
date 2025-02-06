@@ -9,6 +9,7 @@ const {
   usernameTransfer,
 } = require("../controllers/transaction/usernameTransfer.controller");
 const { buyDollars } = require("../controllers/transaction/dolar.controller");
+const { buyPesos } = require("../controllers/transaction/buyPesos.controller");
 const { history } = require("../controllers/transaction/history.controller");
 const { verifyToken } = require("../middlewares/verifyToken.middleware");
 const {
@@ -17,10 +18,11 @@ const {
 
 const transactionRouter = express.Router();
 
-transactionRouter.post("/transfer", verifyToken, makeTransfer);
-transactionRouter.post("/transfer/cvu", verifyToken, cvuTransfer);
+transactionRouter.post("/transfer", makeTransfer);
+transactionRouter.post("/transfer/cvu", cvuTransfer);
 transactionRouter.post("/transfer/username", usernameTransfer);
-transactionRouter.post("/buyDollars", verifyToken, buyDollars);
+transactionRouter.post("/buyDollars/:Account", buyDollars);
+transactionRouter.post("/buyPesos/:Account", buyPesos);
 
 transactionRouter.get("/history/:account", history);
 transactionRouter.get("/:id", getTransactionById);

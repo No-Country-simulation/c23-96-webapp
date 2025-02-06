@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAppStore } from "@/store/useAppStore";
 import { IoIosNotifications } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
@@ -5,7 +6,14 @@ import { RiQuestionAnswerFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const { user, PesosPage, DolarPage, isPesos } = useAppStore();
+  const { user, PesosPage, DolarPage, isPesos, clearAuthData } = useAppStore();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleLogout = () => {
+    
+    clearAuthData()
+    setShowModal(false);
+  };
 
   return (
     <>
@@ -18,10 +26,20 @@ const Header = () => {
               : "bg-blue-400 border-cyan-500"
           } p-2 flex border-b-2 justify-between items-center`}
         >
-          <Link to={"user"} className="flex items-center gap-2">
-            <MdAccountCircle className="text-black text-2xl" />
-            <h3 className="text-sm text-white">Hola {user?.username}</h3>
-          </Link>
+          {user?.rol === "admin" ? (
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex items-center gap-2"
+            >
+              <MdAccountCircle className="text-black text-2xl" />
+              <h3 className="font-bold text-white">Hola {user?.username}</h3>
+            </button>
+          ) : (
+            <Link to={"user"} className="flex items-center gap-2">
+              <MdAccountCircle className="text-black text-2xl" />
+              <h3 className="md:text-xl font-bold text-lg text-white">Hola {user?.username}</h3>
+            </Link>
+          )}
 
           <div className="flex items-center gap-2">
             <button>
@@ -57,6 +75,27 @@ const Header = () => {
           </button>
         </nav>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded shadow-lg text-center">
+            <p className="text-lg">¿Quieres cerrar sesión?</p>
+            <div className="mt-4 flex justify-center gap-4">
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 text-white px-4 py-2 rounded"
+              >
+                Cerrar sesión
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="bg-gray-300 px-4 py-2 rounded"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

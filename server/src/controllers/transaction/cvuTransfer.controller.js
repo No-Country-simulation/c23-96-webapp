@@ -1,6 +1,10 @@
 const createHttpError = require("http-errors");
 const accountModel = require("../../models/account");
 const transactionModel = require("../../models/transaction");
+const userModel = require("../../models/user");
+
+const pesosLimit = 10; // Daily limit for "user" role users in pesos
+const dollarsLimit = 10; // Daily limit for "user" role users in dollars
 
 module.exports.cvuTransfer = async (req, res, next) => {
   try {
@@ -34,8 +38,30 @@ module.exports.cvuTransfer = async (req, res, next) => {
       throw createHttpError(404, "La cuenta de destino no existe.");
     }
 
+    const user = await userModel.findOne({ Account: origin._id });
+
+    if (user?.rol === "user") {
+      if (
+        moneyType === "peso" &&
+        origin.transferredPeso + amount > pesosLimit
+      ) {
+        throw createHttpError(
+          400,
+          "Límite diario de transferencias en pesos excedido."
+        );
+      }
+      if (
+        moneyType === "dolar" &&
+        origin.transferredDolar + amount > dollarsLimit
+      ) {
+        throw createHttpError(
+          400,
+          "Límite diario de transferencias en dólares excedido."
+        );
+      }
+    }
+
     if (moneyType === "peso") {
-      // Actualizar balances
       if (origin.balancePeso < amount) {
         throw createHttpError(
           400,
@@ -44,8 +70,8 @@ module.exports.cvuTransfer = async (req, res, next) => {
       }
       origin.balancePeso -= amount;
       destination.balancePeso += amount;
+      origin.transferredPeso += amount;
     } else if (moneyType === "dolar") {
-      // Actualizar balances
       if (origin.balanceDolar < amount) {
         throw createHttpError(
           400,
@@ -55,18 +81,22 @@ module.exports.cvuTransfer = async (req, res, next) => {
 
       origin.balanceDolar -= amount;
       destination.balanceDolar += amount;
+      origin.transferredDolar += amount;
+    } else {
+      throw createHttpError(400, "Tipo de moneda inválido.");
     }
 
     await origin.save();
     await destination.save();
 
-    // Create transaction
+    // Create Transaction
     const transaction = await transactionModel.create({
       type: "transfer",
       amount,
       moneyType,
-      originAccount: origin._id,
+      originccount: origin._id,
       destinationAccount: destination._id,
+      createdAt: new Date(),
     });
 
     res.status(200).json({

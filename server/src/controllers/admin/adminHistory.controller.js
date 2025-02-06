@@ -14,10 +14,9 @@ module.exports.history = async (req, res, next) => {
       })
       .sort({ date: -1 });
 
-    res.status(200).json({
-      message: "Historial de transacciones obtenido con éxito.",
+    res.status(200).json(
       transactions,
-    });
+    );
   } catch (error) {
     next(error);
   }

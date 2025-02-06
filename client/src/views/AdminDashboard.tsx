@@ -1,10 +1,17 @@
-import StatsGraphic from '../components/admin/StatsGraphic'
-import React from 'react'
+import AllUsers from "@/components/admin/AllUsers";
+import CarrucelOfOfter from "@/components/CarrucelOfOfter";
+import MovementsList from "@/components/MovementsList";
 
 const AdminDashboard = () => {
   return (
-    <StatsGraphic/>
-  )
-}
+    <>
+      <CarrucelOfOfter admin={true} />
 
-export default AdminDashboard
+      <AllUsers />
+
+      <MovementsList admin={true} />
+    </>
+  );
+};
+
+export default AdminDashboard;

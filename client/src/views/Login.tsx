@@ -23,16 +23,18 @@ const Login = () => {
 
   const onSubmit = async (user: TLogin) => {
     try {
-      const data = await LoginFetch(user); // Llamada al backend
+      const data = await LoginFetch(user); 
       const { token, user: userData } = data;
 
-      // Guardar en el contexto y localStorage
       setAuthData({ user: userData, token });
 
       toast.success("Ingreso exitoso");
       reset();
-      navigate("/");
-
+      if (userData.rol === "admin") {
+        navigate("/admin", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
     } catch (error) {
       toast.error("Ocurrió un error al ingresar");
       console.log("Error al registrar:", error);
@@ -73,7 +75,7 @@ const Login = () => {
               id="password"
               className="w-full p-3 focus:outline-none"
               type={showPassword ? "text" : "password"}
-              placeholder="Nombre"
+              placeholder="Ingrese Su Contraseña"
               {...register("password", {
                 required: "La contraseña es Obligatoria!!",
               })}
