@@ -16,7 +16,6 @@ const CardsUser: React.FC = () => {
 
       try {
         const response = await getCardsData(userId, token);
-        console.log(response)
         if (!response) {
           console.log("No se encontraron tarjetas");
           console.log(userId)
