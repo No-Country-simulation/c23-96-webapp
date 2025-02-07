@@ -1,6 +1,32 @@
-import { useAppStore } from "../../store/useAppStore";
+import { ApiResponse } from "@/types/function";
 
 //reusable Function Body For Request
+export async function fetchDataAuth<T>(input: RequestInfo, init?: RequestInit): Promise<ApiResponse<T>> {
+  const response = await fetch(input, init);
+
+  if (!response.ok) {
+    try { 
+      const errorBody = await response.json().catch(() => ({ message: "Error desconocido" })); 
+      const errorMessage = errorBody.message || "Error desconocido";
+      console.error(`Error ${response.status}: ${errorMessage}`);
+      return { success: false, message: errorMessage }; 
+    } catch (parseError) {
+      console.error("Error al parsear la respuesta de error:", parseError); 
+      const errorMessage = `Error HTTP ${response.status}`;
+      return { success: false, message: errorMessage }; 
+    }
+  }
+
+  try { 
+    const data = await response.json();
+    return { success: true, data }; 
+  } catch (parseError) {
+    console.error("Error al parsear la respuesta exitosa:", parseError);
+    return { success: false, message: "Respuesta JSON inválida" }; 
+  }
+}
+
+
 export async function fetchData<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
   const response = await fetch(input, init);
 
@@ -13,11 +39,3 @@ export async function fetchData<T>(input: RequestInfo, init?: RequestInit): Prom
 
   return response.json();
 }
-  
-  export function useCommonHeaders() {
-    const token = useAppStore((state) => state.token);
-    return {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    };
-  }
