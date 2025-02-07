@@ -11,6 +11,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { setAuthData } = useAppStore();
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,10 +19,13 @@ const Login = () => {
     reset,
   } = useForm<TLogin>();
 
+
   const onSubmit = async (user: TLogin) => {
     try {
       const response = await LoginFetch(user);
-      if (!response.success || !response.data) {
+
+      if (!response.success || !response.data) {  
+
         throw new Error(response.message || "Error en la autenticación");
       }
       const { token, user: userData } = response.data;
@@ -59,9 +63,11 @@ const Login = () => {
             placeholder="Ingrese su Número de Documento"
             {...register("dni", { required: "El DNI es obligatorio" })}
           />
+
           {errors.dni && (
             <p className="text-red-500 text-sm">{errors.dni.message}</p>
           )}
+
         </div>
 
         {/* Password */}
@@ -75,22 +81,17 @@ const Login = () => {
               className="w-full p-3 focus:outline-none"
               type={showPassword ? "text" : "password"}
               placeholder="Ingrese su Contraseña"
+
               {...register("password", {
                 required: "La contraseña es obligatoria",
               })}
+
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword((prev) => !prev)}
-              className="p-3 text-gray-500"
-            >
-              {showPassword ? (
-                <FaRegEyeSlash className="text-lg" />
-              ) : (
-                <FaRegEye className="text-lg" />
-              )}
+            <button type="button" onClick={() => setShowPassword(prev => !prev)} className="p-3 text-gray-500">
+              {showPassword ? <FaRegEyeSlash className="text-lg" /> : <FaRegEye className="text-lg" />}
             </button>
           </div>
+
           {errors.password && (
             <p className="text-red-500 text-sm">{errors.password.message}</p>
           )}
@@ -111,7 +112,12 @@ const Login = () => {
             </Link>
             .
           </p>
+
         </div>
+
+        <button type="submit" className="bg-principal text-white hover:bg-orange-500 px-12 py-3 w-full">
+          Ingresar
+        </button>
       </form>
     </>
   );
