@@ -97,7 +97,7 @@ const AccountBalance = () => {
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <h2 className="text-lg text-black font-semibold mb-4">
-            Ingrese la cantidad que tiene para Comprar
+            Ingrese la cantidad a Comprar
           </h2>
           <input
             type="number"

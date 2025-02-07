@@ -33,7 +33,12 @@ const Login = () => {
 
       toast.success("Ingreso exitoso");
       reset();
-      navigate("/");
+      if (userData.rol === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
     } catch (error) {
       
       toast.error("Ocurrió un error al ingresar");
