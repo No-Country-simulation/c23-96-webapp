@@ -21,7 +21,7 @@ const Login = () => {
   const onSubmit = async (user: TLogin) => {
     try {
       const response = await LoginFetch(user);
-      if (!response.success || !response.data) {  
+      if (!response.success || !response.data) {
         throw new Error(response.message || "Error en la autenticación");
       }
       const { token, user: userData } = response.data;
@@ -30,9 +30,12 @@ const Login = () => {
 
       toast.success("Ingreso exitoso");
       reset();
-      navigate("/");
+      if (userData.rol === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
-      
       toast.error("Ocurrió un error al ingresar");
       console.log("Error al ingresar:", error);
     }

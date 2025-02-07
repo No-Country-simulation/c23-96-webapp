@@ -1,56 +1,135 @@
 import { createBrowserRouter } from "react-router-dom";
-import UserLayout from "./layouts/UserLayout";
-import HomeUser from "./views/user/HomeUser";
-import AdminLayout from "./layouts/AdminLayout";
-import SimulatorLayout from "./layouts/SimulatorLayout";
-import AuthLayout from "./layouts/AuthLayout";
-import Signup from "./views/Signup";
-import Login from "./views/Login";
-import AdminDashboard from "./views/AdminDashboard";
-import UserData from "./views/user/UserData";
-import Transferences from "./views/Transferences";
-import PayDebts from "./views/user/PayDebts";
-import LoadBalance from "./views/user/LoadBalance";
-import PaySimulation from "./views/PaySimulation";
-import ProtectedRoute from "./utils/ProtectedRoute";
-
+import { lazy, Suspense } from "react";
+const UserLayout = lazy(() => import("./layouts/UserLayout"));
+const HomeUser = lazy(() => import("./views/user/HomeUser"));
+const AdminLayout = lazy(() => import("./layouts/AdminLayout"));
+const SimulatorLayout = lazy(() => import("./layouts/SimulatorLayout"));
+const AuthLayout = lazy(() => import("./layouts/AuthLayout"));
+const Signup = lazy(() => import("./views/Signup"));
+const Login = lazy(() => import("./views/Login"));
+const AdminDashboard = lazy(() => import("./views/AdminDashboard"));
+const UserData = lazy(() => import("./views/user/UserData"));
+const Transferences = lazy(() => import("./views/Transferences"));
+const PayDebts = lazy(() => import("./views/user/PayDebts"));
+const LoadBalance = lazy(() => import("./views/user/LoadBalance"));
+const PaySimulation = lazy(() => import("./views/PaySimulation"));
+const ProtectedRoute = lazy(() => import("./utils/ProtectedRoute"));
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute rol={["user", "company"]}>
-        <UserLayout />
-      </ProtectedRoute>
+      <Suspense fallback={<div>Cargando...</div>}>
+        <ProtectedRoute rol={["user", "company"]}>
+          <UserLayout />
+        </ProtectedRoute>
+      </Suspense>
     ),
     children: [
-      { index: true, element: <HomeUser /> },
-      { path: "user", element: <UserData /> },
-      { path: "transferencia", element: <Transferences /> },
-      { path: "cuentas", element: <PayDebts /> },
-      { path: "cargarSaldo", element: <LoadBalance /> },
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<div>Cargando...</div>}>
+            <HomeUser />
+          </Suspense>
+        ),
+      },
+      {
+        path: "user",
+        element: (
+          <Suspense fallback={<div>Cargando...</div>}>
+            <UserData />
+          </Suspense>
+        ),
+      },
+      {
+        path: "transferencia",
+        element: (
+          <Suspense fallback={<div>Cargando...</div>}>
+            <Transferences />
+          </Suspense>
+        ),
+      },
+      {
+        path: "cuentas",
+        element: (
+          <Suspense fallback={<div>Cargando...</div>}>
+            <PayDebts />
+          </Suspense>
+        ),
+      },
+      {
+        path: "cargarSaldo",
+        element: (
+          <Suspense fallback={<div>Cargando...</div>}>
+            <LoadBalance />
+          </Suspense>
+        ),
+      },
     ],
   },
   {
     path: "/admin",
     element: (
-      <ProtectedRoute rol={["admin"]}>
-        <AdminLayout />
-      </ProtectedRoute>
+      <Suspense fallback={<div>Cargando...</div>}>
+        <ProtectedRoute rol={["admin"]}>
+          <AdminLayout />
+        </ProtectedRoute>
+      </Suspense>
     ),
-    children: [{ index: true, element: <AdminDashboard /> }],
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<div>Cargando...</div>}>
+            <AdminDashboard />
+          </Suspense>
+        ),
+      },
+    ],
   },
   {
     path: "/ingresos",
-    element: <SimulatorLayout />,
-    children: [{ index: true, element: <PaySimulation /> }],
+    element: (
+      <Suspense fallback={<div>Cargando...</div>}>
+        <SimulatorLayout />
+      </Suspense>
+    ),
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<div>Cargando...</div>}>
+            <PaySimulation />
+          </Suspense>
+        ),
+      },
+    ],
   },
   {
     path: "/auth/",
-    element: <AuthLayout />,
+    element: (
+      <Suspense fallback={<div>Cargando...</div>}>
+        <AuthLayout />
+      </Suspense>
+    ),
     children: [
-      { path: "registro", element: <Signup /> },
-      { path: "ingreso", element: <Login /> },
+      {
+        path: "registro",
+        element: (
+          <Suspense fallback={<div>Cargando...</div>}>
+            <Signup />
+          </Suspense>
+        ),
+      },
+      {
+        path: "ingreso",
+        element: (
+          <Suspense fallback={<div>Cargando...</div>}>
+            <Login />
+          </Suspense>
+        ),
+      },
     ],
   },
 ]);

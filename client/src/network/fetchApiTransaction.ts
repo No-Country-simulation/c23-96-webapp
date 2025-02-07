@@ -65,7 +65,7 @@ export async function getTransaction(
   token: string,
   id: string
 ): Promise<TTransaction> {
-  return fetchData(`${SummaryApi.GetTransfer.url}/${id}`, {
+  return fetchData(`${SummaryApi.GetTransfer.url}${id}`, {
     method: SummaryApi.GetTransfer.method,
     headers: {
       Authorization: `Bearer ${token}`,

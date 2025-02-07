@@ -18,10 +18,16 @@ const ProtectedRoute = ({ children, rol }: ProtectedRouteProps) => {
 
   if (rol && !rolesPermitidos.includes(user?.rol)) {
     console.log(`Acceso denegado: se esperaba rol ${rolesPermitidos}, pero el usuario tiene ${user?.rol}`);
+
+    if (user?.rol === "admin") {
+      return <Navigate to="/admin" replace />;
+    }
+
     return <Navigate to="/" replace />;
   }
 
   return children;
 };
+
 
 export default ProtectedRoute;
